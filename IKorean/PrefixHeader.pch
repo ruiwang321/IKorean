@@ -1,0 +1,100 @@
+//
+//  PrefixHeader.pch
+//  IKorean
+//
+//  Created by ruiwang on 16/9/8.
+//  Copyright © 2016年 ruiwang. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+#import <objc/runtime.h>
+#import <UMMobClick/MobClick.h>
+#import "UIImage+ColorImage.h"
+#import "ICEButton.h"
+#import "ICECyclicRollingTextView.h"
+#import "JPUSHService.h"
+#import "AFNetworking.h"
+#import "AdViewView.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import "ICEAppHelper.h"
+//#import "TVDataHelper.h"
+#import "ICENavigationController.h"
+#import "ICETabBarController.h"
+#import "ICEViewController.h"
+#import "ICEButton.h"
+#import "ICEPullTableView.h"
+#import "ICESlideshowScrollView.h"
+#import "ICESlideshowPageModel.h"
+#import "ICEStartViewController.h"
+#import "ICENetWorkErrorAlertView.h"
+#import "ICELoadingView.h"
+#import "JPushModel.h"
+#import "BannerAdUnitView.h"
+//#import "ISearchBar.h"
+//#import "SearchView.h"
+//#import "MovieItem.h"
+//#import "MovieItemTableViewCell.h"
+//#import "MovieItemCellLayoutHelper.h"
+#import "MainTabBarController.h"
+//#import "VideoStartWebView.h"
+//#import "TVDetailViewController.h"
+
+#define IMAGENAME(NAME,TYPE)                 [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:NAME ofType:TYPE]]
+#define ISPASSAUDIT                          [[ICEAppHelper shareInstance]isPassAudit]
+
+#define HYQiHei_50Pound                      @"HYQiHei-EZJ"
+#define HYQiHei_55Pound                      @"HYQiHei-EEJ"
+#define HYQiHei_65Pound                      @"HYQiHei-FEJ"
+
+#define NotificationOfPush                   @"NotificationOfPush"
+#define NotificationOfReachabilityChanged    @"NotificationOfReachabilityChanged"
+#define NotificationOfIsStopAdAutoRefresh    @"NotificationOfIsStopAdAutoRefresh"
+
+#define urlOfGetHomePage                     @"http://api.29pai.com/home-page/index"
+#define urlOfTVContent                       @"http://api.29pai.com/content/index"
+#define urlOfGetVideoURL                     @"http://api.29pai.com/video/index?ver=2"
+#define urlOfSearchPage                      @"http://api.29pai.com/search/page"
+#define urlOfFilter                          @"http://api.29pai.com/filter2/index"
+#define urlOfFilterOptions                   @"http://api.29pai.com/filter2/options"
+#define urlOfHotSearch                       @"http://api.29pai.com/search/hot"
+#define urlOfKeyWordSearch                   @"http://api.29pai.com/search/simple"
+#define urlOfSearchResults                   @"http://api.29pai.com/search/list2"
+#define urlOfList                            @"http://api.29pai.com/list/index"
+#define PlayerControlColor                   [UIColor colorWithRed:38.0f/255.0f green:179.0f/255.0f blue:250.0f/255.0f alpha:1]
+
+//根据不同版本需要配置的字段
+#define keyOfAppGuideVersion                 @"V1_1_AppGuideVersion"
+//引导页的版本
+#define KeyForCurrentAuditingVersion         @"v4"
+//过审版本号
+#define APPColor                             [UIColor colorWithRed:60.0f/255.0f green:68.0f/255.0f blue:60.0f/255.0f alpha:1]
+//app的颜色
+#define AppStartViewNameColor                [UIColor whiteColor]
+//启动页标题颜色
+#define AppStartBottomViewColor              [UIColor colorWithRed:254.0f/255.0f green:214.0f/255.0f blue:58.0f/255.0f alpha:1]
+//启动页底部页颜色
+#define AppSloganColor                       [UIColor colorWithRed:105.0f/255.0f green:105.0f/255.0f blue:105.0f/255.0f alpha:1]
+//启动页宣传语颜色
+#define AppSlogan                            @"最新最全的影视资讯！"
+//启动页底部的文字
+#define APPStoreUrl                          @"https://itunes.apple.com/us/app/pu-tao-ying-shi-da-quan/id1148914211?l=zh&ls=1&mt=8"
+//Appstore所在页面
+#define JPushKey                             @"a698cc1fffbb4a93a50d0095"
+//极光key
+#define JPushChannel                         @"JPushChannel"
+//渠道(不用变)
+#define IsProduction                         TRUE
+//是否为生产环境(上线时改成TRUE)
+#define UMAppKey                             @"57c7813467e58e4982000340"
+//友盟key
+#define ADViewKey                            @"SDK20161608040930hfk4vf15o144q08"
+//adviewkey(广告key)别忘了把adview的离线文件替换了
+#define urlOfAuditStatus                     @"http://api.29pai.com/switch/ios13"
+//开关接口
+#endif
