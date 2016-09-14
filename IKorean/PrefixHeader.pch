@@ -18,7 +18,7 @@
 #import "ICEButton.h"
 #import "ICECyclicRollingTextView.h"
 #import "JPUSHService.h"
-#import "AFNetworking.h"
+#import "MYNetworking.h"
 #import "AdViewView.h"
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
@@ -45,6 +45,9 @@
 //#import "VideoStartWebView.h"
 //#import "TVDetailViewController.h"
 
+#define SCREEN_SCALE                         [UIScreen mainScreen].bounds.size.width/375.0f
+#define SCREEN_WIDTH                         [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                        [UIScreen mainScreen].bounds.size.height
 #define IMAGENAME(NAME,TYPE)                 [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:NAME ofType:TYPE]]
 #define ISPASSAUDIT                          [[ICEAppHelper shareInstance]isPassAudit]
 
@@ -56,16 +59,19 @@
 #define NotificationOfReachabilityChanged    @"NotificationOfReachabilityChanged"
 #define NotificationOfIsStopAdAutoRefresh    @"NotificationOfIsStopAdAutoRefresh"
 
-#define urlOfGetHomePage                     @"http://api.29pai.com/home-page/index"
-#define urlOfTVContent                       @"http://api.29pai.com/content/index"
-#define urlOfGetVideoURL                     @"http://api.29pai.com/video/index?ver=2"
-#define urlOfSearchPage                      @"http://api.29pai.com/search/page"
-#define urlOfFilter                          @"http://api.29pai.com/filter2/index"
-#define urlOfFilterOptions                   @"http://api.29pai.com/filter2/options"
-#define urlOfHotSearch                       @"http://api.29pai.com/search/hot"
-#define urlOfKeyWordSearch                   @"http://api.29pai.com/search/simple"
-#define urlOfSearchResults                   @"http://api.29pai.com/search/list2"
-#define urlOfList                            @"http://api.29pai.com/list/index"
+// 版本过审开关
+#define urlOfAuditStatus                     @"http://hj.api.29pai.com/app/status"
+#define urlOfGetHomePage                     @"http://hj.api.29pai.com/index/page"
+#define urlOfGetPlanTable                    @"http://hj.api.29pai.com/video/schedule"
+#define urlOfTVContent                       @""
+#define urlOfGetVideoURL                     @""
+#define urlOfSearchPage                      @""
+#define urlOfFilter                          @""
+#define urlOfFilterOptions                   @""
+#define urlOfHotSearch                       @"http://hj.api.29pai.com/search/hot"
+#define urlOfKeyWordSearch                   @""
+#define urlOfSearchResults                   @""
+#define urlOfList                            @""
 #define PlayerControlColor                   [UIColor colorWithRed:38.0f/255.0f green:179.0f/255.0f blue:250.0f/255.0f alpha:1]
 
 //根据不同版本需要配置的字段
@@ -73,7 +79,7 @@
 //引导页的版本
 #define KeyForCurrentAuditingVersion         @"v4"
 //过审版本号
-#define APPColor                             [UIColor colorWithRed:60.0f/255.0f green:68.0f/255.0f blue:60.0f/255.0f alpha:1]
+#define APPColor                             [UIColor colorWithRed:249.0f/255.0f green:103.0f/255.0f blue:155.0f/255.0f alpha:1]
 //app的颜色
 #define AppStartViewNameColor                [UIColor whiteColor]
 //启动页标题颜色
@@ -95,6 +101,5 @@
 //友盟key
 #define ADViewKey                            @"SDK20161608040930hfk4vf15o144q08"
 //adviewkey(广告key)别忘了把adview的离线文件替换了
-#define urlOfAuditStatus                     @"http://api.29pai.com/switch/ios13"
-//开关接口
+
 #endif

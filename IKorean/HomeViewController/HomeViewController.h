@@ -9,5 +9,5 @@
 #import "ICEViewController.h"
 
 @interface HomeViewController : ICEViewController
-
+- (id)initWithJPushModel:(JPushModel *)model;
 @end

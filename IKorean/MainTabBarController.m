@@ -8,9 +8,6 @@
 
 #import "MainTabBarController.h"
 #import "HomeViewController.h"
-#import "SearchViewController.h"
-#import "LeaderBoardViewController.h"
-#import "MoreViewController.h"
 
 @interface MainTabBarController ()
 
@@ -67,22 +64,22 @@
     
     HomeViewController * vc1=[[HomeViewController alloc] init];
     [vc1 setTabBarItemWithTitle:@"首页" normalImageName:@"home@2x" selectedImageName:@"home_Selected@2x"];
-    
-    SearchViewController * vc2=[[SearchViewController alloc] init];
-    [vc2 setTabBarItemWithTitle:@"分类搜" normalImageName:@"search@2x" selectedImageName:@"search_Selected@2x"];
-    
-    LeaderBoardViewController * vc3=[[LeaderBoardViewController alloc]init];
-    [vc3 setTabBarItemWithTitle:@"排行榜" normalImageName:@"leaderboard@2x" selectedImageName:@"leaderboard_Selected@2x"];
-    
-    MoreViewController * vc4=[[MoreViewController alloc] init];
-    [vc4 setTabBarItemWithTitle:@"更多" normalImageName:@"more@2x" selectedImageName:@"more_Selected@2x"];
-    
-    if (ISPASSAUDIT)
-    {
-        [self setViewControllers:@[vc1,vc2,vc3,vc4]];
-    }
-    else
-        [self setViewControllers:@[vc1,vc2,vc3,vc4]];
+//    
+//    SearchViewController * vc2=[[SearchViewController alloc] init];
+//    [vc2 setTabBarItemWithTitle:@"分类搜" normalImageName:@"search@2x" selectedImageName:@"search_Selected@2x"];
+//    
+//    LeaderBoardViewController * vc3=[[LeaderBoardViewController alloc]init];
+//    [vc3 setTabBarItemWithTitle:@"排行榜" normalImageName:@"leaderboard@2x" selectedImageName:@"leaderboard_Selected@2x"];
+//    
+//    MoreViewController * vc4=[[MoreViewController alloc] init];
+//    [vc4 setTabBarItemWithTitle:@"更多" normalImageName:@"more@2x" selectedImageName:@"more_Selected@2x"];
+//    
+//    if (ISPASSAUDIT)
+//    {
+//        [self setViewControllers:@[vc1,vc2,vc3,vc4]];
+//    }
+//    else
+//        [self setViewControllers:@[vc1,vc2,vc3,vc4]];
     
 }
 

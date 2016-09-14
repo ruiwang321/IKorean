@@ -125,7 +125,7 @@ AdSpreadScreenManagerDelegate
 
 - (void)enterApp
 {
-    ICENavigationController * rootNC=[[ICENavigationController alloc] initWithRootViewController:[[MainTabBarController alloc] initWithJPushModel:_jPushModel]];
+    ICENavigationController * rootNC=[[ICENavigationController alloc] initWithRootViewController:[[HomeViewController alloc] initWithJPushModel:_jPushModel]];
     [self.window setRootViewController:rootNC];
     if (![ICEAppGuideView isDisplayedAppGuideView]){
         [self addAppGuideView];
