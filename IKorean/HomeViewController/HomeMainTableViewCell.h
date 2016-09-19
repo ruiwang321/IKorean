@@ -11,10 +11,10 @@
 @interface HomeMainTableViewCellModel : NSObject
 
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign) NSInteger filter_cate_id;
-@property (nonatomic, assign) NSInteger filter_is_completed;
-@property (nonatomic, assign) NSInteger filter_sort_type;
-@property (nonatomic, assign) NSInteger filter_year_id;
+@property (nonatomic, copy) NSString *filter_cate_id;
+@property (nonatomic, copy) NSString *filter_is_completed;
+@property (nonatomic, copy) NSString *filter_sort_type;
+@property (nonatomic, copy) NSString *filter_year_id;
 @property (nonatomic, strong) NSArray *videos;
 
 @end

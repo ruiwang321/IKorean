@@ -1,9 +1,9 @@
 //
 //  SearchResultCell.m
-//  ICinema
+//  IKorean
 //
-//  Created by wangyunlong on 16/8/2.
-//  Copyright © 2016年 wangyunlong. All rights reserved.
+//  Created by ruiwang on 16/9/14.
+//  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
 #import "SearchResultCell.h"

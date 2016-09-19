@@ -16,6 +16,9 @@
 @property (nonatomic, assign) NSInteger is_completed;
 @property (nonatomic, assign) NSInteger vid;
 @property (nonatomic, copy) NSString *img;
+@property (nonatomic, assign) NSInteger flag_hot;
+@property (nonatomic, assign) NSInteger flag_new;
+@property (nonatomic, assign) NSInteger flag_update;
 
 @end
 

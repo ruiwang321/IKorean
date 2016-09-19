@@ -1,9 +1,9 @@
 //
 //  HotSearchView.m
-//  ICinema
+//  IKorean
 //
-//  Created by wangyunlong on 16/8/1.
-//  Copyright © 2016年 wangyunlong. All rights reserved.
+//  Created by ruiwang on 16/9/14.
+//  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
 #import "HotSearchView.h"
@@ -17,12 +17,12 @@ UITableViewDataSource
     ICEButton              * m_reloadRequestButton;
     UITableView            * m_tableView;
     NSMutableArray         * m_arrayOfSearchCellModel;
-    AFHTTPSessionManager   * m_getHotSearchDataManager;
     NSDictionary           * m_titleAttributes;
     CGSize                   m_titleBoundsSize;
     NSStringDrawingOptions   m_titleOption;
 }
 
+@property (nonatomic,strong) UITableView *mainTableView;
 @property (nonatomic,assign) CGFloat hotSearchViewWidth;
 @property (nonatomic,assign) CGFloat hotSearchViewHeight;
 @property (nonatomic,assign) CGFloat titleBarHeight;
@@ -46,7 +46,6 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         _hotSearchViewWidth=CGRectGetWidth(frame);
         _hotSearchViewHeight=CGRectGetHeight(frame);
         _titleBarHeight=26;
-        m_getHotSearchDataManager=[AFHTTPSessionManager shareInstance];
         
         CGRect titleBarFrame=CGRectMake(0, 0, _hotSearchViewWidth, _titleBarHeight);
         UIView * titleBar=[[UIView alloc] initWithFrame:titleBarFrame];
@@ -76,8 +75,17 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         [m_reloadRequestButton setHidden:YES];
         
         [self sendGetHotSearchDataRequest];
+        
+        [self createMainTableView];
     }
     return self;
+}
+
+- (void)createMainTableView {
+    _mainTableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+    _mainTableView.delegate = self;
+    _mainTableView.dataSource = self;
+    [self addSubview:_mainTableView];
 }
 
 -(void)sendGetHotSearchDataRequest
@@ -120,15 +128,15 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         
         m_titleOption = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
     }
-    if (responseData&&(100==[responseData[@"status"] integerValue]))
+    if (responseData&&(1==[responseData[@"code"] integerValue]))
     {
         [m_arrayOfSearchCellModel removeAllObjects];
         
         NSArray * hotSearchDatas=responseData[@"data"];
         
-        for (NSDictionary * dic in hotSearchDatas)
+        for (NSString * titleStr in hotSearchDatas)
         {
-            NSAttributedString * title=[[NSAttributedString alloc] initWithString:dic[@"title"]
+            NSAttributedString * title=[[NSAttributedString alloc] initWithString:titleStr
                                                                        attributes:m_titleAttributes];
             
             CGSize titleSize = [title boundingRectWithSize:m_titleBoundsSize
@@ -137,7 +145,6 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
             
             
             SearchCellModel * model =[[SearchCellModel alloc] init];
-            model.movieID=[dic[@"id"] intValue];
             model.title=title;
             model.cellHeight=titleSize.height+10+10;
             

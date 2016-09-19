@@ -1,9 +1,9 @@
 //
 //  KeyWordSearchView.m
-//  ICinema
+//  IKorean
 //
-//  Created by wangyunlong on 16/8/1.
-//  Copyright © 2016年 wangyunlong. All rights reserved.
+//  Created by ruiwang on 16/9/14.
+//  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
 #import "KeyWordSearchView.h"
@@ -16,7 +16,6 @@ UITableViewDataSource
 {
     UITableView                 * m_tableView;
     NSMutableArray              * m_arrayOfKeyWordSearchCellModels;
-    AFHTTPSessionManager        * m_getKeyWordSearchDataManager;
     NSDictionary                * m_titleNormalAttributes;
     CGSize                        m_titleBoundsSize;
     NSStringDrawingOptions        m_titleOption;
@@ -45,7 +44,6 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         self.startScrollBlock=startScrollBlock;
         self.reloadBlock=reloadFinishBlock;
         m_arrayOfKeyWordSearchCellModels=[[NSMutableArray alloc] init];
-        m_getKeyWordSearchDataManager=[AFHTTPSessionManager shareInstance];
     }
     return self;
 }
@@ -53,8 +51,8 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
 -(void)reloadWithKeyWord:(NSString *)keyWord
 {
     __weak typeof(self) wself=self;
-    [m_getKeyWordSearchDataManager GET:urlOfKeyWordSearch
-                            parameters:@{@"con":keyWord}
+    [MYNetworking GET:urlOfKeyWordSearch
+                            parameters:@{@"keyword":keyWord}
                               progress:nil
                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                    [wself addOrUpdateTableViewWithResponseData:responseObject keyWord:keyWord];
@@ -96,17 +94,17 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         m_titleOption = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
     }
     [m_arrayOfKeyWordSearchCellModels removeAllObjects];
-    if (responseData&&(100==[responseData[@"status"]integerValue]))
+    if (responseData&&(1==[responseData[@"code"]integerValue]))
     {
         NSArray * searchDataArray=responseData[@"data"];
         NSInteger keyWordLength = keyWord.length;
         NSString * keyWordChar = nil;
         UIColor * colorForTitleKeyWord=[ICEAppHelper shareInstance].appPublicColor;
 
-        for (NSDictionary * dic in searchDataArray)
+        for (NSString *titleStr in searchDataArray)
         {
             //原始字符串
-            NSString * titleString=dic[@"title"];
+            NSString * titleString=titleStr;
             
             //格式字符串
             NSMutableAttributedString * titleAttributedString=[[NSMutableAttributedString alloc]initWithString:titleString
@@ -143,7 +141,6 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
             
             
             SearchCellModel * model =[[SearchCellModel alloc] init];
-            model.movieID=[dic[@"id"] intValue];
             model.title=titleAttributedString;
             model.cellHeight=titleSize.height+10+10;
             

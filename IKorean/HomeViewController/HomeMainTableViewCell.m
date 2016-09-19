@@ -99,6 +99,11 @@ static CGFloat const moreButtonPadding = 8;
     NSLog(@"更多541231");
     UINavigationController *nvc = (UINavigationController *)[[(AppDelegate *)[UIApplication sharedApplication].delegate window] rootViewController];
     EpisodeSortViewController *episodeSortVC = [[EpisodeSortViewController alloc] init];
+    episodeSortVC.imageItemModel.title = _cellModel.title;
+    episodeSortVC.imageItemModel.cate_id = _cellModel.filter_cate_id;
+    episodeSortVC.imageItemModel.year_id = _cellModel.filter_year_id;
+    episodeSortVC.imageItemModel.sort_type = _cellModel.filter_sort_type;
+    episodeSortVC.imageItemModel.is_complete = _cellModel.filter_is_completed;
     [nvc pushViewController:episodeSortVC animated:YES];
 }
 

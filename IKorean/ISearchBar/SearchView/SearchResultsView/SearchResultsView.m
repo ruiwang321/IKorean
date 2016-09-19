@@ -1,9 +1,9 @@
 //
 //  SearchResultsView.m
-//  ICinema
+//  IKorean
 //
-//  Created by wangyunlong on 16/8/2.
-//  Copyright © 2016年 wangyunlong. All rights reserved.
+//  Created by ruiwang on 16/9/14.
+//  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
 #import "SearchResultsView.h"
@@ -17,12 +17,12 @@ UITableViewDataSource
     NSMutableString             * m_keyWord;
     ICEPullTableView            * m_tableView;
     NSMutableArray              * m_arrayOfSearchResultCellModels;
-    AFHTTPSessionManager        * m_getSearchResultDataManager;
     NSDictionary                * m_titleNormalAttributes;
     NSDictionary                * m_subTitleAttributes;
     CGSize                        m_titleBoundsSize;
     NSStringDrawingOptions        m_titleOption;
     CGFloat                       m_titleWidth;
+    NSInteger                     page;
 }
 
 @property (nonatomic,assign) CGFloat searchResultViewWidth;
@@ -47,7 +47,7 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         m_keyWord=[[NSMutableString alloc] initWithString:@""];
         self.selectBlock=selectBlock;
         self.startScrollBlock=startScrollBlock;
-        m_getSearchResultDataManager=[AFHTTPSessionManager shareInstance];
+        page = 1;
     }
     return self;
 }
@@ -179,12 +179,17 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
 
 -(void)sendGetSearchResultDataRequestWithPullTableViewType:(ICEPullTableViewOperationTypeOptions)operationType
 {
+    if (operationType == ICEPullTableViewLoadMore) {
+        page++;
+    }else if (operationType == ICEPullTableViewRefresh) {
+        page = 1;
+    }
     __weak typeof(self) wself=self;
     NSDictionary * parameters=@{
-                                @"con":m_keyWord,
-                                @"last_id":@([self getLastIDWithPullTableViewType:operationType])
+                                @"keyword"  :m_keyWord,
+                                @"page"     :@(page)
                                 };
-    [m_getSearchResultDataManager GET:urlOfSearchResults
+    [MYNetworking GET:urlOfSearchResults
                            parameters:parameters
                              progress:nil
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -200,9 +205,8 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
 - (void)addOrReloadTableViewWithResponseData:(id)responseData
                        withPullTableViewType:(ICEPullTableViewOperationTypeOptions)operationType
 {
-    NSInteger status = 0;
     ICEPullTableViewOperationResultOptions  operationResult = ICEPullTableViewOperationSuccess;
-    if (responseData&&(status=[responseData[@"status"]integerValue],100==status))
+    if (responseData&&1==[responseData[@"code"] integerValue]&&[responseData[@"data"] count]>0)
     {
         if(ICEPullTableViewRefresh==operationType)
         {
@@ -210,7 +214,7 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         }
         [self addNewDataWithNewDatas:responseData[@"data"]];
     }
-    else if(responseData&&0==status)
+    else if(1==[responseData[@"code"] integerValue]&&[responseData[@"data"] count]==0)
     {
         //暂无更多
         if(ICEPullTableViewRefresh==operationType)

@@ -1,9 +1,9 @@
 //
 //  SearchView.m
-//  ICinema
+//  IKorean
 //
-//  Created by yunlongwang on 16/7/31.
-//  Copyright © 2016年 wangyunlong. All rights reserved.
+//  Created by ruiwang on 16/9/14.
+//  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
 #import "SearchView.h"
@@ -40,10 +40,21 @@ UITextFieldDelegate
         //添加搜索栏
         [self addSearchBar];
         //添加热门搜索
-        [self addHotSearchViewWithSelectBlock:selectBlock];
+        __weak typeof(self) wself = self;
+        __weak typeof(m_searchTextField) wTF = m_searchTextField;
+        [self addHotSearchViewWithSelectBlock:^(NSInteger id, NSString *title) {
+            [wself addOrReloadSearchResultsViewWithSelectBlock:nil
+                                                      keyWord:title];
+             wTF.text = title;
+            [wself showKeyBoard:NO];
+        }];
         //添加关键字搜索
-        [self addOrReloadKeyWordSearchViewWithSelectBlock:selectBlock
-                                                  keyWord:nil];
+        [self addOrReloadKeyWordSearchViewWithSelectBlock:^(NSInteger id, NSString *title   ) {
+            [wself addOrReloadSearchResultsViewWithSelectBlock:nil
+                                                       keyWord:title];
+            wTF.text = title;
+            [wself showKeyBoard:NO];
+        } keyWord:nil];
         //添加搜索结果
         [self addOrReloadSearchResultsViewWithSelectBlock:selectBlock
                                                   keyWord:nil];

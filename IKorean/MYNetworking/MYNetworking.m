@@ -16,9 +16,9 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
 @implementation MYNetworking
 + (void)GET:(NSString *)URLString
  parameters:(id)parameters
-   progress:(void (^)(NSProgress * _Nonnull downloadProgress))downloadProgress
-    success:(void (^)(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject))success
-    failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure {
+   progress:(void (^)(NSProgress * downloadProgress))downloadProgress
+    success:(void (^)(NSURLSessionDataTask * task, id responseObject))success
+    failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager shareInstance];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     

@@ -72,7 +72,7 @@
     [shadowEffectLayer setFrame:CGRectMake(0, CGRectGetMaxY(movieImageViewFrame) - 20, self.frame.size.width, 20)];
     [shadowEffectLayer setStartPoint:CGPointMake(0.5, 1)];
     [shadowEffectLayer setEndPoint:CGPointMake(0.5, 0.0)];
-    [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[UIColor blackColor].CGColor, (id)[[UIColor clearColor] CGColor], nil]];
+    [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1].CGColor, (id)[[UIColor clearColor] CGColor], nil]];
     [_movieImageView.layer insertSublayer:shadowEffectLayer atIndex:0];
 }
 
@@ -86,6 +86,15 @@
     }else {
         _updateInfoLabel.text = [NSString stringWithFormat:@"更新至%ld集",itemModel.episode_update];
     }
+    NSString *flagImgName = nil;
+    if (itemModel.flag_hot) {
+        flagImgName = @"红色角标";
+    }else if (itemModel.flag_new) {
+        flagImgName = @"蓝色角标";
+    }else if (itemModel.flag_update) {
+        flagImgName = @"紫色角标";
+    }
+    _movieFlagView.image = [UIImage imageNamed:flagImgName];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

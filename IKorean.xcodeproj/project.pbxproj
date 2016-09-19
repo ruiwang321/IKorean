@@ -143,6 +143,29 @@
 		238293831D87CC4100217294 /* 紫色角标.png in Resources */ = {isa = PBXBuildFile; fileRef = 238293801D87CC4100217294 /* 紫色角标.png */; };
 		2382938E1D87CFEE00217294 /* HomeMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2382938C1D87CFEE00217294 /* HomeMainTableViewCell.m */; };
 		238293921D87D74C00217294 /* MovieItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 238293911D87D74C00217294 /* MovieItem.m */; };
+		23AA359B1D8FD0BE0023EDB6 /* 历史记录图标.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35921D8FD0BE0023EDB6 /* 历史记录图标.png */; };
+		23AA359C1D8FD0BE0023EDB6 /* hot_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35931D8FD0BE0023EDB6 /* hot_1@2x.png */; };
+		23AA359D1D8FD0BE0023EDB6 /* hot_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35941D8FD0BE0023EDB6 /* hot_2@2x.png */; };
+		23AA359E1D8FD0BE0023EDB6 /* hot_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35951D8FD0BE0023EDB6 /* hot_3@2x.png */; };
+		23AA359F1D8FD0BE0023EDB6 /* hot_ normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35961D8FD0BE0023EDB6 /* hot_ normal@2x.png */; };
+		23AA35A01D8FD0BE0023EDB6 /* searchIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35971D8FD0BE0023EDB6 /* searchIcon@2x.png */; };
+		23AA35A11D8FD0BE0023EDB6 /* 搜索框删除图标.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35981D8FD0BE0023EDB6 /* 搜索框删除图标.png */; };
+		23AA35A21D8FD0BE0023EDB6 /* 向上箭头.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35991D8FD0BE0023EDB6 /* 向上箭头.png */; };
+		23AA35A31D8FD0BE0023EDB6 /* 向下箭头.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA359A1D8FD0BE0023EDB6 /* 向下箭头.png */; };
+		23BF64A41D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A31D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png */; };
+		23BF64AD1D8F801600D29C73 /* 播放历史@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A61D8F801600D29C73 /* 播放历史@2x.png */; };
+		23BF64AE1D8F801600D29C73 /* settingBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A71D8F801600D29C73 /* settingBack@2x.png */; };
+		23BF64AF1D8F801600D29C73 /* 给个好评@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A81D8F801600D29C73 /* 给个好评@2x.png */; };
+		23BF64B01D8F801600D29C73 /* 设置@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A91D8F801600D29C73 /* 设置@2x.png */; };
+		23BF64B11D8F801600D29C73 /* headerBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64AA1D8F801600D29C73 /* headerBackground@2x.png */; };
+		23BF64B21D8F801600D29C73 /* headerLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64AB1D8F801600D29C73 /* headerLogo@2x.png */; };
+		23BF64B31D8F801600D29C73 /* 我的收藏@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64AC1D8F801600D29C73 /* 我的收藏@2x.png */; };
+		23BF64B61D8F8E2500D29C73 /* DetailSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23BF64B51D8F8E2500D29C73 /* DetailSettingViewController.m */; };
+		23DE9B191D8E300A009CE465 /* searchNavBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23DE9B181D8E300A009CE465 /* searchNavBar@2x.png */; };
+		23DE9B221D8E3574009CE465 /* MovieItemCellLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DE9B1E1D8E3574009CE465 /* MovieItemCellLayoutHelper.m */; };
+		23DE9B231D8E3574009CE465 /* MovieItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DE9B201D8E3574009CE465 /* MovieItemTableViewCell.m */; };
+		23DE9B271D8E3719009CE465 /* EpisodeSortOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DE9B261D8E3719009CE465 /* EpisodeSortOptionsView.m */; };
+		23DE9B2A1D8E3992009CE465 /* FilterUnitItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DE9B291D8E3992009CE465 /* FilterUnitItem.m */; };
 		23EBF7F01D88DBAE00197ADE /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EBF7EF1D88DBAE00197ADE /* back@2x.png */; };
 		23EBF7F51D88E3C700197ADE /* DateListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 23EBF7F31D88E3C700197ADE /* DateListItem.m */; };
 		23EBF7F61D88E3C700197ADE /* DateListItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EBF7F41D88E3C700197ADE /* DateListItem.xib */; };
@@ -440,6 +463,34 @@
 		2382938C1D87CFEE00217294 /* HomeMainTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeMainTableViewCell.m; sourceTree = "<group>"; };
 		238293901D87D74C00217294 /* MovieItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieItem.h; sourceTree = "<group>"; };
 		238293911D87D74C00217294 /* MovieItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieItem.m; sourceTree = "<group>"; };
+		23AA35921D8FD0BE0023EDB6 /* 历史记录图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "历史记录图标.png"; sourceTree = "<group>"; };
+		23AA35931D8FD0BE0023EDB6 /* hot_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_1@2x.png"; sourceTree = "<group>"; };
+		23AA35941D8FD0BE0023EDB6 /* hot_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_2@2x.png"; sourceTree = "<group>"; };
+		23AA35951D8FD0BE0023EDB6 /* hot_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_3@2x.png"; sourceTree = "<group>"; };
+		23AA35961D8FD0BE0023EDB6 /* hot_ normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_ normal@2x.png"; sourceTree = "<group>"; };
+		23AA35971D8FD0BE0023EDB6 /* searchIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchIcon@2x.png"; sourceTree = "<group>"; };
+		23AA35981D8FD0BE0023EDB6 /* 搜索框删除图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "搜索框删除图标.png"; sourceTree = "<group>"; };
+		23AA35991D8FD0BE0023EDB6 /* 向上箭头.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "向上箭头.png"; sourceTree = "<group>"; };
+		23AA359A1D8FD0BE0023EDB6 /* 向下箭头.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "向下箭头.png"; sourceTree = "<group>"; };
+		23BF64A31D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "episodeSortOptionDisplayShow@2x.png"; sourceTree = "<group>"; };
+		23BF64A61D8F801600D29C73 /* 播放历史@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放历史@2x.png"; sourceTree = "<group>"; };
+		23BF64A71D8F801600D29C73 /* settingBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingBack@2x.png"; sourceTree = "<group>"; };
+		23BF64A81D8F801600D29C73 /* 给个好评@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "给个好评@2x.png"; sourceTree = "<group>"; };
+		23BF64A91D8F801600D29C73 /* 设置@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "设置@2x.png"; sourceTree = "<group>"; };
+		23BF64AA1D8F801600D29C73 /* headerBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headerBackground@2x.png"; sourceTree = "<group>"; };
+		23BF64AB1D8F801600D29C73 /* headerLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "headerLogo@2x.png"; sourceTree = "<group>"; };
+		23BF64AC1D8F801600D29C73 /* 我的收藏@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的收藏@2x.png"; sourceTree = "<group>"; };
+		23BF64B41D8F8E2500D29C73 /* DetailSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailSettingViewController.h; sourceTree = "<group>"; };
+		23BF64B51D8F8E2500D29C73 /* DetailSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailSettingViewController.m; sourceTree = "<group>"; };
+		23DE9B181D8E300A009CE465 /* searchNavBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchNavBar@2x.png"; sourceTree = "<group>"; };
+		23DE9B1D1D8E3574009CE465 /* MovieItemCellLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieItemCellLayoutHelper.h; sourceTree = "<group>"; };
+		23DE9B1E1D8E3574009CE465 /* MovieItemCellLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieItemCellLayoutHelper.m; sourceTree = "<group>"; };
+		23DE9B1F1D8E3574009CE465 /* MovieItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieItemTableViewCell.h; sourceTree = "<group>"; };
+		23DE9B201D8E3574009CE465 /* MovieItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieItemTableViewCell.m; sourceTree = "<group>"; };
+		23DE9B251D8E3719009CE465 /* EpisodeSortOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeSortOptionsView.h; sourceTree = "<group>"; };
+		23DE9B261D8E3719009CE465 /* EpisodeSortOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeSortOptionsView.m; sourceTree = "<group>"; };
+		23DE9B281D8E3992009CE465 /* FilterUnitItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterUnitItem.h; sourceTree = "<group>"; };
+		23DE9B291D8E3992009CE465 /* FilterUnitItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterUnitItem.m; sourceTree = "<group>"; };
 		23EBF7EF1D88DBAE00197ADE /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		23EBF7F21D88E3C700197ADE /* DateListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateListItem.h; sourceTree = "<group>"; };
 		23EBF7F31D88E3C700197ADE /* DateListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateListItem.m; sourceTree = "<group>"; };
@@ -536,6 +587,8 @@
 		2357249B1D8158AC00858608 /* Res */ = {
 			isa = PBXGroup;
 			children = (
+				23AA35911D8FD0950023EDB6 /* SearchViewRes */,
+				23BF64A51D8F800B00D29C73 /* SettingRes */,
 				235724E21D815A5100858608 /* FontRes */,
 				235724CD1D815A0000858608 /* HomeViewControllerRes */,
 				235724C01D81596F00858608 /* BaseRes */,
@@ -592,6 +645,8 @@
 		235724CD1D815A0000858608 /* HomeViewControllerRes */ = {
 			isa = PBXGroup;
 			children = (
+				23BF64A31D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png */,
+				23DE9B181D8E300A009CE465 /* searchNavBar@2x.png */,
 				23EBF7EF1D88DBAE00197ADE /* back@2x.png */,
 				2382937E1D87CC4000217294 /* 红色角标.png */,
 				2382937F1D87CC4100217294 /* 蓝色角标.png */,
@@ -661,6 +716,7 @@
 				236CDDB01D80F5AB00DAA3FF /* MainTabBarController.h */,
 				236CDDB11D80F5AB00DAA3FF /* MainTabBarController.m */,
 				23346F071D867A2A0050ADAE /* ISearchBar */,
+				23DE9B1A1D8E3574009CE465 /* MovieItem */,
 				23F254371D8816C700D05B69 /* PlanTableViewController */,
 				23F2542F1D88117C00D05B69 /* HistoryViewController */,
 				23F254361D88160A00D05B69 /* EpisodeSortViewController */,
@@ -1167,6 +1223,58 @@
 			name = HomeMainTableViewCell;
 			sourceTree = "<group>";
 		};
+		23AA35911D8FD0950023EDB6 /* SearchViewRes */ = {
+			isa = PBXGroup;
+			children = (
+				23AA35921D8FD0BE0023EDB6 /* 历史记录图标.png */,
+				23AA35931D8FD0BE0023EDB6 /* hot_1@2x.png */,
+				23AA35941D8FD0BE0023EDB6 /* hot_2@2x.png */,
+				23AA35951D8FD0BE0023EDB6 /* hot_3@2x.png */,
+				23AA35961D8FD0BE0023EDB6 /* hot_ normal@2x.png */,
+				23AA35971D8FD0BE0023EDB6 /* searchIcon@2x.png */,
+				23AA35981D8FD0BE0023EDB6 /* 搜索框删除图标.png */,
+				23AA35991D8FD0BE0023EDB6 /* 向上箭头.png */,
+				23AA359A1D8FD0BE0023EDB6 /* 向下箭头.png */,
+			);
+			path = SearchViewRes;
+			sourceTree = "<group>";
+		};
+		23BF64A51D8F800B00D29C73 /* SettingRes */ = {
+			isa = PBXGroup;
+			children = (
+				23BF64A61D8F801600D29C73 /* 播放历史@2x.png */,
+				23BF64A71D8F801600D29C73 /* settingBack@2x.png */,
+				23BF64A81D8F801600D29C73 /* 给个好评@2x.png */,
+				23BF64A91D8F801600D29C73 /* 设置@2x.png */,
+				23BF64AA1D8F801600D29C73 /* headerBackground@2x.png */,
+				23BF64AB1D8F801600D29C73 /* headerLogo@2x.png */,
+				23BF64AC1D8F801600D29C73 /* 我的收藏@2x.png */,
+			);
+			path = SettingRes;
+			sourceTree = "<group>";
+		};
+		23DE9B1A1D8E3574009CE465 /* MovieItem */ = {
+			isa = PBXGroup;
+			children = (
+				23DE9B1D1D8E3574009CE465 /* MovieItemCellLayoutHelper.h */,
+				23DE9B1E1D8E3574009CE465 /* MovieItemCellLayoutHelper.m */,
+				23DE9B1F1D8E3574009CE465 /* MovieItemTableViewCell.h */,
+				23DE9B201D8E3574009CE465 /* MovieItemTableViewCell.m */,
+			);
+			path = MovieItem;
+			sourceTree = "<group>";
+		};
+		23DE9B241D8E36F6009CE465 /* EpisodeSortOptionsView */ = {
+			isa = PBXGroup;
+			children = (
+				23DE9B281D8E3992009CE465 /* FilterUnitItem.h */,
+				23DE9B291D8E3992009CE465 /* FilterUnitItem.m */,
+				23DE9B251D8E3719009CE465 /* EpisodeSortOptionsView.h */,
+				23DE9B261D8E3719009CE465 /* EpisodeSortOptionsView.m */,
+			);
+			name = EpisodeSortOptionsView;
+			sourceTree = "<group>";
+		};
 		23EBF7F11D88E37700197ADE /* DateListItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1237,6 +1345,8 @@
 			children = (
 				23F254301D8812B100D05B69 /* SettingViewController.h */,
 				23F254311D8812B100D05B69 /* SettingViewController.m */,
+				23BF64B41D8F8E2500D29C73 /* DetailSettingViewController.h */,
+				23BF64B51D8F8E2500D29C73 /* DetailSettingViewController.m */,
 			);
 			path = SettingViewController;
 			sourceTree = "<group>";
@@ -1253,6 +1363,7 @@
 		23F254361D88160A00D05B69 /* EpisodeSortViewController */ = {
 			isa = PBXGroup;
 			children = (
+				23DE9B241D8E36F6009CE465 /* EpisodeSortOptionsView */,
 				23F2543B1D8816EF00D05B69 /* EpisodeSortViewController.h */,
 				23F2543C1D8816EF00D05B69 /* EpisodeSortViewController.m */,
 			);
@@ -1337,6 +1448,7 @@
 				TargetAttributes = {
 					236CD9B61D80F3DF00DAA3FF = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = YGGCAD554X;
 					};
 					236CD9CF1D80F3DF00DAA3FF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1376,6 +1488,7 @@
 				235724C71D81596F00858608 /* default-568h@2x.png in Resources */,
 				235724B71D8158AC00858608 /* appGuide_iphone6_p1@2x.jpg in Resources */,
 				235724E81D815A5100858608 /* HYQiHei65.ttf in Resources */,
+				23AA359B1D8FD0BE0023EDB6 /* 历史记录图标.png in Resources */,
 				235724B31D8158AC00858608 /* appGuide_iphone4_p3@2x.jpg in Resources */,
 				235724B81D8158AC00858608 /* appGuide_iphone6_p2@2x.jpg in Resources */,
 				235724CB1D81596F00858608 /* Icon-40@2x.png in Resources */,
@@ -1383,24 +1496,34 @@
 				236CE6E41D80FF8C00DAA3FF /* icon_email.png in Resources */,
 				236CE6E21D80FF8C00DAA3FF /* icon_call.png in Resources */,
 				236CE6E51D80FF8C00DAA3FF /* icon_ems.png in Resources */,
+				23BF64A41D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png in Resources */,
 				235724B21D8158AC00858608 /* appGuide_iphone4_p2@2x.jpg in Resources */,
 				236CE6E81D80FF8C00DAA3FF /* icon_web.png in Resources */,
+				23AA359E1D8FD0BE0023EDB6 /* hot_3@2x.png in Resources */,
+				23AA35A11D8FD0BE0023EDB6 /* 搜索框删除图标.png in Resources */,
 				238293831D87CC4100217294 /* 紫色角标.png in Resources */,
+				23AA359C1D8FD0BE0023EDB6 /* hot_1@2x.png in Resources */,
 				238293811D87CC4100217294 /* 红色角标.png in Resources */,
 				236CE6E31D80FF8C00DAA3FF /* icon_down.png in Resources */,
+				23BF64B31D8F801600D29C73 /* 我的收藏@2x.png in Resources */,
 				235724B61D8158AC00858608 /* appGuide_iphone5_p3@2x.jpg in Resources */,
 				236CE6E11D80FF8C00DAA3FF /* AdInStLClOsE.png in Resources */,
+				23BF64B11D8F801600D29C73 /* headerBackground@2x.png in Resources */,
 				23346F171D868D900050ADAE /* moreBtn@2x.png in Resources */,
 				238293821D87CC4100217294 /* 蓝色角标.png in Resources */,
 				235724C81D81596F00858608 /* default-667h@2x.png in Resources */,
 				235724E61D815A5100858608 /* HYQiHei50.ttf in Resources */,
+				23DE9B191D8E300A009CE465 /* searchNavBar@2x.png in Resources */,
 				235724B91D8158AC00858608 /* appGuide_iphone6_p3@2x.jpg in Resources */,
 				23EBF7F61D88E3C700197ADE /* DateListItem.xib in Resources */,
 				23346F1C1D868D900050ADAE /* searchBarHistory@2x.png in Resources */,
+				23AA35A31D8FD0BE0023EDB6 /* 向下箭头.png in Resources */,
 				235724E71D815A5100858608 /* HYQiHei55.ttf in Resources */,
 				23346F161D868D900050ADAE /* searchBarLogo@2x.png in Resources */,
 				23346F1B1D868D900050ADAE /* EpisodeSortBtn@2x.png in Resources */,
+				23AA359D1D8FD0BE0023EDB6 /* hot_2@2x.png in Resources */,
 				23346F1F1D868D900050ADAE /* seachBarSearch@2x.png in Resources */,
+				23AA35A01D8FD0BE0023EDB6 /* searchIcon@2x.png in Resources */,
 				23EBF7FF1D890CAF00197ADE /* EpisodePlanTableViewCell.xib in Resources */,
 				235724C91D81596F00858608 /* default-736h@3x.png in Resources */,
 				236CE6E91D80FF8C00DAA3FF /* title_back.png in Resources */,
@@ -1408,19 +1531,26 @@
 				23EBF7F01D88DBAE00197ADE /* back@2x.png in Resources */,
 				235724BF1D8158AC00858608 /* pagePoint_normal@2x.png in Resources */,
 				235724B11D8158AC00858608 /* appGuide_iphone4_p1@2x.jpg in Resources */,
+				23AA35A21D8FD0BE0023EDB6 /* 向上箭头.png in Resources */,
 				235724CA1D81596F00858608 /* default@2x.png in Resources */,
 				235724CC1D81596F00858608 /* Icon-40@3x.png in Resources */,
 				235724BA1D8158AC00858608 /* appGuide_plus_p1@3x.jpg in Resources */,
 				236CDA131D80F48A00DAA3FF /* Info.plist in Resources */,
 				235724B41D8158AC00858608 /* appGuide_iphone5_p1@2x.jpg in Resources */,
 				236CE6E61D80FF8C00DAA3FF /* icon_map.png in Resources */,
+				23BF64AD1D8F801600D29C73 /* 播放历史@2x.png in Resources */,
 				236CE6E71D80FF8C00DAA3FF /* icon_video.png in Resources */,
 				236CD9CA1D80F3DF00DAA3FF /* LaunchScreen.storyboard in Resources */,
+				23BF64B01D8F801600D29C73 /* 设置@2x.png in Resources */,
 				23346F1E1D868D900050ADAE /* searchBarSetting@2x.png in Resources */,
 				235724B01D8158AC00858608 /* SDK20161608040930hfk4vf15o144q08.txt in Resources */,
 				236CD9C71D80F3DF00DAA3FF /* Assets.xcassets in Resources */,
 				23346F1D1D868D900050ADAE /* planTableBtn@2x.png in Resources */,
+				23BF64B21D8F801600D29C73 /* headerLogo@2x.png in Resources */,
+				23AA359F1D8FD0BE0023EDB6 /* hot_ normal@2x.png in Resources */,
+				23BF64AE1D8F801600D29C73 /* settingBack@2x.png in Resources */,
 				235724B51D8158AC00858608 /* appGuide_iphone5_p2@2x.jpg in Resources */,
+				23BF64AF1D8F801600D29C73 /* 给个好评@2x.png in Resources */,
 				235724BB1D8158AC00858608 /* appGuide_plus_p2@3x.jpg in Resources */,
 				235724BD1D8158AC00858608 /* enterAppNow@2x.png in Resources */,
 				236CD9C51D80F3DF00DAA3FF /* Main.storyboard in Resources */,
@@ -1449,6 +1579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23DE9B2A1D8E3992009CE465 /* FilterUnitItem.m in Sources */,
 				236CDA441D80F4AB00DAA3FF /* UIImage+GIF.m in Sources */,
 				236CDA9F1D80F4CD00DAA3FF /* ICEPullDownRefreshTableHeaderView.m in Sources */,
 				236CE6FA1D80FF8C00DAA3FF /* CJSONSerializedData.m in Sources */,
@@ -1458,6 +1589,7 @@
 				23EBF7FE1D890CAF00197ADE /* EpisodePlanTableViewCell.m in Sources */,
 				236CDA411D80F4AB00DAA3FF /* SDWebImageManager.m in Sources */,
 				236CDA481D80F4AB00DAA3FF /* UIImageView+WebCache.m in Sources */,
+				23DE9B221D8E3574009CE465 /* MovieItemCellLayoutHelper.m in Sources */,
 				236CDAA61D80F4CD00DAA3FF /* ICEStartViewController.m in Sources */,
 				236CDA401D80F4AB00DAA3FF /* SDWebImageDownloaderOperation.m in Sources */,
 				236CDA001D80F47D00DAA3FF /* AFURLSessionManager.m in Sources */,
@@ -1483,6 +1615,7 @@
 				236CE6FE1D80FF8C00DAA3FF /* CJSONScanner.m in Sources */,
 				236CDA491D80F4AB00DAA3FF /* UIView+WebCacheOperation.m in Sources */,
 				23F254351D8812BE00D05B69 /* HistoryViewController.m in Sources */,
+				23DE9B271D8E3719009CE465 /* EpisodeSortOptionsView.m in Sources */,
 				236CE6F81D80FF8C00DAA3FF /* CJSONDeserializer_BlocksExtensions.m in Sources */,
 				236CD9BF1D80F3DF00DAA3FF /* AppDelegate.m in Sources */,
 				236CDA461D80F4AB00DAA3FF /* UIImage+WebP.m in Sources */,
@@ -1490,6 +1623,7 @@
 				236CDA421D80F4AB00DAA3FF /* SDWebImagePrefetcher.m in Sources */,
 				236CDA111D80F48A00DAA3FF /* FMDatabaseQueue.m in Sources */,
 				236CDA0E1D80F48A00DAA3FF /* FMDatabase.m in Sources */,
+				23DE9B231D8E3574009CE465 /* MovieItemTableViewCell.m in Sources */,
 				236CD9FC1D80F47D00DAA3FF /* AFNetworkReachabilityManager.m in Sources */,
 				236CDA9A1D80F4CD00DAA3FF /* ICEPlayerEpisodeModel.m in Sources */,
 				236CE6F71D80FF8C00DAA3FF /* CFilteringJSONSerializer.m in Sources */,
@@ -1531,6 +1665,7 @@
 				236CDA991D80F4CD00DAA3FF /* ICEPlayerBrightnessView.m in Sources */,
 				236CD9FF1D80F47D00DAA3FF /* AFURLResponseSerialization.m in Sources */,
 				236CDA961D80F4CD00DAA3FF /* ICENetWorkErrorAlertView.m in Sources */,
+				23BF64B61D8F8E2500D29C73 /* DetailSettingViewController.m in Sources */,
 				236CDA3F1D80F4AB00DAA3FF /* SDWebImageDownloader.m in Sources */,
 				23EBF8261D89586500197ADE /* HotSearchView.m in Sources */,
 				236CDDB21D80F5AB00DAA3FF /* MainTabBarController.m in Sources */,
@@ -1682,6 +1817,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.2/AdNetworks/AdPro/lib",
@@ -1780,8 +1917,9 @@
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.4/AdNetworks/WQMobile/lib",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.4/AdView",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruiwang.IKorean;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ruiwang.IKorean110;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1790,6 +1928,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.2/AdNetworks/AdPro/lib",
@@ -1888,8 +2028,9 @@
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.4/AdNetworks/WQMobile/lib",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.4/AdView",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruiwang.IKorean;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ruiwang.IKorean110;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

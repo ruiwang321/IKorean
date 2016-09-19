@@ -350,7 +350,7 @@
 
 - (void)goEpisodeSortVC {
     EpisodeSortViewController *episodeSortVC = [[EpisodeSortViewController alloc] init];
-
+    episodeSortVC.imageItemModel.title = @"剧集分类";
     [self.navigationController pushViewController:episodeSortVC animated:YES];
 }
 

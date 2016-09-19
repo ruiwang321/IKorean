@@ -13,7 +13,7 @@
 @interface MYNetworking : NSObject
 + (void)GET:(NSString *)URLString
  parameters:(id)parameters
-   progress:(void (^)(NSProgress * _Nonnull downloadProgress))downloadProgress
-    success:(void (^)(NSURLSessionDataTask * _Nonnull tesk, id _Nullable responseObject))success
-    failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+   progress:(void (^)(NSProgress * downloadProgress))downloadProgress
+    success:(void (^)(NSURLSessionDataTask * tesk, id responseObject))success
+    failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure;
 @end

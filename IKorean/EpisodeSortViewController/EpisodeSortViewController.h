@@ -7,7 +7,10 @@
 //
 
 #import "ICEViewController.h"
+#import "FilterUnitItem.h"
 
 @interface EpisodeSortViewController : ICEViewController
+
+@property (nonatomic,copy) FilterUnitItemModel * imageItemModel;
 
 @end
