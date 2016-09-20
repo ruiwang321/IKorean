@@ -386,6 +386,10 @@
     [super didReceiveMemoryWarning];
 }
 
+- (BOOL)isSupportSlidePop {
+    return YES;
+}
+
 - (BOOL)shouldAutorotate
 {
     return YES;

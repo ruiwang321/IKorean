@@ -18,6 +18,7 @@ static TVDataHelper * tvDataHelper=nil;
 @property (nonatomic,copy) NSString * stringOfMyFavoritesTableName;
 @property (nonatomic,copy) NSString * stringOfPlayHistoryTableName;
 @property (nonatomic,copy) NSString * stringOfDBPath;
+@property (nonatomic,copy) NSString * stringOfSearchHistoryTableName;
 @end
 
 @implementation TVDataHelper
@@ -38,12 +39,14 @@ static TVDataHelper * tvDataHelper=nil;
         self.stringOfVideoNewStatusTableName=@"videoNewStatus";
         self.stringOfMyFavoritesTableName=@"myFavorites";
         self.stringOfPlayHistoryTableName=@"playHistory";
+        self.stringOfSearchHistoryTableName = @"searchHistory";
         self.stringOfDBPath=[[NSString alloc] initWithFormat:@"%@/Library/Caches/%@.db",NSHomeDirectory(),_stringOfDBName];
         m_dataBase=[[FMDatabase alloc] initWithPath:_stringOfDBPath];
         [m_dataBase open];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (episodeid INTEGER);",_stringOfVideoNewStatusTableName]];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,grade REAL);",_stringOfMyFavoritesTableName]];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,grade REAL);",_stringOfPlayHistoryTableName]];
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (keyword TEXT);",_stringOfSearchHistoryTableName]];
     }
     return self;
 }
@@ -162,5 +165,30 @@ static TVDataHelper * tvDataHelper=nil;
     }
     [rs close];
     return array;
+}
+
+
+-(NSArray *)getAllSearchHistory {
+    NSMutableArray * array=[NSMutableArray array];
+    FMResultSet    * rs=[m_dataBase executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@",_stringOfSearchHistoryTableName]];
+    while ([rs next])
+    {
+        NSString *keyword = [rs stringForColumn:@"keyword"];
+        [array addObject:keyword];
+    }
+    [rs close];
+    return array;
+}
+-(void)delateAllSearchHistory {
+    if ([m_dataBase open])
+    {
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"DELETE FROM %@",_stringOfSearchHistoryTableName]];
+    }
+}
+-(void)addSearchHistoryKeyword:(NSString *)keyword {
+    if ([m_dataBase open])
+    {
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (keyword) SELECT ? WHERE NOT EXISTS (SELECT * FROM %@ WHERE keyword = ?)",_stringOfSearchHistoryTableName,_stringOfSearchHistoryTableName],keyword,keyword];
+    }
 }
 @end

@@ -34,4 +34,9 @@
 -(void)delatePlayHistoryWithVideoID:(NSNumber *)videoID;
 
 -(NSArray *)getAllPlayHistory;
+
+
+-(NSArray *)getAllSearchHistory;
+-(void)delateAllSearchHistory;
+-(void)addSearchHistoryKeyword:(NSString *)keyword;
 @end

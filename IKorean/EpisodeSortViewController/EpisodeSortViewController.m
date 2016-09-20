@@ -10,6 +10,7 @@
 #import "MovieItemTableViewCell.h"
 #import "MovieItem.h"
 #import "EpisodeSortOptionsView.h"
+#import "SearchView.h"
 
 static NSInteger const Page_size = 30;
 static CGFloat const optionDisplayHeight = 46;
@@ -63,6 +64,13 @@ UITableViewDataSource
 }
 
 - (void)showSearchView {
+    __weak typeof(self) wself = self;
+    SearchView * searchView=[[SearchView alloc] initWithFrame:self.view.bounds
+                                             selectMovieBlock:^(NSInteger movieID, NSString * title) {
+                                                 //                                                 [wself goTVDetailViewWithID:movieID title:title];
+                                                 [wself.tabBarController.view endEditing:YES];
+                                             }];
+    [self.navigationController.view addSubview:searchView];
     NSLog(@"显示搜索视图");
 }
 
@@ -153,8 +161,27 @@ UITableViewDataSource
                                                           
                                                           }];
             [self.view insertSubview:_EpisodeSortOptionsView belowSubview:self.myNavigationBar];
+            
+            // 筛选选中项显示
+            _optionDisplayView = [[UILabel alloc] initWithFrame:CGRectMake(0, self.navigationBarHeight, self.screenWidth, optionDisplayHeight)];
+            _optionDisplayView.backgroundColor = [UIColor whiteColor];
+            _optionDisplayView.textColor = APPColor;
+            _optionDisplayView.font = [UIFont fontWithName:HYQiHei_50Pound size:14];
+            [self.view insertSubview:_optionDisplayView belowSubview:_EpisodeSortOptionsView];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showMenuView)];
+            
+            UIImageView *arrowImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth-17-10, (optionDisplayHeight-9)/2.0f, 17, 9)];
+            arrowImg.image = IMAGENAME(@"episodeSortOptionDisplayShow@2x", @"png");
+            [_optionDisplayView addSubview:arrowImg];
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_optionDisplayView.frame)-1, self.screenWidth, 1)];
+            line.backgroundColor = [UIColor colorWithRed:222/255.0f green:222/255.0f blue:222/255.0f alpha:1];
+            [_optionDisplayView addSubview:line];
+            _optionDisplayView.userInteractionEnabled = YES;
+            [_optionDisplayView addGestureRecognizer:tap];
+            [self updateOptionDisplayView];
         }
     }
+    
 }
 
 - (void)sendGetFilterOptionsRequest
@@ -238,23 +265,7 @@ UITableViewDataSource
 //            [self.view addSubview:bannerAdUnitView];
             
             
-            // 筛选选中项显示
-            _optionDisplayView = [[UILabel alloc] initWithFrame:CGRectMake(0, self.navigationBarHeight, self.screenWidth, optionDisplayHeight)];
-            _optionDisplayView.backgroundColor = [UIColor whiteColor];
-            _optionDisplayView.textColor = APPColor;
-            _optionDisplayView.font = [UIFont fontWithName:HYQiHei_50Pound size:14];
-            [self.view insertSubview:_optionDisplayView belowSubview:_EpisodeSortOptionsView];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showMenuView)];
             
-            UIImageView *arrowImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth-17-10, (optionDisplayHeight-9)/2.0f, 17, 9)];
-            arrowImg.image = IMAGENAME(@"episodeSortOptionDisplayShow@2x", @"png");
-            [_optionDisplayView addSubview:arrowImg];
-            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_optionDisplayView.frame)-1, self.screenWidth, 1)];
-            line.backgroundColor = [UIColor colorWithRed:222/255.0f green:222/255.0f blue:222/255.0f alpha:1];
-            [_optionDisplayView addSubview:line];
-            _optionDisplayView.userInteractionEnabled = YES;
-            [_optionDisplayView addGestureRecognizer:tap];
-            [self updateOptionDisplayView];
         }
         else
             [_mainTableView reloadData];

@@ -13,4 +13,6 @@
 -(id)initWithFrame:(CGRect)frame
 selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
   startScrollBlock:(void (^)())startScrollBlock;
+
+- (void)updateSearchHistoryDataNeedLoadMore:(BOOL)needLoadMore;
 @end

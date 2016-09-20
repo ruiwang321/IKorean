@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "DetailSettingViewController.h"
+#import "HistoryViewController.h"
 
 @interface SettingViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -92,7 +93,8 @@
             
         }else if (indexPath.row == 1) {
             // 播放历史
-            
+            HistoryViewController *historyVC = [[HistoryViewController alloc] init];
+            [self.navigationController pushViewController:historyVC animated:YES];
             
         }else if (indexPath.row == 2) {
             // 设置

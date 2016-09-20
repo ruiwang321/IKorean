@@ -18,6 +18,7 @@ UITextFieldDelegate
     UITextField * m_searchTextField;
     KeyWordSearchView * m_keyWordSearchView;
     SearchResultsView * m_searchResultsView;
+    HotSearchView * m_hotSearchView;
 }
 @property (nonatomic,assign) BOOL isCanSearchByKeyWord;
 //输入中文时会连续掉用两次delegate。用isCanSearchByKeyWord这个标志位防止重复掉用
@@ -127,12 +128,12 @@ UITextFieldDelegate
 {
     __weak typeof(self) wself=self;
     CGRect hotSearchViewFrame=CGRectMake(0, _searchBarHeight, _searchViewWidth, _searchViewHeight-_searchBarHeight);
-    HotSearchView * hotSearchView=[[HotSearchView alloc] initWithFrame:hotSearchViewFrame
+    m_hotSearchView=[[HotSearchView alloc] initWithFrame:hotSearchViewFrame
                                               selectHotSearchCellBlock:block
                                                       startScrollBlock:^{
                                                           [wself showKeyBoard:NO];
                                                       }];
-    [self addSubview:hotSearchView];
+    [self addSubview:m_hotSearchView];
 }
 
 -(void)addOrReloadKeyWordSearchViewWithSelectBlock:(void (^)(NSInteger ,NSString * ))block
@@ -169,6 +170,10 @@ UITextFieldDelegate
 -(void)addOrReloadSearchResultsViewWithSelectBlock:(void (^)(NSInteger ,NSString * ))block
                                            keyWord:(NSString *)keyWord
 {
+    if (keyWord) {
+        [[TVDataHelper shareInstance] addSearchHistoryKeyword:keyWord]; // 保存搜索记录到数据库
+        [m_hotSearchView updateSearchHistoryDataNeedLoadMore:NO]; // 刷新搜索记录View
+    }
     if (m_searchResultsView==nil)
     {
         __weak typeof(self) wself=self;
