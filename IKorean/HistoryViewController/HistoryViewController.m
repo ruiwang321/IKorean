@@ -7,8 +7,11 @@
 //
 
 #import "HistoryViewController.h"
+#import "HistoryOrFavouriteTableViewCell.h"
 
-@interface HistoryViewController ()
+@interface HistoryViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *mainTableView;
 
 @end
 
@@ -17,12 +20,50 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"历史记录";
-    // Do any additional setup after loading the view.
+//    [self setLeftButtonWithImageName:@"" action:<#(SEL)#>]
+    [self createMainTableView];
+}
+
+- (void)createMainTableView {
+    _mainTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-self.navigationBarHeight) style:UITableViewStyleGrouped];
+    [_mainTableView registerNib:[UINib nibWithNibName:@"HistoryOrFavouriteTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"cellId"];
+    _mainTableView.delegate = self;
+    _mainTableView.dataSource = self;
+    _mainTableView.rowHeight = 80;
+    _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _mainTableView.editing = YES;
+    [self.view addSubview:_mainTableView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - tableViewDelegate Datasource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HistoryOrFavouriteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    cell.selectImageWidth.constant = 0;
+    cell.selectImageView.hidden = YES;
+//    [cell sep]
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 /*

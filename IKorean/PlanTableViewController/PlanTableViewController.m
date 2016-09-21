@@ -17,7 +17,7 @@ static NSInteger const oneDay = 86400;
 
 @property (nonatomic, strong) UICollectionView *dateList;
 @property (nonatomic, strong) NSMutableArray <NSDate *>*dateArr;
-@property (nonatomic, strong) UIScrollView *mainScrollView;
+@property (nonatomic, strong) ICESlideBackGestureConflictScrollView *mainScrollView;
 
 @end
 
@@ -45,7 +45,7 @@ static NSInteger const oneDay = 86400;
     [_dateList registerNib:[UINib nibWithNibName:@"DateListItem" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"dateItem"];
     [self.view addSubview:_dateList];
     
-    _mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_dateList.frame), SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(_dateList.frame))];
+    _mainScrollView = [[ICESlideBackGestureConflictScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_dateList.frame), SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(_dateList.frame))];
     _mainScrollView.backgroundColor = [UIColor grayColor];
     _mainScrollView.contentSize = CGSizeMake(SCREEN_WIDTH*15, 0);
     _mainScrollView.showsHorizontalScrollIndicator = NO;

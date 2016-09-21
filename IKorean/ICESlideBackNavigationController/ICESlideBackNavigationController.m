@@ -10,6 +10,44 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 
+@implementation ICESlideBackGestureConflictScrollView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    if (self=[super initWithFrame:frame])
+    {
+        [self setBounces:NO];
+    }
+    return self;
+}
+
+- (id)init
+{
+    if (self=[super init])
+    {
+        [self setBounces:NO];
+    }
+    return self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]])
+    {
+        CGPoint translation = [(UIPanGestureRecognizer *)gestureRecognizer velocityInView:self];
+        if (self.contentOffset.x<=0)
+        {
+            if (translation.x>=0)
+            {
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+
+@end
+
 #define ICESlideReturnNavigationControllerSnapshotPath                 @"/Library/Caches/PopSnapshots"
 @interface ICESnapshotImageView:UIImageView
 {
@@ -58,6 +96,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic,strong) dispatch_queue_t myqueue;
 @property (nonatomic,strong) ICESnapshotImageView * snapshotImageView;
 @property (nonatomic,assign) BOOL isTouchScreenNow;
+@property (nonatomic,strong,readwrite) UIPanGestureRecognizer * panGestureRecognizer;
 @end
 
 @implementation ICESlideBackNavigationController
@@ -122,11 +161,11 @@ UIGestureRecognizerDelegate
     [self.view.layer addSublayer:gradientLayer];
     
     //添加手势
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-    [panGestureRecognizer setDelegate:self];
-    [panGestureRecognizer setMinimumNumberOfTouches:1];
-    [panGestureRecognizer setMaximumNumberOfTouches:1];
-    [self.view addGestureRecognizer:panGestureRecognizer];
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    [_panGestureRecognizer setDelegate:self];
+    [_panGestureRecognizer setMinimumNumberOfTouches:1];
+    [_panGestureRecognizer setMaximumNumberOfTouches:1];
+    [self.view addGestureRecognizer:_panGestureRecognizer];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -197,6 +236,15 @@ UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if (_isSaveSnapshotEnd&&[self.viewControllers count]>1&&[self isNeedSlidePop])
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([NSStringFromClass([otherGestureRecognizer.view class]) isEqualToString:@"UITableViewWrapperView"])
     {
         return YES;
     }

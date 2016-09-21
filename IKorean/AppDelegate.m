@@ -137,6 +137,7 @@ AdSpreadScreenManagerDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [ICESlideBackNavigationController clearAllSnapshot];
     [self initJPushWithOptions:launchOptions];
     [self adDataInit];
     [self umengTrack];

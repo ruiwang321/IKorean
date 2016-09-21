@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		23147E3D1D9217F2002CEC55 /* loadMoreBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23147E3C1D9217F2002CEC55 /* loadMoreBtn@2x.png */; };
+		23147E411D923736002CEC55 /* ICESlideBackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23147E401D923736002CEC55 /* ICESlideBackNavigationController.m */; };
 		23346F0A1D867A2A0050ADAE /* ISearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 23346F091D867A2A0050ADAE /* ISearchBar.m */; };
 		23346F161D868D900050ADAE /* searchBarLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F0B1D868D900050ADAE /* searchBarLogo@2x.png */; };
 		23346F171D868D900050ADAE /* homeMoreBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F0C1D868D900050ADAE /* homeMoreBtn@2x.png */; };
@@ -48,7 +49,6 @@
 		235724E71D815A5100858608 /* HYQiHei55.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 235724E41D815A5100858608 /* HYQiHei55.ttf */; };
 		235724E81D815A5100858608 /* HYQiHei65.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 235724E51D815A5100858608 /* HYQiHei65.ttf */; };
 		235724EB1D815D1600858608 /* TVDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 235724EA1D815D1600858608 /* TVDataHelper.m */; };
-		235747CB1D913418009796C9 /* ICESlideBackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 235747CA1D913418009796C9 /* ICESlideBackNavigationController.m */; };
 		236CD9BC1D80F3DF00DAA3FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 236CD9BB1D80F3DF00DAA3FF /* main.m */; };
 		236CD9BF1D80F3DF00DAA3FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 236CD9BE1D80F3DF00DAA3FF /* AppDelegate.m */; };
 		236CD9C21D80F3DF00DAA3FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 236CD9C11D80F3DF00DAA3FF /* ViewController.m */; };
@@ -156,6 +156,11 @@
 		23AA35A31D8FD0BE0023EDB6 /* 向下箭头.png in Resources */ = {isa = PBXBuildFile; fileRef = 23AA359A1D8FD0BE0023EDB6 /* 向下箭头.png */; };
 		23AA35A81D8FE0430023EDB6 /* HotSearchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 23AA35A61D8FE0430023EDB6 /* HotSearchItem.m */; };
 		23AA35A91D8FE0430023EDB6 /* HotSearchItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23AA35A71D8FE0430023EDB6 /* HotSearchItem.xib */; };
+		23BE86C81D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23BE86C61D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.m */; };
+		23BE86C91D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23BE86C71D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.xib */; };
+		23BE86CC1D925BF8009AAB87 /* isNotSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE86CA1D925BF8009AAB87 /* isNotSelected@2x.png */; };
+		23BE86CD1D925BF8009AAB87 /* isSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE86CB1D925BF8009AAB87 /* isSelected@2x.png */; };
+		23BE86CF1D926047009AAB87 /* phoneIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE86CE1D926047009AAB87 /* phoneIcon@2x.png */; };
 		23BF64A41D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A31D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png */; };
 		23BF64AD1D8F801600D29C73 /* 播放历史@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A61D8F801600D29C73 /* 播放历史@2x.png */; };
 		23BF64AE1D8F801600D29C73 /* settingBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BF64A71D8F801600D29C73 /* settingBack@2x.png */; };
@@ -207,6 +212,8 @@
 
 /* Begin PBXFileReference section */
 		23147E3C1D9217F2002CEC55 /* loadMoreBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadMoreBtn@2x.png"; sourceTree = "<group>"; };
+		23147E3F1D923736002CEC55 /* ICESlideBackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICESlideBackNavigationController.h; sourceTree = "<group>"; };
+		23147E401D923736002CEC55 /* ICESlideBackNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICESlideBackNavigationController.m; sourceTree = "<group>"; };
 		23346F081D867A2A0050ADAE /* ISearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISearchBar.h; sourceTree = "<group>"; };
 		23346F091D867A2A0050ADAE /* ISearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISearchBar.m; sourceTree = "<group>"; };
 		23346F0B1D868D900050ADAE /* searchBarLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarLogo@2x.png"; sourceTree = "<group>"; };
@@ -251,8 +258,6 @@
 		235724E51D815A5100858608 /* HYQiHei65.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HYQiHei65.ttf; sourceTree = "<group>"; };
 		235724E91D815D1600858608 /* TVDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVDataHelper.h; sourceTree = "<group>"; };
 		235724EA1D815D1600858608 /* TVDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVDataHelper.m; sourceTree = "<group>"; };
-		235747C91D913418009796C9 /* ICESlideBackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICESlideBackNavigationController.h; sourceTree = "<group>"; };
-		235747CA1D913418009796C9 /* ICESlideBackNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICESlideBackNavigationController.m; sourceTree = "<group>"; };
 		236CD9B71D80F3DF00DAA3FF /* IKorean.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IKorean.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		236CD9BB1D80F3DF00DAA3FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		236CD9BD1D80F3DF00DAA3FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -482,6 +487,12 @@
 		23AA35A51D8FE0430023EDB6 /* HotSearchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotSearchItem.h; sourceTree = "<group>"; };
 		23AA35A61D8FE0430023EDB6 /* HotSearchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotSearchItem.m; sourceTree = "<group>"; };
 		23AA35A71D8FE0430023EDB6 /* HotSearchItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotSearchItem.xib; sourceTree = "<group>"; };
+		23BE86C51D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryOrFavouriteTableViewCell.h; sourceTree = "<group>"; };
+		23BE86C61D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryOrFavouriteTableViewCell.m; sourceTree = "<group>"; };
+		23BE86C71D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryOrFavouriteTableViewCell.xib; sourceTree = "<group>"; };
+		23BE86CA1D925BF8009AAB87 /* isNotSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "isNotSelected@2x.png"; sourceTree = "<group>"; };
+		23BE86CB1D925BF8009AAB87 /* isSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "isSelected@2x.png"; sourceTree = "<group>"; };
+		23BE86CE1D926047009AAB87 /* phoneIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoneIcon@2x.png"; sourceTree = "<group>"; };
 		23BF64A31D8F7DF200D29C73 /* episodeSortOptionDisplayShow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "episodeSortOptionDisplayShow@2x.png"; sourceTree = "<group>"; };
 		23BF64A61D8F801600D29C73 /* 播放历史@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放历史@2x.png"; sourceTree = "<group>"; };
 		23BF64A71D8F801600D29C73 /* settingBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingBack@2x.png"; sourceTree = "<group>"; };
@@ -563,6 +574,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23147E3E1D923736002CEC55 /* ICESlideBackNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				23147E3F1D923736002CEC55 /* ICESlideBackNavigationController.h */,
+				23147E401D923736002CEC55 /* ICESlideBackNavigationController.m */,
+			);
+			path = ICESlideBackNavigationController;
+			sourceTree = "<group>";
+		};
 		23346F071D867A2A0050ADAE /* ISearchBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,8 +726,7 @@
 		236CD9B91D80F3DF00DAA3FF /* IKorean */ = {
 			isa = PBXGroup;
 			children = (
-				235747C91D913418009796C9 /* ICESlideBackNavigationController.h */,
-				235747CA1D913418009796C9 /* ICESlideBackNavigationController.m */,
+				23147E3E1D923736002CEC55 /* ICESlideBackNavigationController */,
 				236CE4071D80FF8B00DAA3FF /* AdViewSDK-3.2.4 */,
 				236CDDB71D80F6A400DAA3FF /* UmSdkIos */,
 				236CDDB31D80F5CE00DAA3FF /* lib */,
@@ -1262,9 +1281,22 @@
 			name = HotSearchItem;
 			sourceTree = "<group>";
 		};
+		23BE86C41D925AAE009AAB87 /* HistoryOrFavouriteTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				23BE86C51D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.h */,
+				23BE86C61D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.m */,
+				23BE86C71D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.xib */,
+			);
+			name = HistoryOrFavouriteTableViewCell;
+			sourceTree = "<group>";
+		};
 		23BF64A51D8F800B00D29C73 /* SettingRes */ = {
 			isa = PBXGroup;
 			children = (
+				23BE86CE1D926047009AAB87 /* phoneIcon@2x.png */,
+				23BE86CA1D925BF8009AAB87 /* isNotSelected@2x.png */,
+				23BE86CB1D925BF8009AAB87 /* isSelected@2x.png */,
 				23BF64A61D8F801600D29C73 /* 播放历史@2x.png */,
 				23BF64A71D8F801600D29C73 /* settingBack@2x.png */,
 				23BF64A81D8F801600D29C73 /* 给个好评@2x.png */,
@@ -1378,6 +1410,7 @@
 		23F2542F1D88117C00D05B69 /* HistoryViewController */ = {
 			isa = PBXGroup;
 			children = (
+				23BE86C41D925AAE009AAB87 /* HistoryOrFavouriteTableViewCell */,
 				23F254331D8812BE00D05B69 /* HistoryViewController.h */,
 				23F254341D8812BE00D05B69 /* HistoryViewController.m */,
 			);
@@ -1473,6 +1506,7 @@
 					236CD9B61D80F3DF00DAA3FF = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = YGGCAD554X;
+						ProvisioningStyle = Automatic;
 					};
 					236CD9CF1D80F3DF00DAA3FF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1542,6 +1576,7 @@
 				235724B91D8158AC00858608 /* appGuide_iphone6_p3@2x.jpg in Resources */,
 				23EBF7F61D88E3C700197ADE /* DateListItem.xib in Resources */,
 				23346F1C1D868D900050ADAE /* searchBarHistory@2x.png in Resources */,
+				23BE86CF1D926047009AAB87 /* phoneIcon@2x.png in Resources */,
 				23AA35A31D8FD0BE0023EDB6 /* 向下箭头.png in Resources */,
 				235724E71D815A5100858608 /* HYQiHei55.ttf in Resources */,
 				23346F161D868D900050ADAE /* searchBarLogo@2x.png in Resources */,
@@ -1550,6 +1585,7 @@
 				23346F1F1D868D900050ADAE /* seachBarSearch@2x.png in Resources */,
 				23AA35A01D8FD0BE0023EDB6 /* searchIcon@2x.png in Resources */,
 				23EBF7FF1D890CAF00197ADE /* EpisodePlanTableViewCell.xib in Resources */,
+				23BE86CC1D925BF8009AAB87 /* isNotSelected@2x.png in Resources */,
 				235724C91D81596F00858608 /* default-736h@3x.png in Resources */,
 				236CE6E91D80FF8C00DAA3FF /* title_back.png in Resources */,
 				235724BC1D8158AC00858608 /* appGuide_plus_p3@3x.jpg in Resources */,
@@ -1570,9 +1606,11 @@
 				23BF64B01D8F801600D29C73 /* 设置@2x.png in Resources */,
 				23346F1E1D868D900050ADAE /* searchBarSetting@2x.png in Resources */,
 				235724B01D8158AC00858608 /* SDK20161608040930hfk4vf15o144q08.txt in Resources */,
+				23BE86C91D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.xib in Resources */,
 				236CD9C71D80F3DF00DAA3FF /* Assets.xcassets in Resources */,
 				23346F1D1D868D900050ADAE /* planTableBtn@2x.png in Resources */,
 				23BF64B21D8F801600D29C73 /* headerLogo@2x.png in Resources */,
+				23BE86CD1D925BF8009AAB87 /* isSelected@2x.png in Resources */,
 				23AA359F1D8FD0BE0023EDB6 /* hot_normal@2x.png in Resources */,
 				23BF64AE1D8F801600D29C73 /* settingBack@2x.png in Resources */,
 				235724B51D8158AC00858608 /* appGuide_iphone5_p2@2x.jpg in Resources */,
@@ -1626,7 +1664,7 @@
 				236CE6F61D80FF8C00DAA3FF /* CDataScanner.m in Sources */,
 				236CDAAA1D80F4CD00DAA3FF /* UIImage+ColorImage.m in Sources */,
 				236CDA3A1D80F4AB00DAA3FF /* MKAnnotationView+WebCache.m in Sources */,
-				235747CB1D913418009796C9 /* ICESlideBackNavigationController.m in Sources */,
+				23147E411D923736002CEC55 /* ICESlideBackNavigationController.m in Sources */,
 				236CDA901D80F4CD00DAA3FF /* ICEAppGuideView.m in Sources */,
 				236CDA101D80F48A00DAA3FF /* FMDatabasePool.m in Sources */,
 				236CDA9D1D80F4CD00DAA3FF /* ICEPlayerView.m in Sources */,
@@ -1702,6 +1740,7 @@
 				236CDA9E1D80F4CD00DAA3FF /* ICEPlayerVolumeView.m in Sources */,
 				236CE6F51D80FF8C00DAA3FF /* Reachability.m in Sources */,
 				236CD9FB1D80F47D00DAA3FF /* AFHTTPSessionManager.m in Sources */,
+				23BE86C81D925AF4009AAB87 /* HistoryOrFavouriteTableViewCell.m in Sources */,
 				236CDA971D80F4CD00DAA3FF /* AVPlayer+CurrentPlayerItemData.m in Sources */,
 				23F254321D8812B100D05B69 /* SettingViewController.m in Sources */,
 			);
@@ -1847,6 +1886,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YGGCAD554X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.2/AdNetworks/AdPro/lib",
@@ -1958,6 +1998,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YGGCAD554X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IKorean/AdViewSDK-3.2.2/AdNetworks/AdPro/lib",

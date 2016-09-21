@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@interface ICESlideBackGestureConflictScrollView:UIScrollView
+@end
+
 @protocol ICESlideBackNavigationControllerDelegate <NSObject>
 - (BOOL)isSupportSlidePop;
 @end
 
 @interface ICESlideBackNavigationController : UINavigationController
+@property (nonatomic,strong,readonly) UIPanGestureRecognizer * panGestureRecognizer;
 +(void)clearAllSnapshot;
 @end
