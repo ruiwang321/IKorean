@@ -118,16 +118,17 @@
         [btnContentView addSubview:planTableBtn];
         [planTableBtn setBackgroundImage:[UIImage imageNamed:@"planTableBtn"] forState:UIControlStateNormal];
         [planTableBtn addTarget:self action:@selector(goPlanTableVC) forControlEvents:UIControlEventTouchUpInside];
-        planTableBtn.frame = CGRectMake(10, 10, (self.screenWidth-30)/2.0f, (self.screenWidth-30)/2.0f*82/345);
+        planTableBtn.frame = CGRectMake(10, (CGRectGetHeight(btnContentView.frame)-(self.screenWidth-30)/2.0f*82/345)/2, (self.screenWidth-30)/2.0f, (self.screenWidth-30)/2.0f*82/345);
         
         UIButton *EpisodeSortBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btnContentView addSubview:EpisodeSortBtn];
         [EpisodeSortBtn setBackgroundImage:[UIImage imageNamed:@"EpisodeSortBtn"] forState:UIControlStateNormal];
         [EpisodeSortBtn addTarget:self action:@selector(goEpisodeSortVC) forControlEvents:UIControlEventTouchUpInside];
-        EpisodeSortBtn.frame = CGRectMake(CGRectGetMaxX(planTableBtn.frame)+10, 10, (self.screenWidth-30)/2.0f, (self.screenWidth-30)/2.0f*82/345);
+        EpisodeSortBtn.frame = CGRectMake(CGRectGetMaxX(planTableBtn.frame)+10, CGRectGetMinY(planTableBtn.frame), (self.screenWidth-30)/2.0f, (self.screenWidth-30)/2.0f*82/345);
         
         
-        UIView * headerView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth, CGRectGetMaxY(btnContentView.frame))];
+        UIView * headerView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth, CGRectGetMaxY(btnContentView.frame) + 7)];
+        headerView.backgroundColor = [UIColor colorWithRed:247/255.0f green:247/255.0f blue:247/255.0f alpha:1];
         [headerView addSubview:_slideshowScrollView];
         [headerView addSubview:btnContentView];
         
