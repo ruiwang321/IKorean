@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23147E3D1D9217F2002CEC55 /* loadMoreBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23147E3C1D9217F2002CEC55 /* loadMoreBtn@2x.png */; };
 		23346F0A1D867A2A0050ADAE /* ISearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 23346F091D867A2A0050ADAE /* ISearchBar.m */; };
 		23346F161D868D900050ADAE /* searchBarLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F0B1D868D900050ADAE /* searchBarLogo@2x.png */; };
-		23346F171D868D900050ADAE /* moreBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F0C1D868D900050ADAE /* moreBtn@2x.png */; };
+		23346F171D868D900050ADAE /* homeMoreBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F0C1D868D900050ADAE /* homeMoreBtn@2x.png */; };
 		23346F1B1D868D900050ADAE /* EpisodeSortBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F101D868D900050ADAE /* EpisodeSortBtn@2x.png */; };
 		23346F1C1D868D900050ADAE /* searchBarHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F111D868D900050ADAE /* searchBarHistory@2x.png */; };
 		23346F1D1D868D900050ADAE /* planTableBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23346F121D868D900050ADAE /* planTableBtn@2x.png */; };
@@ -205,10 +206,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		23147E3C1D9217F2002CEC55 /* loadMoreBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadMoreBtn@2x.png"; sourceTree = "<group>"; };
 		23346F081D867A2A0050ADAE /* ISearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISearchBar.h; sourceTree = "<group>"; };
 		23346F091D867A2A0050ADAE /* ISearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISearchBar.m; sourceTree = "<group>"; };
 		23346F0B1D868D900050ADAE /* searchBarLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarLogo@2x.png"; sourceTree = "<group>"; };
-		23346F0C1D868D900050ADAE /* moreBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moreBtn@2x.png"; sourceTree = "<group>"; };
+		23346F0C1D868D900050ADAE /* homeMoreBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "homeMoreBtn@2x.png"; sourceTree = "<group>"; };
 		23346F101D868D900050ADAE /* EpisodeSortBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EpisodeSortBtn@2x.png"; sourceTree = "<group>"; };
 		23346F111D868D900050ADAE /* searchBarHistory@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchBarHistory@2x.png"; sourceTree = "<group>"; };
 		23346F121D868D900050ADAE /* planTableBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "planTableBtn@2x.png"; sourceTree = "<group>"; };
@@ -660,7 +662,7 @@
 				2382937F1D87CC4100217294 /* 蓝色角标.png */,
 				238293801D87CC4100217294 /* 紫色角标.png */,
 				23346F0B1D868D900050ADAE /* searchBarLogo@2x.png */,
-				23346F0C1D868D900050ADAE /* moreBtn@2x.png */,
+				23346F0C1D868D900050ADAE /* homeMoreBtn@2x.png */,
 				23346F101D868D900050ADAE /* EpisodeSortBtn@2x.png */,
 				23346F111D868D900050ADAE /* searchBarHistory@2x.png */,
 				23346F121D868D900050ADAE /* planTableBtn@2x.png */,
@@ -1236,6 +1238,7 @@
 		23AA35911D8FD0950023EDB6 /* SearchViewRes */ = {
 			isa = PBXGroup;
 			children = (
+				23147E3C1D9217F2002CEC55 /* loadMoreBtn@2x.png */,
 				23AA35921D8FD0BE0023EDB6 /* searchHistory@2x.png */,
 				23AA35931D8FD0BE0023EDB6 /* hot_1@2x.png */,
 				23AA35941D8FD0BE0023EDB6 /* hot_2@2x.png */,
@@ -1527,10 +1530,11 @@
 				238293811D87CC4100217294 /* 红色角标.png in Resources */,
 				236CE6E31D80FF8C00DAA3FF /* icon_down.png in Resources */,
 				23BF64B31D8F801600D29C73 /* 我的收藏@2x.png in Resources */,
+				23147E3D1D9217F2002CEC55 /* loadMoreBtn@2x.png in Resources */,
 				235724B61D8158AC00858608 /* appGuide_iphone5_p3@2x.jpg in Resources */,
 				236CE6E11D80FF8C00DAA3FF /* AdInStLClOsE.png in Resources */,
 				23BF64B11D8F801600D29C73 /* headerBackground@2x.png in Resources */,
-				23346F171D868D900050ADAE /* moreBtn@2x.png in Resources */,
+				23346F171D868D900050ADAE /* homeMoreBtn@2x.png in Resources */,
 				238293821D87CC4100217294 /* 蓝色角标.png in Resources */,
 				235724C81D81596F00858608 /* default-667h@2x.png in Resources */,
 				235724E61D815A5100858608 /* HYQiHei50.ttf in Resources */,

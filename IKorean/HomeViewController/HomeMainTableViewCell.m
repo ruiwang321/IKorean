@@ -43,7 +43,7 @@ static CGFloat const moreButtonPadding = 8;
 - (void)createSubView {
     UIColor * appPublicColor=[ICEAppHelper shareInstance].appPublicColor;
     //更多按钮
-    UIImage *moreButtonImage = [UIImage imageNamed:@"moreBtn"];
+    UIImage *moreButtonImage = [UIImage imageNamed:@"homeMoreBtn"];
     CGFloat moreButtonWidth = moreButtonImage.size.width;
     CGFloat moreButtonHeight = moreButtonWidth * 44 / 94.0f;
     CGRect  moreButtonFrame=CGRectMake(SCREEN_WIDTH-10-moreButtonWidth, moreButtonPadding, moreButtonWidth, moreButtonHeight);

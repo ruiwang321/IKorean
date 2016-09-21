@@ -19,7 +19,8 @@ UITableViewDelegate,
 UITableViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDataSource,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+UIAlertViewDelegate
 >
 {
     ICEButton              * m_reloadRequestButton;
@@ -112,15 +113,17 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         _searchHistoryDataArray = @[];
         _searchHistoryViewHeight = 0;
         
-    }else if (dataArray.count > 4 && !needLoadMore) {
-        _searchHistoryDataArray = [NSArray arrayWithObjects:dataArray[0], dataArray[1], dataArray[2], @"更多", nil];
+    }else if (dataArray.count > 8 && !needLoadMore) {
+        _searchHistoryDataArray = [NSArray arrayWithObjects:dataArray[0], dataArray[1], dataArray[2], dataArray[3], dataArray[4], dataArray[5], dataArray[6], @"更多", nil];
         _searchHistoryLoadMoreBtnEnable = YES;
     }else {
         _searchHistoryDataArray = dataArray;
         
     }
     [_searchHistoryView reloadData];
-    [_mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+    [_mainTableView reloadData];
+    
 }
 
 -(void)sendGetHotSearchDataRequest
@@ -224,12 +227,16 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         flowLayout.minimumLineSpacing = 0;
         flowLayout.minimumInteritemSpacing = 0;
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _searchHistoryView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, searchHistoryItemHeight*((_searchHistoryDataArray.count+1)/2)) collectionViewLayout:flowLayout];
+        _searchHistoryView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView.frame), SCREEN_WIDTH, searchHistoryItemHeight*((_searchHistoryDataArray.count+1)/2)+5) collectionViewLayout:flowLayout];
         [_searchHistoryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"SearchHistoryItem"];
         _searchHistoryView.dataSource = self;
         _searchHistoryView.delegate = self;
         _searchHistoryView.backgroundColor = [UIColor whiteColor];
         [cell addSubview:_searchHistoryView];
+        
+        UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_searchHistoryView.frame)-5, SCREEN_WIDTH, 5)];
+        lineView2.backgroundColor = [UIColor colorWithRed:244/255.0f green:244/255.0f blue:244/255.0f alpha:1];
+        [_searchHistoryView addSubview:lineView2];
         
         if (_searchHistoryViewIsNeedLoadMore) {
             // 收起按钮
@@ -318,20 +325,24 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         
         item = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchHistoryItem" forIndexPath:indexPath];
         
-        UILabel *keywordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, searchHistoryItemHeight)];
-        keywordLabel.text = _searchHistoryDataArray[indexPath.row];
-        [item addSubview:keywordLabel];
         if (indexPath.row == _searchHistoryDataArray.count-1 && _searchHistoryLoadMoreBtnEnable) {
             // 显示更多按钮item
-            UILabel *keywordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, searchHistoryItemHeight)];
+            UILabel *keywordLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, 30, searchHistoryItemHeight)];
             keywordLabel.text = _searchHistoryDataArray[indexPath.row];
+            keywordLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:15];
             [item addSubview:keywordLabel];
-            keywordLabel.backgroundColor = [UIColor greenColor];
+            UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(keywordLabel.frame)+3, (searchHistoryItemHeight-15)/2, 9, 15)];
+            iconView.image = [UIImage imageNamed:@"loadMoreBtn"];
+            [item addSubview:iconView];
             
         }else {
+            
+            
             // 历史记录item
-            UILabel *keywordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2, searchHistoryItemHeight)];
+            UILabel *keywordLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, (searchHistoryItemHeight-14)/2, SCREEN_WIDTH/2 - 30, 14)];
+            keywordLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:14];
             keywordLabel.text = _searchHistoryDataArray[indexPath.row];
+            keywordLabel.textColor = [UIColor colorWithRed:136/255.0f green:136/255.0f blue:136/255.0f alpha:1];
             [item addSubview:keywordLabel];
         }
     }
@@ -361,8 +372,16 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
 }
 
 - (void)delateAllSearchHistory {
-    [[TVDataHelper shareInstance] delateAllSearchHistory];
-    [self updateSearchHistoryDataNeedLoadMore:NO];
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"是否清除搜索记录" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[TVDataHelper shareInstance] delateAllSearchHistory];
+        [self updateSearchHistoryDataNeedLoadMore:NO];
+    }
 }
 @end
 

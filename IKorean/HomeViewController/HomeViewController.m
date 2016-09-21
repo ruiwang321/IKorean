@@ -139,7 +139,8 @@
                                                 isNeedLoadMore:NO
                                                  tableViewName:@"HomePageTableView"
                                            refreshTimeInterval:1800];
-        [_mainTableView registerClass:[HomeMainTableViewCell class] forCellReuseIdentifier:@"mainCell"];
+//        [_mainTableView registerClass:[HomeMainTableViewCell class] forCellReuseIdentifier:@"mainCell"];
+
         _mainTableView.tableViewOperationStartBlock=^(ICEPullTableViewOperationTypeOptions operationType){
             [wself sendGetHomePageRequest];
             [wself.mainTableView tableOperationCompleteWithOperationType:ICEPullTableViewRefresh
@@ -365,7 +366,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomeMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainCell"];
-
+    if (cell == nil) {
+        cell = [[HomeMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mainCell"];
+        
+    }
+    
     cell.cellModel = _listViewModelsArray[indexPath.row];
     return cell;
 }
