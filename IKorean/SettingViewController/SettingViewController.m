@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "DetailSettingViewController.h"
 #import "HistoryViewController.h"
+#import "FavouriteViewController.h"
 
 @interface SettingViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -89,7 +90,8 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             // 我的收藏
-            
+            FavouriteViewController *favouriteVC = [[FavouriteViewController alloc] init];
+            [self.navigationController pushViewController:favouriteVC animated:YES];
             
         }else if (indexPath.row == 1) {
             // 播放历史
@@ -104,7 +106,9 @@
         }
     }else {
         // 给个好评
-        
+
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPStoreUrl]];
+
     }
 }
 

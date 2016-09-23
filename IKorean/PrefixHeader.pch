@@ -72,6 +72,8 @@
 #define urlOfKeyWordSearch                   @"http://hj.api.29pai.com/search/guessing"
 #define urlOfSearchResults                   @"http://hj.api.29pai.com/search/do"
 #define urlOfList                            @""
+#define urlOfFeedbackOptions                 @"http://hj.api.29pai.com/feedback/options"
+#define urlOfFeedbackSubmit                  @"http://hj.api.29pai.com/feedback/submit"
 #define PlayerControlColor                   [UIColor colorWithRed:38.0f/255.0f green:179.0f/255.0f blue:250.0f/255.0f alpha:1]
 
 //根据不同版本需要配置的字段

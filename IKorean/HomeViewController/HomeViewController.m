@@ -305,7 +305,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.myNavigationBar setHidden:YES];
     __weak typeof(self) wself = self;
     [MYNetworking GET:urlOfGetHomePage
            parameters:nil
@@ -333,17 +333,17 @@
                                                  [wself.tabBarController.view endEditing:YES];
                                              }];
     [self.navigationController.view addSubview:searchView];
-    NSLog(@"搜索qweqwe");
+
 }
 
 - (void)goHistoryView {
     [self.navigationController pushViewController:[[HistoryViewController alloc] init] animated:YES];
-    NSLog(@"观看记录qw12131");
+
 }
 
 - (void)goSettingView {
     [self.navigationController pushViewController:[[SettingViewController alloc] init] animated:YES];
-    NSLog(@"设置q5342");
+
 }
 
 - (void)goPlanTableVC {

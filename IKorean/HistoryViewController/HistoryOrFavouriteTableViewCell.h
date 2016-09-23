@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@interface HistoryOrFavouriteDataModel : NSObject
+
+@end
+
 @interface HistoryOrFavouriteTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectImageWidth;
-@property (weak, nonatomic) IBOutlet UIImageView *selectImageView;
+@property (nonatomic, strong) HistoryOrFavouriteDataModel *model;
 
+- (void)setEdit:(BOOL)edit;
+- (void)setIsSelect:(BOOL)selected;
 @end

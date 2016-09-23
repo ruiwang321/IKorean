@@ -1,15 +1,15 @@
 //
-//  HistoryViewController.m
+//  FavouriteViewController.m
 //  IKorean
 //
-//  Created by ruiwang on 16/9/13.
+//  Created by ruiwang on 16/9/22.
 //  Copyright © 2016年 ruiwang. All rights reserved.
 //
 
-#import "HistoryViewController.h"
+#import "FavouriteViewController.h"
 #import "HistoryOrFavouriteTableViewCell.h"
 
-@interface HistoryViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface FavouriteViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *mainTableView;
 @property (nonatomic, strong) NSMutableArray *delHistoryArray;
@@ -20,12 +20,12 @@
 
 @end
 
-@implementation HistoryViewController
+@implementation FavouriteViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"历史记录";
-
+    self.title = @"我的收藏";
+    
     // 测试数据
     _historyDataArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 10; i++) {
@@ -57,6 +57,7 @@
     _mainTableView.dataSource = self;
     _mainTableView.rowHeight = 80;
     _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    _mainTableView.editing = YES;
     [self.view addSubview:_mainTableView];
     
 }
@@ -68,7 +69,6 @@
 
 #pragma mark - tableViewDelegate Datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    _editBtn.hidden = !_historyDataArray.count;  // 根据数据有无判断编辑按钮显隐
     return 1;
 }
 
@@ -101,8 +101,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [_historyDataArray removeObjectAtIndex:indexPath.row];
-    [tableView reloadData];
+    
 }
 
 #pragma mark 响应事件
@@ -125,6 +124,7 @@
         [_backOrAllSelBtn setImage:nil forState:UIControlStateNormal];
         [_backOrAllSelBtn setTitle:@"全选" forState:UIControlStateNormal];
         _mainTableView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(_delBtn.frame), 0);
+        
     }
     [_mainTableView reloadData];
     btn.selected = !btn.selected;
@@ -148,11 +148,7 @@
 }
 
 - (void)delBtnAction {
-    if (_delHistoryArray.count>0 && _delHistoryArray) {
-        [_historyDataArray removeObjectsInArray:_delHistoryArray];
-        [_mainTableView reloadData];
-        [self editAction:_editBtn];
-    }
+    
 }
 
 - (void)updateDelBtnTitleAndTBView {
@@ -160,7 +156,7 @@
     [self.delBtn setTitle:title forState:UIControlStateNormal];
     [_mainTableView reloadData];
 }
-#pragma mark getter 
+#pragma mark getter
 - (NSMutableArray *)delHistoryArray {
     if (_delHistoryArray == nil) {
         _delHistoryArray = [NSMutableArray array];
@@ -182,5 +178,14 @@
     }
     return _delBtn;
 }
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

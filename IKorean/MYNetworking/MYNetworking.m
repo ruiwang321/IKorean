@@ -35,4 +35,26 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
     [manager GET:URLString parameters:parameters progress:downloadProgress success:success failure:failure];
     
 }
+
++ (void)POST:(NSString *)URLString
+  parameters:(id)parameters
+    progress:(void (^)(NSProgress * downloadProgress))downloadProgress
+     success:(void (^)(NSURLSessionDataTask * task, id responseObject))success
+     failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure {
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager shareInstance];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSString *urlpath = [URLString componentsSeparatedByString:@"http://hj.api.29pai.com/"].lastObject;
+    NSString *time = [NSString stringWithFormat:@"%ld",(NSInteger)[[NSDate date] timeIntervalSince1970]];
+    NSString *sign = [NSString stringWithFormat:@"%@%@%@%@%@", app_id, time, urlpath, app_key, app_version].md5.lowercaseString;
+    
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [manager.requestSerializer setValue:app_id forHTTPHeaderField:@"a"];
+    [manager.requestSerializer setValue:time forHTTPHeaderField:@"t"];
+    [manager.requestSerializer setValue:app_version forHTTPHeaderField:@"v"];
+    [manager.requestSerializer setValue:sign forHTTPHeaderField:@"s"];
+    
+    [manager POST:URLString parameters:parameters constructingBodyWithBlock:nil progress:nil success:success failure:failure];
+}
 @end
