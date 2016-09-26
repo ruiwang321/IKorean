@@ -9,7 +9,7 @@
 
 @interface SearchResultCellModel:NSObject
 
-@property (nonatomic,assign) NSInteger movieID;
+@property (nonatomic,assign) NSInteger vid;
 @property (nonatomic,copy) NSAttributedString * titleAttributedString;
 @property (nonatomic,copy) NSString * title;
 @property (nonatomic,copy) NSString * img;

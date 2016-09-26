@@ -69,7 +69,7 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         SearchResultCellModel * model =[m_arrayOfSearchResultCellModels lastObject];
         if (model)
         {
-            lastItemID=model.movieID;
+            lastItemID=model.vid;
         }
     }
     return lastItemID;
@@ -147,28 +147,28 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
             }
         }
         
-        //类型
-        NSString * typeString=dic[@"type_string"];
-        if ([typeString length])
+        //剧集数
+        NSNumber * episodeCount=dic[@"episode_count"];
+        if ([episodeCount integerValue])
         {
-            NSString * string=[NSString stringWithFormat:@"%@类型:%@",(titleLength?@"\n":@""),typeString];
+            NSString * string=[NSString stringWithFormat:@"\n共%ld集",[episodeCount integerValue]];
             NSAttributedString * attributedString=[[NSAttributedString alloc] initWithString:string
                                                                                   attributes:m_subTitleAttributes];
             [titleAttributedString appendAttributedString:attributedString];
         }
         
-        //评分
-        NSString * gradeString=[NSString stringWithFormat:@"%@",dic[@"grade"]] ;
-        if ([gradeString length])
+        //更新状态
+        NSNumber * episodeUpdate=dic[@"episode_update"];
+        if ([episodeUpdate integerValue])
         {
-            NSString * string=[NSString stringWithFormat:@"%@评分:%@",(titleLength?@"\n":@""),gradeString];
+            NSString * string=[dic[@"is_completed"] boolValue]?@"\n已完结":[NSString stringWithFormat:@"\n更新至%ld集",[episodeUpdate integerValue]];
             NSAttributedString * attributedString=[[NSAttributedString alloc] initWithString:string
                                                                                   attributes:m_subTitleAttributes];
             [titleAttributedString appendAttributedString:attributedString];
         }
         
         SearchResultCellModel * model =[[SearchResultCellModel alloc] init];
-        model.movieID=[dic[@"id"] integerValue];
+        model.vid=[dic[@"vid"] integerValue];
         model.title=titleString;
         model.img=dic[@"img"];
         model.titleAttributedString=titleAttributedString;
@@ -293,7 +293,7 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
     SearchResultCell *  cell=(SearchResultCell *)[tableView cellForRowAtIndexPath:indexPath];
     SearchResultCellModel * model=cell.model;
     if (_selectBlock) {
-        _selectBlock(model.movieID,model.title);
+        _selectBlock(model.vid,model.title);
     }
 }
 @end
