@@ -14,6 +14,7 @@
 #import "EpisodeSortViewController.h"
 #import "PlanTableViewController.h"
 #import "SearchView.h"
+#import "TestViewController.h"
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>{
     JPushModel *m_model;
@@ -26,6 +27,9 @@
 @property (nonatomic, assign) CGFloat searchBarOffsetYForBlur;
 @property (nonatomic, assign) CGFloat searchBarOffsetYForTranslucentStyle;
 @property (nonatomic, assign) CGFloat shadowViewHeight;
+
+@property (nonatomic, copy) MainTableCellMoreAction mainTableCellMoreAction;
+@property (nonatomic, copy) MovieItemAction movieItemAction;
 @end
 
 @implementation HomeViewController
@@ -36,16 +40,23 @@
     {
         _isHaveRefreshed=NO;
         self.listViewModelsArray=[[NSMutableArray alloc] init];
-//        __weak typeof(self) wself=self;
-//        self.selectMovieItemBlock=^(MovieItemModel * itemModel)
-//        {
-//            [wself goTVDetailViewWithID:itemModel.movieID title:itemModel.title];
-//        };
-//        self.selectSomeColumnsBlock=^(FilterUnitItemModel * model)
-//        {
-//            [wself mobEventWithTitle:model.title];
-//            [wself goFilterViewControllerWithSelectModel:model];
-//        };
+        __weak typeof(self) wself=self;
+        self.mainTableCellMoreAction=^(HomeMainTableViewCellModel * cellModel)
+        {
+            EpisodeSortViewController *episodeSortVC = [[EpisodeSortViewController alloc] init];
+            episodeSortVC.imageItemModel.title = cellModel.title;
+            episodeSortVC.imageItemModel.cate_id = cellModel.filter_cate_id;
+            episodeSortVC.imageItemModel.year_id = cellModel.filter_year_id;
+            episodeSortVC.imageItemModel.sort_type = cellModel.filter_sort_type;
+            episodeSortVC.imageItemModel.is_complete = cellModel.filter_is_completed;
+            [wself.navigationController pushViewController:episodeSortVC animated:YES];
+        };
+        self.movieItemAction=^(MovieItemModel * itemModel)
+        {
+            TestViewController *vc = [[TestViewController alloc] init];
+            vc.vid = @(itemModel.vid);
+            [wself.navigationController pushViewController:vc animated:YES];
+        };
     }
     return self;
 }
@@ -58,7 +69,7 @@
 
 - (id)initWithJPushModel:(JPushModel *)model
 {
-    if (self=[super init])
+    if (self=[self init])
     {
         m_model=model;
         
@@ -307,6 +318,7 @@
     [super viewDidLoad];
     [self.myNavigationBar setHidden:YES];
     __weak typeof(self) wself = self;
+    
     [MYNetworking GET:urlOfGetHomePage
            parameters:nil
              progress:nil
@@ -371,7 +383,8 @@
         cell = [[HomeMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mainCell"];
         
     }
-    
+    cell.movieItemAction = self.movieItemAction;
+    cell.mainTableCellMoreAction = self.mainTableCellMoreAction;
     cell.cellModel = _listViewModelsArray[indexPath.row];
     return cell;
 }

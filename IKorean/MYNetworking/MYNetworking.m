@@ -19,7 +19,7 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
    progress:(void (^)(NSProgress * downloadProgress))downloadProgress
     success:(void (^)(NSURLSessionDataTask * task, id responseObject))success
     failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager shareInstance];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSString *urlpath = [URLString componentsSeparatedByString:@"http://hj.api.29pai.com/"].lastObject;
@@ -42,7 +42,7 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
      success:(void (^)(NSURLSessionDataTask * task, id responseObject))success
      failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure {
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager shareInstance];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSString *urlpath = [URLString componentsSeparatedByString:@"http://hj.api.29pai.com/"].lastObject;

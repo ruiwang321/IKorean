@@ -14,6 +14,7 @@
 #import "AdSpreadScreenManagerDelegate.h"
 #import "AdViewConfigStore.h"
 #import <AdSupport/AdSupport.h>
+#import "JsPlayer.h"
 
 @interface AppDelegate ()
 <
@@ -144,6 +145,12 @@ AdSpreadScreenManagerDelegate
     __weak typeof(self) wself=self;
     ICEStartViewController * startVC=[[ICEStartViewController alloc] init];
     startVC.loadingDataCompletedBlock=^{
+        /**********************测试***************************/
+        
+        [JsPlayer sharedInstance];
+        
+        /**********************测试***************************/
+        
         [wself enterApp];
     };
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

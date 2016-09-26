@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MovieItem.h"
 
 @interface HomeMainTableViewCellModel : NSObject
 
@@ -19,9 +20,12 @@
 
 @end
 
+typedef void(^MainTableCellMoreAction)(HomeMainTableViewCellModel *);
 @interface HomeMainTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) HomeMainTableViewCellModel *cellModel;
+@property (nonatomic, copy) MainTableCellMoreAction mainTableCellMoreAction;
+@property (nonatomic, copy) MovieItemAction movieItemAction;
 
 + (CGFloat)cellHeight;
 

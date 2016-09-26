@@ -7,7 +7,6 @@
 //
 
 #import "HomeMainTableViewCell.h"
-#import "MovieItem.h"
 #import "AppDelegate.h"
 #import "EpisodeSortViewController.h"
 
@@ -89,6 +88,7 @@ static CGFloat const moreButtonPadding = 8;
     _titleLabel.text = cellModel.title;
     for (NSInteger i = 0; i < (cellModel.videos.count<6?cellModel.videos.count:6); i++) {
         MovieItem *item = [self viewWithTag:100+i];
+        item.movieItemAction = self.movieItemAction;
         MovieItemModel *itemModel = [[MovieItemModel alloc] init];
         [itemModel setValuesForKeysWithDictionary:cellModel.videos[i]];
         item.itemModel = itemModel;
@@ -96,15 +96,9 @@ static CGFloat const moreButtonPadding = 8;
 }
 
 - (void)moreAction {
-    NSLog(@"更多541231");
-    UINavigationController *nvc = (UINavigationController *)[[(AppDelegate *)[UIApplication sharedApplication].delegate window] rootViewController];
-    EpisodeSortViewController *episodeSortVC = [[EpisodeSortViewController alloc] init];
-    episodeSortVC.imageItemModel.title = _cellModel.title;
-    episodeSortVC.imageItemModel.cate_id = _cellModel.filter_cate_id;
-    episodeSortVC.imageItemModel.year_id = _cellModel.filter_year_id;
-    episodeSortVC.imageItemModel.sort_type = _cellModel.filter_sort_type;
-    episodeSortVC.imageItemModel.is_complete = _cellModel.filter_is_completed;
-    [nvc pushViewController:episodeSortVC animated:YES];
+    if (_mainTableCellMoreAction) {
+        _mainTableCellMoreAction(_cellModel);
+    }
 }
 
 - (void)awakeFromNib {

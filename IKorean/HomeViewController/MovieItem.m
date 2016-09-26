@@ -63,10 +63,10 @@
     _movieTitleLabel.textColor = [UIColor blackColor];
     [self addSubview: _movieTitleLabel];
     
-//    _movieImageView.backgroundColor = [UIColor blueColor];
+    // 评分label
+//    UILabel *
     _movieFlagView.image = [UIImage imageNamed:@"红色角标"];
-//    _updateInfoLabel.backgroundColor = [UIColor blackColor];
-//    _movieTitleLabel.backgroundColor = [UIColor greenColor];
+
     
     CAGradientLayer * shadowEffectLayer = [CAGradientLayer layer];//渐变
     [shadowEffectLayer setFrame:CGRectMake(0, CGRectGetMaxY(movieImageViewFrame) - 20, self.frame.size.width, 20)];
@@ -101,7 +101,6 @@
     if (_movieItemAction) {
         _movieItemAction(_itemModel);
     }
-    NSLog(@"vid:%ld",_itemModel.vid);
 }
 
 @end

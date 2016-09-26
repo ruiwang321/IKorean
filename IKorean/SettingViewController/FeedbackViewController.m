@@ -9,7 +9,7 @@
 #import "FeedbackViewController.h"
 #import "FeedbackOptionItem.h"
 
-@interface FeedbackViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIAlertViewDelegate> {
+@interface FeedbackViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIAlertViewDelegate, UITextFieldDelegate> {
     NSInteger selectId;
 }
 
@@ -112,6 +112,7 @@
     _contactTF = [[UITextField alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(titleLabel4.frame)+8, self.screenWidth-20, 40)];
     _contactTF.backgroundColor = [UIColor colorWithRed:246/255.0f green:246/255.0f blue:246/255.0f alpha:1];
     _contactTF.font = [UIFont fontWithName:HYQiHei_55Pound size:13];
+    _contactTF.delegate = self;
     NSString *plStr = @"邮箱、手机或QQ";
     NSMutableAttributedString *placeholderStr = [[NSMutableAttributedString alloc] initWithString:plStr];
     [placeholderStr addAttribute:NSStrokeColorAttributeName
@@ -221,14 +222,20 @@
     [collectionView reloadData];
 }
 
-#pragma mark alertDelegate
+#pragma mark - alertDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 100) {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
-#pragma mark getter
+#pragma mark - textField delegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - getter
 
 - (NSMutableArray *)feedbackOptionsArr {
     if (_feedbackOptionsArr == nil) {
