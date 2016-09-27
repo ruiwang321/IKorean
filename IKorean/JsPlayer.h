@@ -17,6 +17,7 @@
 @interface JsPlayer : NSObject //<NSURLConnectionDataDelegate>
 
 @property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSNumber *vid;
 @property (nonatomic, weak) id<PlayVideoDelegate> delegate;
 
 - (NSString *)getVideoUrl;

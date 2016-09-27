@@ -186,12 +186,14 @@ UITableViewDataSource
 
 - (void)sendGetFilterOptionsRequest
 {
+    [self startLoading];
     __weak typeof(self) wself=self;
     [MYNetworking GET:urlOfFilterOptions
                      parameters:nil
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself createEpisodeSortOptionsViewWithResponseData:responseObject];
+                            [self sendGetFilterDataRequestWithPullTableViewType:ICEPullTableViewRefresh];
                         }
                         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                             
@@ -292,7 +294,6 @@ UITableViewDataSource
     __weak typeof(self) wself=self;
     if (_mainTableView==nil)
     {
-        [self startLoading];
         [self hideNetErrorAlert];
         [MYNetworking GET:urlOfFilter
                          parameters:dicOfParameters
@@ -352,7 +353,7 @@ UITableViewDataSource
     [self setLeftButtonWithImageName:@"back@2x" action:@selector(returnLastView)];
     [self setRightButtonWithImageName:@"searchNavBar@2x" action:@selector(showSearchView)];
     [self sendGetFilterOptionsRequest];
-    [self sendGetFilterDataRequestWithPullTableViewType:ICEPullTableViewRefresh];
+//    [self sendGetFilterDataRequestWithPullTableViewType:ICEPullTableViewRefresh];
 }
 
 - (void)didReceiveMemoryWarning

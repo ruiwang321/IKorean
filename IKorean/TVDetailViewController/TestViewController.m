@@ -23,7 +23,7 @@
     [MYNetworking GET:@"http://hj.api.29pai.com/video/detail" parameters:@{@"vid":_vid} progress:nil success:^(NSURLSessionDataTask *tesk, id responseObject) {
         NSString *linkUrl = [[responseObject[@"episode"] firstObject][@"data"] firstObject][@"link"];
         
-        
+        player.vid = _vid;
         player.url = linkUrl;
         [player getVideoUrl];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

@@ -32,7 +32,14 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
     [manager.requestSerializer setValue:app_version forHTTPHeaderField:@"v"];
     [manager.requestSerializer setValue:sign forHTTPHeaderField:@"s"];
     
-    [manager GET:URLString parameters:parameters progress:downloadProgress success:success failure:failure];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [manager GET:URLString parameters:parameters progress:downloadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success(task, responseObject);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(task, error);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
     
 }
 
@@ -55,6 +62,13 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
     [manager.requestSerializer setValue:app_version forHTTPHeaderField:@"v"];
     [manager.requestSerializer setValue:sign forHTTPHeaderField:@"s"];
     
-    [manager POST:URLString parameters:parameters constructingBodyWithBlock:nil progress:nil success:success failure:failure];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [manager POST:URLString parameters:parameters constructingBodyWithBlock:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success(task, responseObject);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(task, error);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
 }
 @end

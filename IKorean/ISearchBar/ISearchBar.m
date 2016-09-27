@@ -38,7 +38,7 @@
             [shadowEffectLayer setFrame:_shadowEffectView.bounds];
             [shadowEffectLayer setStartPoint:CGPointMake(0.5, 0.0)];
             [shadowEffectLayer setEndPoint:CGPointMake(0.5, 1)];
-            [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[ICEAppHelper shareInstance].appPublicColor.CGColor, (id)[[UIColor clearColor] CGColor], nil]];
+            [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8].CGColor, (id)[[UIColor clearColor] CGColor], nil]];
             [_shadowEffectView.layer addSublayer:shadowEffectLayer];
             
             //半透明效果
@@ -49,6 +49,7 @@
             //毛玻璃效果
             self.blurEffectView=[[UIToolbar alloc] initWithFrame:self.bounds];
             _blurEffectView.barStyle = UIBarStyleBlackTranslucent;
+            _blurEffectView.barTintColor = [ICEAppHelper shareInstance].appPublicColor;
             [self addSubview:_blurEffectView];
             
             
@@ -92,7 +93,7 @@
         
         //设置按钮
         UIImage * settingButtonImage=IMAGENAME(@"searchBarSetting@2x", @"png");
-        CGRect settingButtonFrame=CGRectMake(searchBarWidth-controlMaxHeight, controlBaseLine, controlMaxHeight, controlMaxHeight);
+        CGRect settingButtonFrame=CGRectMake(searchBarWidth-35, controlBaseLine, 35, controlMaxHeight);
         ICEButton * settingButton=[ICEButton buttonWithType:UIButtonTypeCustom];
         [settingButton setFrame:settingButtonFrame];
         [settingButton addTarget:self action:@selector(settingAction) forControlEvents:UIControlEventTouchUpInside];
@@ -101,7 +102,7 @@
         
         //历史记录按钮
         UIImage * historyButtonImage=IMAGENAME(@"searchBarHistory@2x", @"png");
-        CGRect historyButtonFrame=CGRectMake(searchBarWidth-controlMaxHeight*2, controlBaseLine, controlMaxHeight, controlMaxHeight);
+        CGRect historyButtonFrame=CGRectMake(searchBarWidth-35*2, controlBaseLine, 35, controlMaxHeight);
         ICEButton * historyButton=[ICEButton buttonWithType:UIButtonTypeCustom];
         [historyButton setFrame:historyButtonFrame];
         [historyButton addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
@@ -192,6 +193,7 @@
 
 -(void)isShowSearchBar:(BOOL)isShow
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:!isShow withAnimation:isShow?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
     BOOL isCanExecute=!(isShow==_searchIsShow);
     if (isCanExecute)
     {

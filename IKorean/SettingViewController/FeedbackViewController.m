@@ -52,7 +52,10 @@
 }
 
 - (void)getFeedbackOptionsData {
+    [self startLoading];
+    __weak typeof(self) wself = self;
     [MYNetworking GET:urlOfFeedbackOptions parameters:nil progress:nil success:^(NSURLSessionDataTask *tesk, id responseObject) {
+        [wself stopLoading];
         [self createUIWithData:(id)responseObject];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

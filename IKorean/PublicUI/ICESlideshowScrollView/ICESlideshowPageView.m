@@ -61,11 +61,11 @@
     
     if (_pageModel)
     {
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:_pageModel.img]];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:_pageModel.img] placeholderImage:[UIImage imageNamed:@"default_h_icon"]];
     }
     else
     {
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:@""]];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"default_h_icon"]];
     }
 }
 

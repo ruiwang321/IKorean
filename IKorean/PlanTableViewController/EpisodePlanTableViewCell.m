@@ -28,7 +28,7 @@
 
 - (void)setEpisodePlanModel:(EpisodePlanModel *)episodePlanModel {
     _episodePlanModel = episodePlanModel;
-    [_episodeImageView sd_setImageWithURL:[NSURL URLWithString:episodePlanModel.img] placeholderImage:[UIImage imageNamed:@"占位图"]];
+    [_episodeImageView sd_setImageWithURL:[NSURL URLWithString:episodePlanModel.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
     _episodeTitleLabel.text = episodePlanModel.title;
     _actorInfoLabel.text = episodePlanModel.actors;
     _updateInfoLabel.text = episodePlanModel.update_date;

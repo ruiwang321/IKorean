@@ -33,6 +33,16 @@ static NSString const * jsFilesName = @"jsFiles";
 // 解析失败时上报服务器
 - (void)errorReport {
     // TODO 上报服务器
+    NSDictionary *params = @{
+                             @"link" :self.url,
+                             @"vid"  :self.vid
+                             };
+    [MYNetworking POST:urlOfTVUrlResolingFaileFeedback parameters:params progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"链接解析失败 反馈成功");
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
     NSLog(@"errorReport %@", self.url);
 }
 

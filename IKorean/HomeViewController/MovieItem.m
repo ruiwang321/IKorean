@@ -11,6 +11,15 @@
 
 @implementation MovieItemModel
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.score = 100;
+    }
+    return self;
+}
+
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     
 }
@@ -23,6 +32,7 @@
 @property (nonatomic, strong) UIImageView *movieFlagView;
 @property (nonatomic, strong) UILabel *updateInfoLabel;
 @property (nonatomic, strong) UILabel *movieTitleLabel;
+@property (nonatomic, strong) UILabel *scoreLabel;
 
 @end
 
@@ -52,47 +62,60 @@
     // 更新信息
     CGRect updateInfoLabelFrame = CGRectMake(5, CGRectGetHeight(movieImageViewFrame)-5-12, CGRectGetWidth(movieImageViewFrame)-10, 14);
     _updateInfoLabel = [[UILabel alloc] initWithFrame:updateInfoLabelFrame];
-    _updateInfoLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:12];
+    _updateInfoLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:11];
     _updateInfoLabel.textColor = [UIColor whiteColor];
     [_movieImageView addSubview:_updateInfoLabel];
     
     //影片名称
     CGRect movieTitleLabelFrame = CGRectMake(0, CGRectGetMaxY(movieImageViewFrame), self.frame.size.width, self.frame.size.height - CGRectGetHeight(movieImageViewFrame));
     _movieTitleLabel = [[UILabel alloc] initWithFrame:movieTitleLabelFrame];
-    _movieTitleLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:14];
+    _movieTitleLabel.font = [UIFont fontWithName:HYQiHei_50Pound size:13];
     _movieTitleLabel.textColor = [UIColor blackColor];
     [self addSubview: _movieTitleLabel];
     
     // 评分label
-//    UILabel *
-    _movieFlagView.image = [UIImage imageNamed:@"红色角标"];
+    _scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(movieImageViewFrame)-35, 0, 35, 17)];
+    _scoreLabel.backgroundColor = [UIColor colorWithRed:233/255.0f green:55/255.0f blue:87/255.0f alpha:1];
+    _scoreLabel.textColor = [UIColor whiteColor];
+    _scoreLabel.textAlignment = NSTextAlignmentCenter;
+    _scoreLabel.font = [UIFont fontWithName:HYQiHei_55Pound size:10];
+    [self addSubview:_scoreLabel];
 
-    
     CAGradientLayer * shadowEffectLayer = [CAGradientLayer layer];//渐变
     [shadowEffectLayer setFrame:CGRectMake(0, CGRectGetMaxY(movieImageViewFrame) - 20, self.frame.size.width, 20)];
-    [shadowEffectLayer setStartPoint:CGPointMake(0.5, 1)];
-    [shadowEffectLayer setEndPoint:CGPointMake(0.5, 0.0)];
-    [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1].CGColor, (id)[[UIColor clearColor] CGColor], nil]];
+    [shadowEffectLayer setStartPoint:CGPointMake(1, 1)];
+    [shadowEffectLayer setEndPoint:CGPointMake(1, 0.0)];
+    [shadowEffectLayer setColors:[NSArray arrayWithObjects:(id)[UIColor blackColor].CGColor, (id)[[UIColor clearColor] CGColor], nil]];
     [_movieImageView.layer insertSublayer:shadowEffectLayer atIndex:0];
 }
 
 - (void)setItemModel:(MovieItemModel *)itemModel {
     _itemModel = itemModel;
     
-    [_movieImageView sd_setImageWithURL:[NSURL URLWithString:itemModel.img] placeholderImage:[UIImage imageNamed:@"占位图"]];
+    [_movieImageView sd_setImageWithURL:[NSURL URLWithString:itemModel.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
     _movieTitleLabel.text = itemModel.title;
     if (itemModel.episode_update == itemModel.episode_count) {
         _updateInfoLabel.text = @"已完结";
     }else {
         _updateInfoLabel.text = [NSString stringWithFormat:@"更新至%ld集",itemModel.episode_update];
     }
+    
+    
     NSString *flagImgName = nil;
     if (itemModel.flag_hot) {
-        flagImgName = @"红色角标";
+        flagImgName = @"flag_hot";
     }else if (itemModel.flag_new) {
-        flagImgName = @"蓝色角标";
+        flagImgName = @"flag_new";
     }else if (itemModel.flag_update) {
-        flagImgName = @"紫色角标";
+        flagImgName = @"flag_update";
+    }
+    
+    
+    if (itemModel.score > 10) {
+        _scoreLabel.hidden = YES;
+    }else {
+        _scoreLabel.hidden = NO;
+        _scoreLabel.text = [NSString stringWithFormat:@"%.1f分", itemModel.score];
     }
     _movieFlagView.image = [UIImage imageNamed:flagImgName];
 }

@@ -11,6 +11,7 @@
 
 @interface EpisodePlanView () <UITableViewDelegate, UITableViewDataSource> {
     BOOL is_refreshed;
+    UIActivityIndicatorView *_loadingView;
 }
 
 @property (nonatomic, strong) UITableView *listView;
@@ -45,7 +46,13 @@
         [_listView registerNib:[UINib nibWithNibName:@"EpisodePlanTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"episodePlan"];
         [self addSubview:_listView];
     }
-
+    
+    _loadingView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2-64);
+    [_loadingView setHidesWhenStopped:YES];
+    _loadingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self addSubview:_loadingView];
+    [_loadingView startAnimating];
 }
 
 - (void)loadDataWithDate:(NSDate *)date {
@@ -56,6 +63,8 @@
         __weak typeof(self) wself = self;
         [MYNetworking GET:urlOfGetPlanTable parameters:@{@"date":@(dateStr.integerValue)} progress:nil success:^(NSURLSessionDataTask * _Nonnull tesk, id  _Nullable responseObject) {
             [wself updateSubViewsWithResponseObject:responseObject];
+            [_loadingView stopAnimating];
+            _loadingView = nil;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [wself updateSubViewsWithResponseObject:nil];
         }];
