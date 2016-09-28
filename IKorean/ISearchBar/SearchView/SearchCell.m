@@ -31,7 +31,7 @@
     if (model)
     {
         if (m_titleLabel==nil) {
-            m_titleLabel=[[UILabel alloc] initWithFrame:CGRectMake(labelMinX, 0, m_cellWidth-2*labelMinX, m_cellHeight)];
+            m_titleLabel=[[UILabel alloc] initWithFrame:CGRectMake(labelMinX, 0, self.cellWidth-2*labelMinX, self.cellHeight)];
             [m_titleLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
             [m_titleLabel setNumberOfLines:0];
             [self addSubview:m_titleLabel];

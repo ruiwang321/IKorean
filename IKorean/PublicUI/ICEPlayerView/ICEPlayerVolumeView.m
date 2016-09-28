@@ -7,7 +7,6 @@
 //
 
 #import "ICEPlayerVolumeView.h"
-#import <MediaPlayer/MediaPlayer.h>
 #define SystemVolumeDidChangeNotification         @"AVSystemController_SystemVolumeDidChangeNotification"
 #define AudioVolumeNotificationParameter          @"AVSystemController_AudioVolumeNotificationParameter"
 @interface ICEPlayerVolumeView ()
@@ -51,7 +50,7 @@
     if (self=[super init])
     {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9]];
+        [self setBackgroundColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewPublicColor];
         
         //获取系统音量
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -65,7 +64,9 @@
         _volumeViewHeight=volumeViewHeight;
         self.systemVolumeSlider=[self getSystemVolumeSlider];
 
-        CGFloat controlPadding=10;
+        CGFloat volumeViewOrigHeight=120;
+        CGFloat controlOrigPadding=9;
+        CGFloat controlPadding=controlOrigPadding/volumeViewOrigHeight*_volumeViewHeight;
         
         //音量图片
         UIImage * volumeImage=IMAGENAME(@"playerVolume@2x", @"png");
@@ -87,14 +88,12 @@
                                                    volumeProgressViewWidth,
                                                    volumeProgressViewHeight);
         self.volumeProgressView = [[UIProgressView alloc]initWithProgressViewStyle: UIProgressViewStyleBar];
-        _volumeProgressView.progressTintColor=PlayerControlColor;
-        _volumeProgressView.trackTintColor=[UIColor lightGrayColor];
-        _volumeProgressView.progress=0;
-        _volumeProgressView.frame=volumeProgressViewFrame;
-        _volumeProgressView.transform = CGAffineTransformMakeRotation(M_PI/2 * 3);
+        [_volumeProgressView setProgressTintColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewControlColor];
+        [_volumeProgressView setTrackTintColor:[UIColor lightGrayColor]];
+        [_volumeProgressView setProgress:0];;
+        [_volumeProgressView setFrame:volumeProgressViewFrame];
+        [_volumeProgressView setTransform:CGAffineTransformMakeRotation(M_PI/2 * 3)];
         [self addSubview:_volumeProgressView];
-
-        [self setHidden:YES];
     }
     return self;
 }
@@ -151,18 +150,10 @@
 
 -(void)setVolume:(float)volume
 {
-    if (volume<0)
-    {
-        volume=0;
-    }
-    else if(volume>1)
-    {
-        volume=1;
-    }
     _systemVolumeSlider.value=volume;
 }
 
--(float)volume
+-(float)getVolume
 {
     return _systemVolumeSlider.value;
 }

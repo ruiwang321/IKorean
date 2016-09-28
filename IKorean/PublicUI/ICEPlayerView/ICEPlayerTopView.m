@@ -18,17 +18,17 @@
 @property (nonatomic,strong) ICEButton * selectEpisodeButton;
 @property (nonatomic,strong) ICEButton * collectButton;
 @property (nonatomic,strong) ICEButton * lockScreenButton;
-@property (nonatomic,assign) BOOL isWillHide;
+@property (nonatomic,assign,readwrite) BOOL isWillHide;
+
 @end
 
 @implementation ICEPlayerTopView
 -(void)dealloc
 {
-    [_hTitleView stopRollingWithIsDestroy:YES];
+    [self destroyRolling];
 }
 
--(id)initWithTopViewVFrame:(CGRect)vFrame
-                    HFrame:(CGRect)hFrame
+-(id)initWithVFrame:(CGRect)vFrame HFrame:(CGRect)hFrame
 {
     if (self=[super initWithFrame:vFrame])
     {
@@ -83,7 +83,7 @@
         CGRect  topViewHBackGroundFrame=_topViewHFrame;
         topViewHBackGroundFrame.origin=CGPointZero;
         self.topViewHBackGround=[[UIView alloc] initWithFrame:topViewHBackGroundFrame];
-        [_topViewHBackGround setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9]];
+        [_topViewHBackGround setBackgroundColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewPublicColor];
         [self addSubview:_topViewHBackGround];
         [_topViewHBackGround setHidden:YES];
         
@@ -168,9 +168,9 @@
     return CGRectEqualToRect(self.frame, _topViewHFrame);
 }
 
--(void)setTopViewStyle:(ICEPlayerTopViewStyle)topViewStyle
+-(void)setIsFullScreenDisplay:(BOOL)isFullScreen
 {
-    if (ICEPlayerTopViewHorizontalStyle==topViewStyle)
+    if (isFullScreen)
     {
         [self setFrame:_topViewHFrame];
         [_topViewVBackGround setHidden:YES];
@@ -178,52 +178,48 @@
         if (!_isWillHide) {
             [_hTitleView startRolling];
         }
-        [[UIApplication sharedApplication] setStatusBarHidden:_isWillHide withAnimation:UIStatusBarAnimationNone];
     }
-    else if(ICEPlayerTopViewVerticalStyle==topViewStyle)
+    else
     {
         [self setFrame:_topViewVFrame];
         [_topViewVBackGround setHidden:NO];
         [_topViewHBackGround setHidden:YES];
         [_hTitleView stopRollingWithIsDestroy:NO];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     }
 }
 
 -(void)setHidden:(BOOL)hidden
 {
     _isWillHide=hidden;
-    if ([self isHorizontalStyle])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:UIStatusBarAnimationFade];
-        if (hidden)
-        {
-            [_hTitleView stopRollingWithIsDestroy:NO];
-        }
-        else
-        {
-            [_hTitleView startRolling];
-        }
-    }
     if (hidden)
     {
+        [_hTitleView stopRollingWithIsDestroy:NO];
         [self setAlpha:1];
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [self setAlpha:0];
         }completion:^(BOOL finished){
             [super setHidden:YES];
+            [self setAlpha:0];
         }];
     }
     else
     {
+        if ([self isHorizontalStyle])
+        {
+            [_hTitleView startRolling];
+        }
         [super setHidden:NO];
-        [self setAlpha:0];
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [self setAlpha:1];
         }completion:^(BOOL finished){
             [self setAlpha:1];
         }];
     }
+}
+
+-(void)destroyRolling
+{
+    [_hTitleView stopRollingWithIsDestroy:YES];
 }
 
 -(void)setTitle:(NSString*)title
@@ -260,7 +256,10 @@
 
 -(void)goSwitchToVSize
 {
-    [self executeControlEventBlockWithControlEvent:ICEPlayerTopViewSwitchToVSizeEvent];
+    if (_switchPlayerViewOrientationBlock)
+    {
+        _switchPlayerViewOrientationBlock();
+    }
 }
 
 -(void)goLockScreen

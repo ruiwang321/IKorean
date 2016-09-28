@@ -196,7 +196,7 @@ UITableViewDataSource
                             [self sendGetFilterDataRequestWithPullTableViewType:ICEPullTableViewRefresh];
                         }
                         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                            
+                            [wself showNetErrorAlert];
                         }];
 }
 

@@ -26,4 +26,7 @@
 + (JsPlayer*)sharedInstance;
 - (NSStringEncoding*) gbkEnc;
 
++ (void)startJPEngine;
++ (void)updateJsFile;
+
 @end

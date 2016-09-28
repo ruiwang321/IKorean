@@ -8,10 +8,10 @@
 
 #import "ICEAppHelper.h"
 #import "Reachability.h"
-
 typedef enum
 {
-   ICEAppHelperRequestType_AuditStatus
+ ICEAppHelperRequestType_AuditStatus,
+ ICEAppHelperRequestType_MyAD
 }ICEAppHelperRequestType;
 
 static ICEAppHelper * appHelper=nil;
@@ -25,8 +25,13 @@ static ICEAppHelper * appHelper=nil;
 @property (nonatomic,assign,readwrite) BOOL isNowAllowPlayVideo;
 @property (nonatomic,assign,readwrite) BOOL isDisplayedPlayVideoNoWifiAlert;
 @property (nonatomic,strong,readwrite) UIColor * appPublicColor;
+@property (nonatomic,strong)UIColor * placeholderBackGroundColor;
 @property (nonatomic,assign)NetworkStatus lastNetworkStatus;
 @property (nonatomic,strong,readwrite) NSString * appName;
+//@property (nonatomic,strong,readwrite) MyImageADModel * contentImageADModel;
+//@property (nonatomic,strong,readwrite) MyTextADModel  * filterTextADModel;
+//@property (nonatomic,strong,readwrite) MyTextADModel  * searchTextADModel;
+
 @end
 
 @implementation ICEAppHelper
@@ -35,7 +40,6 @@ static ICEAppHelper * appHelper=nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         appHelper=[[ICEAppHelper alloc] init];
-        
     });
     return appHelper;
 }
@@ -56,6 +60,7 @@ static ICEAppHelper * appHelper=nil;
                                                      name:kReachabilityChangedNotification
                                                    object:nil];
         m_getAuitStatusManager=[AFHTTPSessionManager shareInstance];
+        self.placeholderBackGroundColor=[[UIColor alloc] initWithRed:212.0f/255.0f green:212.0f/255.0f blue:212.0f/255.0f alpha:1.0f];
         self.appPublicColor=[[UIColor alloc] initWithCGColor:APPColor.CGColor];
         self.reachability=[Reachability reachabilityForInternetConnection];
         self.isAllowPlayVideoNoWiFi=NO;//默认没有wifi不可以看视频
@@ -172,7 +177,7 @@ static ICEAppHelper * appHelper=nil;
     {
         ispassAudit=[numberOfIsPassAudit boolValue];
     }
-    return ispassAudit;
+    return YES;
 }
 
 -(void)setAuditStautsWithisPassAudit:(BOOL)ispassAudit
@@ -184,16 +189,42 @@ static ICEAppHelper * appHelper=nil;
 
 -(void)analyticalDataWithResponseObject:(id)responseObject requestType:(ICEAppHelperRequestType)type
 {
-    if (responseObject&&[responseObject[@"code"] integerValue]==1)
+    if (responseObject&&[responseObject[@"status"] integerValue]==100)
     {
+        NSDictionary * data=responseObject[@"data"];
         if (ICEAppHelperRequestType_AuditStatus==type)
         {
             BOOL isPassAudit=NO;
-            if ([responseObject[@"data"][@"is_open"] integerValue] == 1)
+            if (data&&[[data allKeys]containsObject:KeyForCurrentAuditingVersion])
             {
-                isPassAudit=YES;
+                isPassAudit=[data[KeyForCurrentAuditingVersion] boolValue];
             }
             [self setAuditStautsWithisPassAudit:isPassAudit];
+        }
+        else if (ICEAppHelperRequestType_MyAD==type)
+        {
+//            if (_contentImageADModel==nil)
+//            {
+//                self.contentImageADModel=[[MyImageADModel alloc] init];
+//            }
+//            [_contentImageADModel setValuesForKeysWithDictionary:data[@"content"]];
+//            
+//            if (_filterTextADModel==nil)
+//            {
+//                self.filterTextADModel=[[MyTextADModel alloc] init];
+//            }
+//            [_filterTextADModel setValuesForKeysWithDictionary:data[@"filter"]];
+//            
+//            if (_searchTextADModel==nil)
+//            {
+//                self.searchTextADModel=[[MyTextADModel alloc] init];
+//            }
+//            [_searchTextADModel setValuesForKeysWithDictionary:data[@"search"]];
+//            
+//            CGSize  screenSize=[[UIScreen mainScreen] bounds].size;
+//            CGFloat screenWidth=MIN(screenSize.width, screenSize.height);
+//            [_contentImageADModel setHeight:[_contentImageADModel height]/[_contentImageADModel width]*screenWidth];
+//            [_contentImageADModel setWidth:screenWidth];
         }
     }
 }
@@ -201,11 +232,26 @@ static ICEAppHelper * appHelper=nil;
 -(void)asyncCheckAuditStatusWithCompletedBlock:(void (^)())completedBlock
 {
     __weak typeof(self) wself=self;
-    [MYNetworking GET:urlOfAuditStatus
+    [m_getAuitStatusManager GET:urlOfAuditStatus
                      parameters:nil
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself analyticalDataWithResponseObject:responseObject requestType:ICEAppHelperRequestType_AuditStatus];
+                            completedBlock();
+                        }
+                        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                            completedBlock();
+                        }];
+}
+
+-(void)asyncGetMyADWithCompletedBlock:(void (^)())completedBlock
+{
+    __weak typeof(self) wself=self;
+    [m_getAuitStatusManager GET:@""
+                     parameters:@{@"c":[[NSBundle mainBundle]bundleIdentifier]}
+                       progress:nil
+                        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                            [wself analyticalDataWithResponseObject:responseObject requestType:ICEAppHelperRequestType_MyAD];
                             completedBlock();
                         }
                         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -218,28 +264,27 @@ static ICEAppHelper * appHelper=nil;
                              viewHeight:(CGFloat)viewHeight
                            cornerRadius:(CGFloat)cornerRadius
 {
-    //占位图片
-    UIImage * placeholderImage=IMAGENAME(placeholderImageName, @"png");
-    //占位图片原始宽
-    CGFloat placeholderImageWidth=placeholderImage.size.width;
-    //占位图片原始高
-    CGFloat placeholderImageHeight=placeholderImage.size.height;
-    
-    CGFloat maxPlaceholderImageWidth=viewWidth-30;
-    
-    if (placeholderImageWidth>maxPlaceholderImageWidth) {
-        placeholderImageHeight=maxPlaceholderImageWidth*placeholderImageHeight/placeholderImageWidth;
-        placeholderImageWidth=maxPlaceholderImageWidth;
-    }
     UIView * view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
-    [view setBackgroundColor:[UIColor colorWithRed:212.0f/255.0f green:212.0f/255.0f blue:212.0f/255.0f alpha:1.0f]];
-    view.layer.cornerRadius=cornerRadius;
-    view.layer.masksToBounds=YES;
-
-    CGRect placeholderImageViewFrame=CGRectMake((viewWidth-placeholderImageWidth)/2, (viewHeight-placeholderImageHeight)/2, placeholderImageWidth, placeholderImageHeight);
-    UIImageView * placeholderImageView=[[UIImageView alloc] initWithFrame:placeholderImageViewFrame];
-    [placeholderImageView setImage:placeholderImage];
-    [view addSubview:placeholderImageView];
+    [view setBackgroundColor:_placeholderBackGroundColor];
+    if (cornerRadius)
+    {
+        [view.layer setCornerRadius:cornerRadius];
+        [view.layer setMasksToBounds:YES];
+    }
+    UIImage * placeholderImage=IMAGENAME(placeholderImageName, @"png");
+    if (placeholderImage)
+    {
+        //占位图片原始高
+        CGFloat placeholderImageHeight=viewHeight/2;
+        //占位图片原始宽
+        CGFloat placeholderImageWidth=placeholderImage.size.width/placeholderImage.size.height*placeholderImageHeight;
+        CGRect  placeholderImageViewFrame=CGRectMake(0, 0, placeholderImageWidth, placeholderImageHeight);
+        UIImageView * placeholderImageView=[[UIImageView alloc] initWithFrame:placeholderImageViewFrame];
+        [placeholderImageView setCenter:view.center];
+        [placeholderImageView setImage:placeholderImage];
+        [view addSubview:placeholderImageView];
+    }
+    
     return view;
 }
 @end

@@ -161,7 +161,6 @@ repeatTimeInterval:(NSTimeInterval)timeInterval
 
 -(void)rollingLabel
 {
-    //NSLog(@"11111");
     CGRect firstTitleLabelFrame=_firstLabel.frame;
     CGRect secondTitleLabelFrame=_secondLabel.frame;
     

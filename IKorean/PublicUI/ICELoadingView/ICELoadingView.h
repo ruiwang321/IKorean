@@ -10,6 +10,8 @@
 
 @interface ICELoadingView : UIView
 
+@property (nonatomic,copy) NSString * loadingViewImageName;
+
 -(void)startLoading;
 
 -(void)stopLoading;

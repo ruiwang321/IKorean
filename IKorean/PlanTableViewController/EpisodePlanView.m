@@ -11,7 +11,7 @@
 
 @interface EpisodePlanView () <UITableViewDelegate, UITableViewDataSource> {
     BOOL is_refreshed;
-    UIActivityIndicatorView *_loadingView;
+    ICELoadingView *_loadingView;
 }
 
 @property (nonatomic, strong) UITableView *listView;
@@ -20,6 +20,11 @@
 @end
 
 @implementation EpisodePlanView
+
+- (void)dealloc {
+    NSLog(@"dealloc planVIew");
+    [_loadingView destroyLoading];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -47,12 +52,10 @@
         [self addSubview:_listView];
     }
     
-    _loadingView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    _loadingView = [[ICELoadingView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2-64);
-    [_loadingView setHidesWhenStopped:YES];
-    _loadingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self addSubview:_loadingView];
-    [_loadingView startAnimating];
+    [_loadingView startLoading];
 }
 
 - (void)loadDataWithDate:(NSDate *)date {
@@ -62,11 +65,15 @@
         NSString *dateStr = [formatter stringFromDate:date];
         __weak typeof(self) wself = self;
         [MYNetworking GET:urlOfGetPlanTable parameters:@{@"date":@(dateStr.integerValue)} progress:nil success:^(NSURLSessionDataTask * _Nonnull tesk, id  _Nullable responseObject) {
+            is_refreshed = YES;
             [wself updateSubViewsWithResponseObject:responseObject];
-            [_loadingView stopAnimating];
+            [_loadingView stopLoading];
+            [_loadingView destroyLoading];
             _loadingView = nil;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [wself updateSubViewsWithResponseObject:nil];
+            [_loadingView stopLoading];
+            [_loadingView destroyLoading];
         }];
     }
 }
@@ -87,7 +94,6 @@
             }
         }
         [_listView reloadData];
-        is_refreshed = YES;
     }
 }
 

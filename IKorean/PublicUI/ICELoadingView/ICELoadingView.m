@@ -8,22 +8,25 @@
 
 #import "ICELoadingView.h"
 @interface ICELoadingView ()
-{
-    CGFloat  m_widthOfLoadingView;
-    CGFloat  m_heightOfLoadingView;
-    UIView * m_maskView;
-    UIImageView * m_loadingImageView;
-    CGFloat m_angleOfLoadingView;
-}
+@property (nonatomic,assign) CGFloat loadingImageViewAngle;
+@property (nonatomic,strong) UIImageView * loadingImageView;
 @property (nonatomic,strong) NSTimer * timer;
 @end
 
 @implementation ICELoadingView
+-(id)init
+{
+    if (self=[super init])
+    {
+        [self setUserInteractionEnabled:NO];
+    }
+    return self;
+}
+
 -(id)initWithFrame:(CGRect)frame
 {
-    if (self=[super initWithFrame:frame]) {
-        m_widthOfLoadingView=CGRectGetWidth(frame);
-        m_heightOfLoadingView=CGRectGetHeight(frame);
+    if (self=[super initWithFrame:frame])
+    {
         [self setUserInteractionEnabled:NO];
     }
     return self;
@@ -31,28 +34,50 @@
 
 -(void)startLoading
 {
-    if (m_maskView==nil)
+    if (_loadingImageView==nil)
     {
-        UIImage * imageOfLoading=IMAGENAME(@"cut_loading_blue@2x", @"png");
-        CGFloat widthOfImage=imageOfLoading.size.width;
-        CGFloat heightOfImage=imageOfLoading.size.height;
+        UIImage * loadingImage=IMAGENAME((_loadingViewImageName?_loadingViewImageName:@"publicLoading@2x"), @"png");
+        CGFloat loadingImageWidth=loadingImage.size.width;
+        CGFloat loadingImageHeight=loadingImage.size.height;
+        self.loadingImageView=[[UIImageView alloc] initWithImage:loadingImage];
+        [_loadingImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:_loadingImageView];
         
-        CGFloat widthOfMaskView=widthOfImage+20;
-        CGFloat heightOfMaskView=heightOfImage+20;
-        CGRect  frameOfMaskView=CGRectMake((m_widthOfLoadingView-widthOfMaskView)/2, (m_heightOfLoadingView-heightOfMaskView)/2, widthOfMaskView, heightOfMaskView);
-        m_maskView=[[UIView alloc] initWithFrame:frameOfMaskView];
-        m_maskView.backgroundColor=[UIColor blackColor];
-        m_maskView.alpha=0.5;
-        m_maskView .layer.cornerRadius=8;
-        m_maskView.layer.masksToBounds=YES;
-        [self addSubview:m_maskView];
+        NSLayoutConstraint * centerXConstraint=[NSLayoutConstraint constraintWithItem:_loadingImageView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                           multiplier:1
+                                                                             constant:0];
         
-        CGRect  frameOfLoadingView=CGRectMake((m_widthOfLoadingView-widthOfImage)/2, (m_heightOfLoadingView-heightOfImage)/2, widthOfImage, heightOfImage);
-        m_loadingImageView=[[UIImageView alloc] initWithFrame:frameOfLoadingView];
-        [m_loadingImageView setImage:imageOfLoading];
-        [self addSubview:m_loadingImageView];
+        NSLayoutConstraint * centerYConstraint=[NSLayoutConstraint constraintWithItem:_loadingImageView
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                           multiplier:1
+                                                                             constant:0];
+        
+        NSLayoutConstraint * widthConstraint=[NSLayoutConstraint constraintWithItem:_loadingImageView
+                                                                          attribute:NSLayoutAttributeWidth
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:nil
+                                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                                         multiplier:1
+                                                                           constant:loadingImageWidth];
+        
+        NSLayoutConstraint * heightConstraint=[NSLayoutConstraint constraintWithItem:_loadingImageView
+                                                                           attribute:NSLayoutAttributeHeight
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                                          multiplier:1
+                                                                            constant:loadingImageHeight];
+        
+        [self addConstraints:@[centerXConstraint,centerYConstraint,widthConstraint,heightConstraint]];
     }
-    m_loadingImageView.layer.transform = CATransform3DIdentity;
+    [_loadingImageView.layer setTransform:CATransform3DIdentity];
     [self setHidden:NO];
     [self startTimer];
 }
@@ -61,25 +86,25 @@
 {
     [self setHidden:YES];
     [self stopTimerIsDestroy:NO];
-    m_angleOfLoadingView=0.0f;
-    m_loadingImageView.layer.transform = CATransform3DIdentity;
+    _loadingImageViewAngle=0;
+    [_loadingImageView.layer setTransform:CATransform3DIdentity];
 }
 
 -(void)destroyLoading
 {
     [self setHidden:YES];
     [self stopTimerIsDestroy:YES];
-    m_angleOfLoadingView=0.0f;
-    m_loadingImageView.layer.transform = CATransform3DIdentity;
+    _loadingImageViewAngle=0;
+    [_loadingImageView.layer setTransform:CATransform3DIdentity];
 }
 
 -(void)startTimer
 {
     if (_timer==nil)
     {
-        self.timer=[NSTimer  timerWithTimeInterval:0.02
+        self.timer=[NSTimer  timerWithTimeInterval:1/360.0f
                                             target:self
-                                          selector:@selector(updateLoadingViewAngle)
+                                          selector:@selector(changeAngle)
                                           userInfo:nil
                                            repeats:YES];
         
@@ -109,10 +134,10 @@
     }
 }
 
--(void)updateLoadingViewAngle
+-(void)changeAngle
 {
-    [m_loadingImageView.layer setTransform:CATransform3DMakeRotation((M_PI / 180.0) * m_angleOfLoadingView, 0.0f, 0.0f, 1.0f)];
-    m_angleOfLoadingView+=15.0f;
+    [_loadingImageView.layer setTransform:CATransform3DMakeRotation((M_PI / 180.0) * _loadingImageViewAngle, 0.0f, 0.0f, 1.0f)];
+    _loadingImageViewAngle+=1;
 }
 
 @end

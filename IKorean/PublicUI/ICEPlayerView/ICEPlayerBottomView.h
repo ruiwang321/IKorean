@@ -8,11 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, ICEPlayerBottomViewStyle) {
-    ICEPlayerBottomViewVerticalStyle,
-    ICEPlayerBottomViewHorizontalStyle
-};
-
 typedef NS_ENUM(NSInteger, ICEPlayerBottomViewSliderEvents) {
     ICEPlayerBottomViewSliderAdjustProgressBegan,
     ICEPlayerBottomViewSliderAdjustProgressForward,
@@ -22,7 +17,6 @@ typedef NS_ENUM(NSInteger, ICEPlayerBottomViewSliderEvents) {
 
 typedef NS_ENUM(NSInteger, ICEPlayerBottomViewControlEvents) {
     ICEPlayerBottomViewControlPlayOrPause,
-    ICEPlayerBottomViewControlSwitchSize,
     ICEPlayerBottomViewControlLookNextEpisode
 }; 
 
@@ -30,34 +24,29 @@ typedef void (^ICEPlayerBottomViewSliderEventBlock) (NSTimeInterval desiredSecon
 
 typedef void (^ICEPlayerBottomViewControlEventBlock)(ICEPlayerBottomViewControlEvents controlEvent);
 
-@interface ICEProgressSliderEventModel:NSObject
-
-@property (nonatomic,assign,readonly) float value;
-
-@property (nonatomic,assign,readonly) ICEPlayerBottomViewSliderEvents event;
-
-@end
-
 @interface ICEPlayerBottomView : UIView
 
-@property (nonatomic,strong,readonly) ICEProgressSliderEventModel * sliderEventModel;
 
 @property (nonatomic,copy) ICEPlayerBottomViewSliderEventBlock sliderEventBlock;
 
 @property (nonatomic,copy) ICEPlayerBottomViewControlEventBlock controlEventBlock;
 
--(id)initWithBottomViewVFrame:(CGRect)vFrame
-                       HFrame:(CGRect)hFrame;
+@property (nonatomic,copy) void (^switchPlayerViewOrientationBlock)();
 
--(void)setBottomViewStyle:(ICEPlayerBottomViewStyle)bottomViewStyle;
+-(id)initWithVFrame:(CGRect)vFrame HFrame:(CGRect)hFrame;
 
--(void)reloadWithCurrentSeconds:(NSTimeInterval)currentSeconds
-                   totalSeconds:(NSTimeInterval)totalSeconds;
+-(void)setIsFullScreenDisplay:(BOOL)isFullScreen;
 
--(void)updateProgressWithDesiredSeconds:(NSTimeInterval)desiredSeconds;
+-(void)reloadWithTotalSeconds:(NSTimeInterval)totalSeconds;
 
 -(void)updateBufferWithLoadSeconds:(NSTimeInterval)loadSeconds;
 
+-(void)setProgressSeconds:(float)progressSeconds;
+
+-(float)getProgressSeconds;
+
 -(void)setIsPlay:(BOOL)isPlay;
+
+-(BOOL)isAdjustProgress;
 
 @end

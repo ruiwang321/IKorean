@@ -8,7 +8,8 @@
 
 #import "ICETableViewCell.h"
 @interface ICETableViewCell()
-
+@property(nonatomic,assign,readwrite) CGFloat cellWidth;
+@property(nonatomic,assign,readwrite) CGFloat cellHeight;
 @end
 
 @implementation ICETableViewCell
@@ -19,27 +20,24 @@
 {
     if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        m_cellWidth=cellWidth;
-        m_cellHeight=cellHeight;
+        _cellWidth=cellWidth;
+        _cellHeight=cellHeight;
         [self setBackgroundColor:[UIColor whiteColor]];
         [[self contentView] setOpaque:YES];
         [[self backgroundView] setOpaque:YES];
         [[self contentView]setExclusiveTouch:YES];
-        [self setFrame:CGRectMake(0, 0, m_cellWidth, m_cellHeight)];
-        self.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cellPressImage.png"]];
+        [self setFrame:CGRectMake(0, 0, _cellWidth, _cellHeight)];
+        [self setSelectedBackgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cellPressImage.png"]]];
     }
     return self;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

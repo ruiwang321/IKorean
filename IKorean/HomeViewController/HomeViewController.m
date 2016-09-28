@@ -316,19 +316,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.myNavigationBar setHidden:YES];
-    __weak typeof(self) wself = self;
     
-    [MYNetworking GET:urlOfGetHomePage
-           parameters:nil
-             progress:nil
-              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                  [wself updateChildViewWithResponseData:responseObject];
-              }
-              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                  [wself updateChildViewWithResponseData:nil];
-
-              }];
+    [self.myNavigationBar setHidden:YES];
+    [self startLoading];
+    [self sendGetHomePageRequest];
 }
 
 - (void)didReceiveMemoryWarning {

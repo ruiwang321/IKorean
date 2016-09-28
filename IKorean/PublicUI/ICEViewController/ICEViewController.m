@@ -8,164 +8,9 @@
 
 #import "ICEViewController.h"
 #import "ICELoadingView.h"
-#import "ICENetWorkErrorAlertView.h"
-/////////////////////TitleUnitView/////////////////////
-@interface TitleUnitView:UIView
+#import "ICEErrorStateAlertView.h"
+#import "ICECyclicRollingTextView.h"
 
-@property (nonatomic,strong) UILabel * firstTitleLabel;
-@property (nonatomic,strong) UILabel * secondTitleLabel;
-@property (nonatomic,assign) NSStringDrawingOptions titleOption;
-@property (nonatomic,strong) NSDictionary * titleAttributes;
-@property (nonatomic,assign) CGFloat labelPadding;
-@property (nonatomic,assign) CGFloat titleUnitViewWidth;
-@property (nonatomic,assign) CGFloat titleUnitViewHeight;
-@property (nonatomic,assign) CGRect  titleBoundingSize;
-@property (nonatomic,strong) NSTimer * timer;
-@property (nonatomic,assign) NSTimeInterval timerTimeInterval;
-@property (nonatomic,assign) BOOL isNeedScroll;
-
-@end
-
-@implementation TitleUnitView
-
--(id)initWithFrame:(CGRect)frame
-{
-    if (self=[super initWithFrame:frame])
-    {
-        [self setClipsToBounds:YES];
-        
-        _labelPadding=20;
-        _titleUnitViewWidth=CGRectGetWidth(frame);
-        _titleUnitViewHeight=CGRectGetHeight(frame);
-        _timerTimeInterval=0.03;
-        _isNeedScroll=NO;
-        NSMutableParagraphStyle * titleParagraphStyle=[[NSMutableParagraphStyle alloc]init];
-        titleParagraphStyle.alignment = NSTextAlignmentCenter;
-        
-        self.titleAttributes=[[NSDictionary alloc] initWithObjectsAndKeys:
-                              [UIFont fontWithName:HYQiHei_55Pound size:20],NSFontAttributeName,
-                              [UIColor whiteColor],NSForegroundColorAttributeName,
-                              titleParagraphStyle,NSParagraphStyleAttributeName, nil];
-    
-        _titleOption = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
-    }
-    return self;
-}
-
--(void)setTitle:(NSString *)title
-{
-    [self stopScrollWithIsDestroy:NO];
-    
-    if (title)
-    {
-        if (_firstTitleLabel==nil)
-        {
-            self.firstTitleLabel=[[UILabel alloc] init];
-            [self addSubview:_firstTitleLabel];
-        }
-        
-        NSAttributedString * titleAttributedString=[[NSAttributedString alloc] initWithString:title attributes:_titleAttributes];
-        CGSize  titleSize=[titleAttributedString boundingRectWithSize:CGSizeMake(10000, _titleUnitViewHeight) options:_titleOption context:nil].size;
-        CGFloat titleWidth=titleSize.width;
-        if (titleWidth<=_titleUnitViewWidth)
-        {
-            _isNeedScroll=NO;
-            
-            CGRect firstTitleLabelFrame=self.bounds;
-            [_firstTitleLabel setFrame:firstTitleLabelFrame];
-            [_firstTitleLabel setAttributedText:titleAttributedString];
-        }
-        else
-        {
-            _isNeedScroll=YES;
-            
-            CGRect firstTitleLabelFrame=self.bounds;
-            firstTitleLabelFrame.size.width=titleWidth;
-            [_firstTitleLabel setFrame:firstTitleLabelFrame];
-            [_firstTitleLabel setAttributedText:titleAttributedString];
-            
-            CGRect secondTitleLabelFrame=firstTitleLabelFrame;
-            secondTitleLabelFrame.origin.x=CGRectGetMaxX(firstTitleLabelFrame)+_labelPadding;
-            if (_secondTitleLabel==nil)
-            {
-                self.secondTitleLabel=[[UILabel alloc] init];
-                [self addSubview:_secondTitleLabel];
-            }
-            [_secondTitleLabel setFrame:secondTitleLabelFrame];
-            [_secondTitleLabel setAttributedText:titleAttributedString];
-            
-            //打开定时器
-            [self startScroll];
-        }
-    }
-}
-
--(void)startScroll
-{
-    if (_isNeedScroll)
-    {
-        if (_timer==nil)
-        {
-            self.timer=[NSTimer  timerWithTimeInterval:_timerTimeInterval
-                                                target:self
-                                              selector:@selector(scrollLabel)
-                                              userInfo:nil
-                                               repeats:YES];
-            [[NSRunLoop currentRunLoop] addTimer:_timer
-                                         forMode:NSRunLoopCommonModes];
-            [_timer fire];
-        }
-        else
-        {
-            [_timer setFireDate:[NSDate distantPast]];
-        }
-    }
-    
-}
-
--(void)stopScrollWithIsDestroy:(BOOL)isDestroy
-{
-    if (_timer&&[_timer isValid])
-    {
-        if (isDestroy)
-        {
-            [_timer invalidate];
-            self.timer=nil;
-        }
-        else
-        {
-            [_timer setFireDate:[NSDate distantFuture]];
-        }
-    }
-}
-
--(void)scrollLabel
-{
-    CGRect firstTitleLabelFrame=_firstTitleLabel.frame;
-    CGRect secondTitleLabelFrame=_secondTitleLabel.frame;
-    
-    firstTitleLabelFrame.origin.x-=1;
-    secondTitleLabelFrame.origin.x-=1;
-    
-    CGFloat firstLabelMaxX=CGRectGetMaxX(firstTitleLabelFrame);
-    CGFloat secondLabelMaxX=CGRectGetMaxX(secondTitleLabelFrame);
-    if (firstLabelMaxX<=0)
-    {
-        firstTitleLabelFrame.origin.x=secondLabelMaxX+_labelPadding;
-    }
-    
-    if (secondLabelMaxX<=0)
-    {
-        secondTitleLabelFrame.origin.x=firstLabelMaxX+_labelPadding;
-    }
-    
-    _firstTitleLabel.frame=firstTitleLabelFrame;
-    _secondTitleLabel.frame=secondTitleLabelFrame;
-}
-
-@end
-
-///////////////////ICEViewController/////////////////////
 @interface ICEViewController ()
 
 @property (nonatomic,strong,readwrite) ICETabBarItemModel * tabBarItemModel;
@@ -181,13 +26,16 @@
 @property (nonatomic,assign) CGFloat buttonMinX;
 @property (nonatomic,assign) CGFloat buttonMaxWidth;
 @property (nonatomic,assign) CGFloat titleUnitViewMinX;
-@property (nonatomic,strong) TitleUnitView  * titleUnitView;
 @property (nonatomic,strong) ICELoadingView * loadingView;
-@property (nonatomic,strong) ICENetWorkErrorAlertView * netWorkErrorAlertView;
-
+@property (nonatomic,strong) ICEErrorStateAlertView * netWorkErrorAlertView;
+@property (nonatomic,strong) ICECyclicRollingTextView * titleUnitView;
 @end
 
 @implementation ICEViewController
+- (void)dealloc {
+    [_loadingView destroyLoading];
+}
+
 -(id)init
 {
     if (self=[super init])
@@ -241,12 +89,16 @@
         {
             //标题
             CGRect titileUnitViewFrame=CGRectMake(_titleUnitViewMinX, _statusBarHeight, _screenWidth-2*_titleUnitViewMinX, _systemNavigationBarHeight);
-            self.titleUnitView=[[TitleUnitView alloc] initWithFrame:titileUnitViewFrame];
+            self.titleUnitView=[[ICECyclicRollingTextView alloc] initWithFrame:titileUnitViewFrame
+                                                                          font:[UIFont fontWithName:HYQiHei_55Pound size:20]
+                                                                     textColor:[UIColor whiteColor]
+                                                                     alignment:NSTextAlignmentCenter
+                                                            repeatTimeInterval:0.03];
             [_myNavigationBar addSubview:_titleUnitView];
         }
         if (title)
         {
-            [_titleUnitView setTitle:title];
+            [_titleUnitView setText:title];
         }
     }
     else
@@ -324,11 +176,12 @@
     {
         __weak typeof(self) wself=self;
         CGRect netWorkErrorAlertViewFrame=CGRectMake(0, 0, _screenWidth, _screenHeight);
-        self.netWorkErrorAlertView=[[ICENetWorkErrorAlertView alloc] initWithFrame:netWorkErrorAlertViewFrame
-                                                                    alertImageName:@"bg_noNetwork@2x"
-                                                            netWorkErrorAlertBlock:^{
-                                                                [wself sendRequestAgain];
-                                                            }];
+        self.netWorkErrorAlertView=[[ICEErrorStateAlertView alloc] initWithFrame:netWorkErrorAlertViewFrame
+                                                                  alertImageName:@"netWorkError@2x"
+                                                                         message:@"网络连接失败，请点击屏幕重试"
+                                                                      clickBlock:^{
+                                                                          [wself sendRequestAgain];
+                                                                      }];
         
         [self.view insertSubview:_netWorkErrorAlertView belowSubview:_myNavigationBar];
     }
@@ -371,14 +224,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_titleUnitView startScroll];
+    [_titleUnitView startRolling];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     [_loadingView destroyLoading];
-    [_titleUnitView stopScrollWithIsDestroy:YES];
+    [_titleUnitView stopRollingWithIsDestroy:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -386,7 +239,8 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)isSupportSlidePop {
+- (BOOL)isSupportSlidePop
+{
     return YES;
 }
 

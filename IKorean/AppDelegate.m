@@ -145,11 +145,11 @@ AdSpreadScreenManagerDelegate
     __weak typeof(self) wself=self;
     ICEStartViewController * startVC=[[ICEStartViewController alloc] init];
     startVC.loadingDataCompletedBlock=^{
-        /**********************测试***************************/
+        /**********************更新js文件 开启引擎***************************/
         
-        [JsPlayer sharedInstance];
-        
-        /**********************测试***************************/
+        [JsPlayer updateJsFile];
+        [JsPlayer startJPEngine];
+        /*****************************************************************/
         
         [wself enterApp];
     };
@@ -227,11 +227,15 @@ AdSpreadScreenManagerDelegate
     return self.window;
 }
 
-//- (NSString *)adSpreadScreenLogoImgName {
-//    return @"adLogo@2x.png";
-//}
+- (NSString *)adSpreadScreenLogoImgName {
+    return @"adLogo@2x.png";
+}
 
 - (UIColor *)adSpreadScreenBackgroundColor {
     return [UIColor whiteColor];
+}
+
+- (BOOL)adSpreadScreenLogMode {
+    return YES;
 }
 @end

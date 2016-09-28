@@ -57,30 +57,22 @@
         {
             CGRect imageViewFrame=[[self class] imageFrame];
             
-            //默认图片
-            UIView * placeholderView=[[ICEAppHelper shareInstance]viewWithPlaceholderImageName:@"publicPlaceholder@2x"
-                                                                                     viewWidth:imageViewFrame.size.width
-                                                                                    viewHeight:imageViewFrame.size.height
-                                                                                  cornerRadius:4];
-            [self addSubview:placeholderView];
-            [placeholderView setFrame:imageViewFrame];
-            
             //影视图片
-            m_imageView=[[UIImageView alloc] initWithFrame:placeholderView.bounds];
-            [placeholderView addSubview:m_imageView];
+            m_imageView=[[UIImageView alloc] initWithFrame:imageViewFrame];
+            [self addSubview:m_imageView];
             
             //标题
             CGPoint titleLabelOrigin=[[self class] titleLabelOrigin];
             CGRect titleLabelFrame=CGRectMake(titleLabelOrigin.x,
                                               titleLabelOrigin.y,
-                                              m_cellWidth-titleLabelOrigin.x-[[self class] titleLabelPaddingToRight],
-                                              m_cellHeight);
+                                              self.cellWidth-titleLabelOrigin.x-[[self class] titleLabelPaddingToRight],
+                                              self.cellHeight);
             
             m_titleLabel=[[UILabel alloc] initWithFrame:titleLabelFrame];
             [m_titleLabel setNumberOfLines:0];
             [self addSubview:m_titleLabel];
         }
-        [m_imageView sd_setImageWithURL:[NSURL URLWithString:model.img]];
+        [m_imageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
         [m_titleLabel setAttributedText:model.titleAttributedString];
     }
 }

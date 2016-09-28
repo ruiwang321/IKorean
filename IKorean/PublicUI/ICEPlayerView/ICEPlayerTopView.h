@@ -7,13 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef NS_ENUM(NSInteger, ICEPlayerTopViewStyle) {
-    ICEPlayerTopViewVerticalStyle,
-    ICEPlayerTopViewHorizontalStyle
-};
-
 typedef NS_ENUM(NSInteger, ICEPlayerTopViewControlEvents) {
-    ICEPlayerTopViewSwitchToVSizeEvent,
     ICEPlayerTopViewLockScreenEvent,
     ICEPlayerTopViewCollectEvent,
     ICEPlayerTopViewSelectEpisodeEvent
@@ -25,10 +19,13 @@ typedef void (^ICEPlayerTopViewControlEventBlock)(ICEPlayerTopViewControlEvents 
 
 @property (nonatomic,copy) ICEPlayerTopViewControlEventBlock controlEventBlock;
 
--(id)initWithTopViewVFrame:(CGRect)vFrame
-                    HFrame:(CGRect)hFrame;
+@property (nonatomic,copy) void (^switchPlayerViewOrientationBlock)();
 
--(void)setTopViewStyle:(ICEPlayerTopViewStyle)topViewStyle;
+@property (nonatomic,assign,readonly) BOOL isWillHide;
+
+-(id)initWithVFrame:(CGRect)vFrame HFrame:(CGRect)hFrame;
+
+-(void)setIsFullScreenDisplay:(BOOL)isFullScreen;
 
 -(void)setTitle:(NSString*)title;
 
@@ -37,5 +34,7 @@ typedef void (^ICEPlayerTopViewControlEventBlock)(ICEPlayerTopViewControlEvents 
 -(void)setIsCollected:(BOOL)isCollected;
 
 -(void)setIsCanSelectEpisode:(BOOL)isCanSelectEpisode;
+
+-(void)destroyRolling;
 
 @end

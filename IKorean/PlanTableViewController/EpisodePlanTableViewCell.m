@@ -31,7 +31,7 @@
     [_episodeImageView sd_setImageWithURL:[NSURL URLWithString:episodePlanModel.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
     _episodeTitleLabel.text = episodePlanModel.title;
     _actorInfoLabel.text = episodePlanModel.actors;
-    _updateInfoLabel.text = episodePlanModel.update_date;
+    _updateInfoLabel.text = _episodePlanModel.is_completed?@"已完结":[NSString stringWithFormat:@"更新至第%ld集",episodePlanModel.episode_update];
     
 }
 

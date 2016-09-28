@@ -53,15 +53,6 @@ static NSString const * jsFilesName = @"jsFiles";
     dispatch_once(&onceToken, ^{
         sharedInstance = [[JsPlayer alloc] init];
         
-        [sharedInstance updateJsFile];
-        
-        // 初始化JSPatch
-        NSString *sourcePath = [[[NSString alloc] initWithFormat:@"%@/Library/Caches/%@",NSHomeDirectory(),jsFilesName] stringByAppendingPathComponent:@"index.js"];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:sourcePath]) {
-            [JPEngine startEngine];
-            [JPEngine evaluateScriptWithPath:sourcePath];
-        }
     });
     return sharedInstance;
 }
@@ -70,24 +61,17 @@ static NSString const * jsFilesName = @"jsFiles";
     NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
     return enc;
 }
-- (void)updateJsFileWithoutFail {
-    [MYNetworking GET:urlOfJsFileInfo parameters:nil progress:nil success:^(NSURLSessionDataTask *tesk, id responseObject) {
-        
-        if ([responseObject[@"code"] integerValue] == 1) {
 
-                
-            [self DownloadAndUnzipFile:responseObject[@"data"][@"link"]
-                              fileName:[NSString stringWithFormat:@"%@", jsFilesName]
-                         unzipPassword:responseObject[@"data"][@"password"]
-                         jsFileVersion:responseObject[@"data"][@"ver"]];
-        }
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-    }];
++ (void)startJPEngine {
+    // 初始化JSPatch
+    NSString *sourcePath = [[[NSString alloc] initWithFormat:@"%@/Library/Caches/%@",NSHomeDirectory(),jsFilesName] stringByAppendingPathComponent:@"index.js"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:sourcePath]) {
+        [JPEngine startEngine];
+        [JPEngine evaluateScriptWithPath:sourcePath];
+    }
 }
 
-- (void)updateJsFile {
++ (void)updateJsFile {
     [MYNetworking GET:urlOfJsFileInfo parameters:nil progress:nil success:^(NSURLSessionDataTask *tesk, id responseObject) {
         
         if ([responseObject[@"code"] integerValue] == 1) {
@@ -101,16 +85,17 @@ static NSString const * jsFilesName = @"jsFiles";
                                   fileName:[NSString stringWithFormat:@"%@", jsFilesName]
                              unzipPassword:responseObject[@"data"][@"password"]
                              jsFileVersion:responseObject[@"data"][@"ver"]];
+                [self startJPEngine];
             }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+
     }];
 }
 
 
-- (void)DownloadAndUnzipFile:(NSString*)fileUrl fileName:(NSString*)_fileName unzipPassword:(NSString *)password jsFileVersion:(NSNumber *)version
++ (void)DownloadAndUnzipFile:(NSString*)fileUrl fileName:(NSString*)_fileName unzipPassword:(NSString *)password jsFileVersion:(NSNumber *)version
 {
 
     NSString *documentPath = [[NSString alloc] initWithFormat:@"%@/Library/Caches/%@.zip",NSHomeDirectory(),_fileName];

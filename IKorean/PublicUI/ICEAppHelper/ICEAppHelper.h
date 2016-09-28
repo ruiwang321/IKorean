@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @interface ICEAppHelper : NSObject
 
 @property (nonatomic,assign) BOOL isAllowPlayVideoNoWiFi;
@@ -14,6 +15,9 @@
 @property (nonatomic,assign,readonly) BOOL isDisplayedPlayVideoNoWifiAlert;
 @property (nonatomic,strong,readonly) UIColor * appPublicColor;
 @property (nonatomic,strong,readonly) NSString * appName;
+//@property (nonatomic,strong,readonly) MyImageADModel * contentImageADModel;
+//@property (nonatomic,strong,readonly) MyTextADModel  * filterTextADModel;
+//@property (nonatomic,strong,readonly) MyTextADModel  * searchTextADModel;
 
 +(ICEAppHelper *)shareInstance;
 
@@ -22,6 +26,8 @@
 -(BOOL)isPassAudit;
 
 -(void)asyncCheckAuditStatusWithCompletedBlock:(void (^)())completedBlock;
+
+-(void)asyncGetMyADWithCompletedBlock:(void (^)())completedBlock;
 
 -(UIView *)viewWithPlaceholderImageName:(NSString *)placeholderImageName
                               viewWidth:(CGFloat)viewWidth

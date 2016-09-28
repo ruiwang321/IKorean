@@ -29,9 +29,8 @@
 {
     if (self=[super init])
     {
-        [self setHidden:YES];
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9]];
+        [self setBackgroundColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewPublicColor];
         
         self.dateFormatter = [[NSDateFormatter alloc] init];
         [_dateFormatter setDateFormat:@"HH:mm:ss"];
@@ -59,7 +58,7 @@
         self.currentTimeLabel=[[UILabel alloc] initWithFrame:currentTimeLabelFrame];
         [_currentTimeLabel setText:currentTimeInitialValue];
         [_currentTimeLabel setFont:[UIFont fontWithName:HYQiHei_55Pound size:14]];
-        [_currentTimeLabel setTextColor:PlayerControlColor];
+        [_currentTimeLabel setTextColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewControlColor];
         [_currentTimeLabel setTextAlignment:NSTextAlignmentRight];
         [self addSubview:_currentTimeLabel];
         
@@ -82,7 +81,7 @@
         CGRect   progressViewFrame = CGRectMake(progressViewMinX, progressViewMinY, progressViewWidth, progressViewHeight);
         self.progressView=[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
         [_progressView setFrame:progressViewFrame];
-        [_progressView setProgressTintColor:PlayerControlColor];
+        [_progressView setProgressTintColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewControlColor];
         [_progressView setTrackTintColor:[UIColor lightGrayColor]];
         [_progressView setProgress:0];
         [self addSubview:_progressView];
@@ -140,12 +139,11 @@
     return timeString;
 }
 
--(void)reloadWithCurrentSeconds:(NSTimeInterval)currentSeconds
-                   totalSeconds:(NSTimeInterval)totalSeconds
+-(void)reloadWithTotalSeconds:(NSTimeInterval)totalSeconds
 {
     _totalSeconds=totalSeconds;
-    [_progressView setProgress:currentSeconds/totalSeconds];
-    [_currentTimeLabel setText:[self convertTimeWithSeconds:currentSeconds]];
+    [_progressView setProgress:0];
+    [_currentTimeLabel setText:currentTimeInitialValue];
     [_totalDurationLabel setText:[NSString stringWithFormat:@" / %@",[self convertTimeWithSeconds:totalSeconds]]];
 }
 

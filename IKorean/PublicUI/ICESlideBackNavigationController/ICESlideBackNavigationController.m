@@ -49,35 +49,6 @@
 @end
 
 #define ICESlideReturnNavigationControllerSnapshotPath                 @"/Library/Caches/PopSnapshots"
-@interface ICESnapshotImageView:UIImageView
-{
-    NSMutableString * m_snapshotImagePath;
-}
-
--(void)setSnapshotImagePath:(NSString *)snapshotImagePath;
--(NSString *)snapshotImagePath;
-@end
-
-@implementation ICESnapshotImageView
--(id)initWithFrame:(CGRect)frame
-{
-    if (self=[super initWithFrame:frame]) {
-        m_snapshotImagePath=[[NSMutableString alloc] initWithString:@""];
-    }
-    return self;
-}
-
--(void)setSnapshotImagePath:(NSString *)snapshotImagePath
-{
-    [m_snapshotImagePath setString:snapshotImagePath];
-}
-
--(NSString *)snapshotImagePath
-{
-    return m_snapshotImagePath;
-}
-
-@end
 
 @interface ICESlideBackNavigationController ()
 <
@@ -94,7 +65,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic,assign) CGFloat minTriggerPopDinstance;
 @property (nonatomic,copy)   NSString * snapshotFolderPath;
 @property (nonatomic,strong) dispatch_queue_t myqueue;
-@property (nonatomic,strong) ICESnapshotImageView * snapshotImageView;
+@property (nonatomic,strong) UIImageView * snapshotImageView;
 @property (nonatomic,assign) BOOL isTouchScreenNow;
 @property (nonatomic,strong,readwrite) UIPanGestureRecognizer * panGestureRecognizer;
 @end
@@ -148,7 +119,7 @@ UIGestureRecognizerDelegate
     //快照
     CGRect snapshotImageViewFrame=navViewFrame;
     snapshotImageViewFrame.origin.x=_snapshotImageViewHideMinX;
-    self.snapshotImageView=[[ICESnapshotImageView alloc] initWithFrame:snapshotImageViewFrame];
+    self.snapshotImageView=[[UIImageView alloc] initWithFrame:snapshotImageViewFrame];
     [_snapshotImageView setHidden:YES];
 
     //左侧阴影
@@ -283,12 +254,7 @@ UIGestureRecognizerDelegate
     if ([_snapshotImageView isHidden])
     {
         [_snapshotImageView setHidden:NO];
-        NSString * snapshotImagePath=[self snapshotImagePathForViewController:self.topViewController];
-        if (![[_snapshotImageView snapshotImagePath] isEqualToString:snapshotImagePath])
-        {
-            [_snapshotImageView setSnapshotImagePath:snapshotImagePath];
-            [_snapshotImageView setImage:[self getSnapshotImageWithSnapshotPath:snapshotImagePath]];
-        }
+        [_snapshotImageView setImage:[self getSnapshotImageWithSnapshotPath:[self snapshotImagePathForViewController:self.topViewController]]];
     }
 }
 

@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ICEPlayerVolumeView : UIView
-@property (nonatomic,assign) float volume;
 
 -(id)initWithVolumeViewWidth:(CGFloat)volumeViewWidth volumeViewHeight:(CGFloat)volumeViewHeight;
 
 -(void)addToSuperViewAndaddConstraintsWithSuperView:(UIView *)superView;
+
+-(void)setVolume:(float)volume;
+
+-(float)getVolume;
 
 @end

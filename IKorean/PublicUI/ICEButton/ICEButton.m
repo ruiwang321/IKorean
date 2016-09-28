@@ -13,7 +13,6 @@
 @end
 
 @implementation ICEButton
-
 -(void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];

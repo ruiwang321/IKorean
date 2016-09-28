@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ICEPlayerBrightnessView : UIView
-@property (nonatomic,assign) float brightness;
 
 -(id)initWithBrightnessViewWidth:(CGFloat)brightnessViewWidth brightnessViewHeight:(CGFloat)brightnessViewHeight;
 
 -(void)addToSuperViewAndaddConstraintsWithSuperView:(UIView *)superView;
+
+-(void)setBrightness:(float)brightness;
+
+-(float)getBrightness;
 
 @end

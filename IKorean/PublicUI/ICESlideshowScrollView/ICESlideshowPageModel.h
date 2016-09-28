@@ -10,6 +10,9 @@
 
 @interface ICESlideshowPageModel : NSObject
 @property (nonatomic,copy) NSString * img;
-@property (nonatomic,copy) NSString * video_id;
-@property (nonatomic,copy) NSString * link;
+@property (nonatomic,assign) NSInteger rel_id;
+@property (nonatomic,copy) NSString * title;
+@property (nonatomic,assign) NSInteger type;
+@property (nonatomic,copy) NSString * url;
+@property (nonatomic,copy) NSString * video;
 @end

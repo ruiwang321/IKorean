@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ICETableViewCell : UITableViewCell
-{
-    CGFloat m_cellWidth;
-    CGFloat m_cellHeight;
-}
+@property(nonatomic,assign,readonly) CGFloat cellWidth;
+@property(nonatomic,assign,readonly) CGFloat cellHeight;
 -(id)initWithStyle:(UITableViewCellStyle)style
    reuseIdentifier:(NSString *)reuseIdentifier
          cellWidth:(CGFloat)cellWidth

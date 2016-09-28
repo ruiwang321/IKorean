@@ -21,7 +21,6 @@ static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
     failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
     NSString *urlpath = [URLString componentsSeparatedByString:@"http://hj.api.29pai.com/"].lastObject;
     NSString *time = [NSString stringWithFormat:@"%ld",(NSInteger)[[NSDate date] timeIntervalSince1970]];
     NSString *sign = [NSString stringWithFormat:@"%@%@%@%@%@", app_id, time, urlpath, app_key, app_version].md5.lowercaseString;

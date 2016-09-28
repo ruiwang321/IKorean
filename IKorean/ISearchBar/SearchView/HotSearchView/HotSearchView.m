@@ -23,6 +23,7 @@ UICollectionViewDelegateFlowLayout,
 UIAlertViewDelegate
 >
 {
+    ICELoadingView         * _loadingView;
     ICEButton              * m_reloadRequestButton;
     UITableView            * m_tableView;
     NSMutableArray         * m_arrayOfHotSearchKeyModel;
@@ -47,6 +48,10 @@ UIAlertViewDelegate
 @end
 
 @implementation HotSearchView
+
+- (void)dealloc {
+    [_loadingView destroyLoading];
+}
 
 -(id)initWithFrame:(CGRect)frame
 selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
@@ -134,9 +139,21 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
                           progress:nil
                            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                [wself addOrUpdateTableViewWithResponseData:responseObject];
+                               [_loadingView stopLoading];
+                               [_loadingView destroyLoading];
                            }
                            failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                [wself addOrUpdateTableViewWithResponseData:nil];
+                               [_loadingView stopLoading];
+                               [_loadingView destroyLoading];
+                               
+//                               ICEErrorStateAlertView *errorAlertView = [[ICEErrorStateAlertView alloc] initWithFrame:_hotView.bounds alertImageName:@"netWorkError@2x" message:@"网络连接失败，请点击大山重试" clickBlock:^{
+//                                   [_loadingView startLoading];
+//                                   errorAlertView.hidden = YES;
+//                                   [wself sendGetHotSearchDataRequest];
+//                                   
+//                               }];
+//                               [_hotView addSubview:errorAlertView];
                            }];
 }
 
@@ -281,6 +298,13 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
         _hotView.dataSource = self;
         _hotView.delegate = self;
         [cell addSubview:_hotView];
+        
+        if (_loadingView == nil) {
+            // 加载刷新视图
+            _loadingView = [[ICELoadingView alloc] initWithFrame:_hotView.bounds];
+            [_hotView addSubview:_loadingView];
+            [_loadingView startLoading];
+        }
     }
     
     

@@ -24,7 +24,6 @@
 #import "UIButton+WebCache.h"
 #import "ICEAppHelper.h"
 #import "TVDataHelper.h"
-#import "ICENavigationController.h"
 #import "ICETabBarController.h"
 #import "ICEViewController.h"
 #import "ICEButton.h"
@@ -32,17 +31,13 @@
 #import "ICESlideshowScrollView.h"
 #import "ICESlideshowPageModel.h"
 #import "ICEStartViewController.h"
-#import "ICENetWorkErrorAlertView.h"
+#import "ICEPlayerViewHeader.h"
 #import "ICELoadingView.h"
 #import "JPushModel.h"
 #import "BannerAdUnitView.h"
-//#import "ISearchBar.h"
-//#import "SearchView.h"
-//#import "MovieItem.h"
-//#import "MovieItemTableViewCell.h"
 #import "MovieItemCellLayoutHelper.h"
 #import "MainTabBarController.h"
-//#import "TVDetailViewController.h"
+#import "ICEErrorStateAlertView.h"
 #import "ICESlideBackNavigationController.h"
 
 #define SCREEN_SCALE                         [UIScreen mainScreen].bounds.size.width/375.0f
@@ -92,7 +87,7 @@
 //启动页底部的文字
 #define APPStoreUrl                          @"https://itunes.apple.com/us/app/pu-tao-ying-shi-da-quan/id1148914211?l=zh&ls=1&mt=8"
 //Appstore所在页面
-#define JPushKey                             @"a698cc1fffbb4a93a50d0095"
+#define JPushKey                             @"461e8abe762b1c83dd21fc7f"
 //极光key
 #define JPushChannel                         @"JPushChannel"
 //渠道(不用变)
@@ -100,7 +95,7 @@
 //是否为生产环境(上线时改成TRUE)
 #define UMAppKey                             @"57c7813467e58e4982000340"
 //友盟key
-#define ADViewKey                            @"SDK20161608040930hfk4vf15o144q08"
+#define ADViewKey                            @"SDK20161328010942svw1tdb2bjr59r4"
 //adviewkey(广告key)别忘了把adview的离线文件替换了
 
 #endif

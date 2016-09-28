@@ -11,7 +11,7 @@
 #define totalDurationInitialValue     @" / 00:00:00"
 #define lastValueInitialValue         (-1)
 
-@interface ICEProgressSliderEventModel ()
+@interface ICEProgressSliderEventModel:NSObject
 @property (nonatomic,assign,readwrite) float value;
 @property (nonatomic,assign,readwrite) ICEPlayerBottomViewSliderEvents event;
 @end
@@ -25,6 +25,9 @@
 @property (nonatomic,strong) NSDateFormatter * dateFormatter;
 @property (nonatomic,assign) CGRect bottomVFrame;
 @property (nonatomic,assign) CGRect bottomHFrame;
+
+@property (nonatomic,strong) UIView * backgroundColorView;
+@property (nonatomic,assign) CGRect backgroundColorViewHFrame;
 
 @property (nonatomic,strong) ICEButton * playButton;
 @property (nonatomic,assign) CGPoint playButtonVOrigin;
@@ -49,19 +52,16 @@
 @property (nonatomic,strong) UILabel * totalDurationLabel;
 
 @property (nonatomic,assign) NSTimeInterval totalSeconds;
-@property (nonatomic,strong,readwrite) ICEProgressSliderEventModel * sliderEventModel;
+@property (nonatomic,strong) ICEProgressSliderEventModel * sliderEventModel;
 
 @end
 
 @implementation ICEPlayerBottomView
 
--(id)initWithBottomViewVFrame:(CGRect)vFrame
-                       HFrame:(CGRect)hFrame
+-(id)initWithVFrame:(CGRect)vFrame HFrame:(CGRect)hFrame
 {
     if (self=[super initWithFrame:vFrame])
     {
-        [self setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9]];
-        
         _bottomVFrame=vFrame;
         _bottomHFrame=hFrame;
         
@@ -82,6 +82,19 @@
         CGFloat controlVPadding=10;
         CGFloat controlHPadding=15;
         CGSize  sliderImageSize=CGSizeMake(5, 3);
+        UIImage * thumbImage=IMAGENAME(@"playerProgressDot@2x", @"png");
+        CGFloat progressSliderHeight=thumbImage.size.height;
+        CGFloat controlHBaseLineY=progressSliderHeight/2+sliderImageSize.height/2;
+        CGFloat backgroundColorViewHMinY=controlHBaseLineY-sliderImageSize.height;
+        
+        //背景颜色View
+        _backgroundColorViewHFrame=_bottomHFrame;
+        _backgroundColorViewHFrame.origin.y=backgroundColorViewHMinY;
+        _backgroundColorViewHFrame.size.height=CGRectGetHeight(_bottomHFrame)-backgroundColorViewHMinY;
+        self.backgroundColorView=[[UIView alloc] initWithFrame:self.bounds];
+        [_backgroundColorView setBackgroundColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewPublicColor];
+        [_backgroundColorView setUserInteractionEnabled:NO];
+        [self addSubview:_backgroundColorView];
         
         //暂停播放按钮
         UIImage * playButtonPauseImage=IMAGENAME(@"playerPause@2x", @"png");
@@ -90,7 +103,7 @@
         CGFloat playButtonVMinX=controlVPadding-(controlMinWidth-playImageWidth)/2;
         CGFloat playButtonVMinY=(bottomViewVHeight-controlMinWidth)/2;
         CGFloat playButtonHMinX=controlHPadding-(controlMinWidth-playImageWidth)/2;
-        CGFloat playButtonHMinY=sliderImageSize.height+(bottomViewHHeight-controlMinWidth)/2;
+        CGFloat playButtonHMinY=controlHBaseLineY+(bottomViewHHeight-controlHBaseLineY-controlMinWidth)/2;
         _playButtonVOrigin=CGPointMake(playButtonVMinX,playButtonVMinY);
         _playButtonHOrigin=CGPointMake(playButtonHMinX,playButtonHMinY);
         CGRect  playButtonVFrame=CGRectMake(playButtonVMinX, playButtonVMinY, controlMinWidth, controlMinWidth);
@@ -119,18 +132,16 @@
         [self addSubview:_switchSizeButton];
         
         //进度slider
-        UIImage * thumbImage=IMAGENAME(@"playerProgressDot@2x", @"png");
-        UIImage * minimumTrackImage=[UIImage imageWithColor:PlayerControlColor size:sliderImageSize];
+        UIImage * minimumTrackImage=[UIImage imageWithColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewControlColor size:sliderImageSize];
         UIImage * maximumTrackImage=[UIImage imageWithColor:[UIColor clearColor] size:sliderImageSize];
         CGFloat progressSliderVMinX=CGRectGetMaxX(playButtonVFrame)+controlVPadding;
-        CGFloat progressSliderVMinY=10;
+        CGFloat progressSliderVMinY=7;
         CGFloat progressSliderVWidth=switchSizeButtonVMinX-controlVPadding-progressSliderVMinX;
-        CGFloat progressSliderVHeight=thumbImage.size.height;
-        _progressSliderVFrame=CGRectMake(progressSliderVMinX, progressSliderVMinY, progressSliderVWidth, progressSliderVHeight);
+        _progressSliderVFrame=CGRectMake(progressSliderVMinX, progressSliderVMinY, progressSliderVWidth, progressSliderHeight);
         _progressSliderHFrame=_progressSliderVFrame;
-        _progressSliderHFrame.origin.x=0;
-        _progressSliderHFrame.origin.y=-progressSliderVHeight/2+sliderImageSize.height/2;
-        _progressSliderHFrame.size.width=bottomViewHWidth;
+        _progressSliderHFrame.origin.x=-2;
+        _progressSliderHFrame.origin.y=0;
+        _progressSliderHFrame.size.width=bottomViewHWidth+4;
         self.progressSlider = [[UISlider alloc]initWithFrame:_progressSliderVFrame];
         [_progressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
         [_progressSlider setMinimumTrackImage:minimumTrackImage forState:UIControlStateNormal];
@@ -145,7 +156,7 @@
         CGFloat  bufferViewOffsetX=2;
         UIImage * progressImage=[UIImage imageWithColor:[UIColor lightGrayColor]size:sliderImageSize];
         UIImage * trackImage=[UIImage imageWithColor:[UIColor colorWithRed:80.0f/255.0f green:80.0f/255.0f blue:80.0f/255.0f alpha:1]  size:sliderImageSize];
-        CGRect bufferViewFrame=CGRectMake(bufferViewOffsetX, (progressSliderVHeight-bufferViewHeight)/2, progressSliderVWidth-bufferViewOffsetX, bufferViewHeight);
+        CGRect bufferViewFrame=CGRectMake(bufferViewOffsetX, (progressSliderHeight-bufferViewHeight)/2, progressSliderVWidth-bufferViewOffsetX, bufferViewHeight);
         self.bufferView=[[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
         [_bufferView setProgressImage:progressImage];
         [_bufferView setTrackImage:trackImage];
@@ -174,7 +185,7 @@
         CGFloat currentTimeLabelHeight=bottomViewVHeight-currentTimeLabelVMinY;
         CGRect  currentTimeLabelFrame=CGRectMake(currentTimeLabelVMinX, currentTimeLabelVMinY, currentTimeLabelWidth, currentTimeLabelHeight);
         CGFloat currentTimeLabelHMinX=CGRectGetMaxX(nextEpisodeButtonFrame)+controlHPadding;
-        CGFloat currentTimeLabelHMinY=sliderImageSize.height+(bottomViewHHeight-currentTimeLabelHeight)/2;
+        CGFloat currentTimeLabelHMinY=controlHBaseLineY+(bottomViewHHeight-controlHBaseLineY-currentTimeLabelHeight)/2;
         _currentTimeLabelVOrigin=CGPointMake(currentTimeLabelVMinX, currentTimeLabelVMinY);
         _currentTimeLabelHOrigin=CGPointMake(currentTimeLabelHMinX, currentTimeLabelHMinY);
         self.currentTimeLabel=[[UILabel alloc] initWithFrame:currentTimeLabelFrame];
@@ -215,30 +226,32 @@
     return self;
 }
 
--(void)setBottomViewStyle:(ICEPlayerBottomViewStyle)bottomViewStyle
+-(void)setIsFullScreenDisplay:(BOOL)isFullScreen
 {
     CGRect playButtonFrame=_playButton.frame;
     CGRect switchSizeButtonFrame=_switchSizeButton.frame;
     CGRect currentTimeLabelFrame=_currentTimeLabel.frame;
-    if (ICEPlayerBottomViewHorizontalStyle==bottomViewStyle)
+    if (isFullScreen)
     {
         [self setFrame:_bottomHFrame];
-        playButtonFrame.origin=_playButtonHOrigin;
-        switchSizeButtonFrame.origin=_switchSizeButtonHOrigin;
-        currentTimeLabelFrame.origin=_currentTimeLabelHOrigin;
+        [_backgroundColorView setFrame:_backgroundColorViewHFrame];
         [_progressSlider setFrame:_progressSliderHFrame];
         [_switchSizeButton setIsHighlighted:YES];
         [_nextEpisodeButton setHidden:NO];
+        playButtonFrame.origin=_playButtonHOrigin;
+        switchSizeButtonFrame.origin=_switchSizeButtonHOrigin;
+        currentTimeLabelFrame.origin=_currentTimeLabelHOrigin;
     }
-    else if(ICEPlayerBottomViewVerticalStyle==bottomViewStyle)
+    else
     {
         [self setFrame:_bottomVFrame];
-        playButtonFrame.origin=_playButtonVOrigin;
-        switchSizeButtonFrame.origin=_switchSizeButtonVOrigin;
-        currentTimeLabelFrame.origin=_currentTimeLabelVOrigin;
+        [_backgroundColorView setFrame:self.bounds];
         [_progressSlider setFrame:_progressSliderVFrame];
         [_switchSizeButton setIsHighlighted:NO];
         [_nextEpisodeButton setHidden:YES];
+        playButtonFrame.origin=_playButtonVOrigin;
+        switchSizeButtonFrame.origin=_switchSizeButtonVOrigin;
+        currentTimeLabelFrame.origin=_currentTimeLabelVOrigin;
     }
     [_playButton setFrame:playButtonFrame];
     [_switchSizeButton setFrame:switchSizeButtonFrame];
@@ -252,32 +265,41 @@
     return timeString;
 }
 
--(void)reloadWithCurrentSeconds:(NSTimeInterval)currentSeconds
-                   totalSeconds:(NSTimeInterval)totalSeconds;
+-(void)reloadWithTotalSeconds:(NSTimeInterval)totalSeconds
 {
     _totalSeconds=totalSeconds;
     [_progressSlider setMaximumValue:totalSeconds];
     [_progressSlider setMinimumValue:0];
-    [_progressSlider setValue:currentSeconds];
-    [_currentTimeLabel setText:[self convertTimeWithSeconds:currentSeconds]];
+    [_progressSlider setValue:0];
+    [_currentTimeLabel setText:currentTimeInitialValue];
     [_totalDurationLabel setText:[NSString stringWithFormat:@" / %@",[self convertTimeWithSeconds:totalSeconds]]];
-}
-
--(void)updateProgressWithDesiredSeconds:(NSTimeInterval)desiredSeconds
-{
-    _progressSlider.value=desiredSeconds;
-    [_currentTimeLabel setText:[self convertTimeWithSeconds:desiredSeconds]];
 }
 
 -(void)updateBufferWithLoadSeconds:(NSTimeInterval)loadSeconds
 {
     loadSeconds=MIN(loadSeconds, _totalSeconds);
-    _bufferView.progress=loadSeconds/_totalSeconds;
+    [_bufferView setProgress:loadSeconds/_totalSeconds];
+}
+
+-(void)setProgressSeconds:(float)progressSeconds
+{
+    [_progressSlider setValue:progressSeconds];
+    [_currentTimeLabel setText:[self convertTimeWithSeconds:progressSeconds]];
+}
+
+-(float)getProgressSeconds
+{
+    return _progressSlider.value;
 }
 
 -(void)setIsPlay:(BOOL)isPlay
 {
     [_playButton setIsHighlighted:!isPlay];
+}
+
+-(BOOL)isAdjustProgress
+{
+    return (ICEPlayerBottomViewSliderAdjustProgressEnd==_sliderEventModel.event?NO:YES);
 }
 
 -(void)sliderValueChange
@@ -338,7 +360,9 @@
 
 -(void)goSwitchSize
 {
-    [self executeControlEventBlockWithControlEvent:ICEPlayerBottomViewControlSwitchSize];
+    if (_switchPlayerViewOrientationBlock) {
+        _switchPlayerViewOrientationBlock();
+    }
 }
 
 -(void)goLookNextEpisode
@@ -351,17 +375,17 @@
     if (hidden)
     {
         [self setAlpha:1];
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [self setAlpha:0];
         }completion:^(BOOL finished){
             [super setHidden:YES];
+            [self setAlpha:0];
         }];
     }
     else
     {
         [super setHidden:NO];
-        [self setAlpha:0];
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             [self setAlpha:1];
         }completion:^(BOOL finished){
             [self setAlpha:1];

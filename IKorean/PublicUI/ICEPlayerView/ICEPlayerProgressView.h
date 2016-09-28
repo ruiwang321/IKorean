@@ -22,8 +22,7 @@ typedef NS_ENUM(NSInteger, ICEPlayerProgressViewActionOptions) {
 
 -(void)addToSuperViewAndaddConstraintsWithSuperView:(UIView *)superView;
 
--(void)reloadWithCurrentSeconds:(NSTimeInterval)currentSeconds
-                   totalSeconds:(NSTimeInterval)totalSeconds;
+-(void)reloadWithTotalSeconds:(NSTimeInterval)totalSeconds;
 
 -(void)updateProgressWithChangeSeconds:(NSTimeInterval)changeSeconds
                          actionOptions:(ICEPlayerProgressViewActionOptions)actionOptions

@@ -91,9 +91,19 @@
     [self.view addSubview:titleLabel];
     
     __weak typeof(self) wself=self;
+    dispatch_group_t downloadGroup = dispatch_group_create();
+    
+    dispatch_group_enter(downloadGroup);
     [[ICEAppHelper shareInstance]asyncCheckAuditStatusWithCompletedBlock:^{
-        [wself performSelector:@selector(executeBlock) withObject:nil afterDelay:1];
+        dispatch_group_leave(downloadGroup);
     }];
+    dispatch_group_enter(downloadGroup);
+    [[ICEAppHelper shareInstance]asyncGetMyADWithCompletedBlock:^{
+        dispatch_group_leave(downloadGroup);
+    }];
+    dispatch_group_notify(downloadGroup, dispatch_get_main_queue(), ^{
+        [wself performSelector:@selector(executeBlock) withObject:nil afterDelay:1];
+    });
 }
 
 - (void)executeBlock

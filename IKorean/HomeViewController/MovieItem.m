@@ -94,7 +94,7 @@
     
     [_movieImageView sd_setImageWithURL:[NSURL URLWithString:itemModel.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
     _movieTitleLabel.text = itemModel.title;
-    if (itemModel.episode_update == itemModel.episode_count) {
+    if (itemModel.is_completed) {
         _updateInfoLabel.text = @"已完结";
     }else {
         _updateInfoLabel.text = [NSString stringWithFormat:@"更新至%ld集",itemModel.episode_update];

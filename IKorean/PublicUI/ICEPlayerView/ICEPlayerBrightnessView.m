@@ -21,12 +21,14 @@
     if (self=[super init])
     {
         [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self setBackgroundColor:[UIColor colorWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9]];
+        [self setBackgroundColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewPublicColor];
         
         _brightnessViewWidth=brightnessViewWidth;
         _brightnessViewHeight=brightnessViewHeight;
         
-        CGFloat controlPadding=10;
+        CGFloat brightnessViewOrigHeight=120;
+        CGFloat controlOrigPadding=9;
+        CGFloat controlPadding=controlOrigPadding/brightnessViewOrigHeight*_brightnessViewHeight;
         
         //亮度图片
         UIImage * brightnessImage=IMAGENAME(@"playerBrightness@2x", @"png");
@@ -49,14 +51,12 @@
                                                        brightnessProgressViewWidth,
                                                        brightnessProgressViewHeight);
         self.brightnessProgressView = [[UIProgressView alloc]initWithProgressViewStyle: UIProgressViewStyleBar];
-        _brightnessProgressView.progressTintColor=PlayerControlColor;
-        _brightnessProgressView.trackTintColor=[UIColor lightGrayColor];
-        _brightnessProgressView.progress=0;
-        _brightnessProgressView.frame=brightnessProgressViewFrame;
-        _brightnessProgressView.transform = CGAffineTransformMakeRotation(M_PI/2 * 3);
+        [_brightnessProgressView setProgressTintColor:[ICEPlayerViewPublicDataHelper shareInstance].playerViewControlColor];
+        [_brightnessProgressView setTrackTintColor:[UIColor lightGrayColor]];
+        [_brightnessProgressView setProgress:0];;
+        [_brightnessProgressView setFrame:brightnessProgressViewFrame];
+        [_brightnessProgressView setTransform:CGAffineTransformMakeRotation(M_PI/2 * 3)];
         [self addSubview:_brightnessProgressView];
-        
-        [self setHidden:YES];
     }
     return self;
 }
@@ -104,20 +104,12 @@
 
 -(void)setBrightness:(float)brightness
 {
-    if (brightness<0)
-    {
-        brightness=0;
-    }
-    else if(brightness>1)
-    {
-        brightness=1;
-    }
     [self setHidden:NO];
-    _brightnessProgressView.progress=brightness;
     [[UIScreen mainScreen] setBrightness:brightness];
+    _brightnessProgressView.progress=[UIScreen mainScreen].brightness;
 }
 
--(float)brightness
+-(float)getBrightness
 {
     return [UIScreen mainScreen].brightness;
 }
