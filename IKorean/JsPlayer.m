@@ -85,6 +85,8 @@ static NSString const * jsFilesName = @"jsFiles";
                                   fileName:[NSString stringWithFormat:@"%@", jsFilesName]
                              unzipPassword:responseObject[@"data"][@"password"]
                              jsFileVersion:responseObject[@"data"][@"ver"]];
+                
+            }else {
                 [self startJPEngine];
             }
         }
@@ -118,15 +120,18 @@ static NSString const * jsFilesName = @"jsFiles";
         
     } success:^(NSURLSessionDataTask *tesk, id responseObject) {
         [responseObject writeToFile:documentPath options:NSDataWritingAtomic error:nil];
-        if ([SSZipArchive unzipFileAtPath:documentPath toDestination:jsDir overwrite:YES password:password error:nil]) {
+        
+        [SSZipArchive unzipFileAtPath:documentPath toDestination:jsDir overwrite:YES password:password progressHandler:^(NSString * _Nonnull entry, unz_file_info zipInfo, long entryNumber, long total) {
+            
+        } completionHandler:^(NSString * _Nonnull path, BOOL succeeded, NSError * _Nonnull error) {
             [[NSUserDefaults standardUserDefaults] setValue:version forKey:@"loaclJsFileVersion"];
-//             初始化JSPatch
+            // 初始化JSPatch
             NSString *sourcePath = [[[NSString alloc] initWithFormat:@"%@/Library/Caches/%@",NSHomeDirectory(),jsFilesName] stringByAppendingPathComponent:@"index.js"];
             if ([[NSFileManager defaultManager] fileExistsAtPath:sourcePath]) {
                 [JPEngine startEngine];
                 [JPEngine evaluateScriptWithPath:sourcePath];
             }
-        }
+        }];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

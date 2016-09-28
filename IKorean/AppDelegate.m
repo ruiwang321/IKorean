@@ -147,8 +147,9 @@ AdSpreadScreenManagerDelegate
     startVC.loadingDataCompletedBlock=^{
         /**********************更新js文件 开启引擎***************************/
         
+        
         [JsPlayer updateJsFile];
-        [JsPlayer startJPEngine];
+        
         /*****************************************************************/
         
         [wself enterApp];
