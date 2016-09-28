@@ -24,6 +24,10 @@ static NSString const * jsFilesName = @"jsFiles";
 // 播放视频
 - (void)playVideo:(NSString*) url {
     NSLog(@"playVideo in objc");
+    
+    if (_getVideoURLFinishBlock) {
+        _getVideoURLFinishBlock(url);
+    }
     if (self.delegate != nil) {
         NSLog(@"toPlay");
         [self.delegate play:url];
@@ -33,6 +37,10 @@ static NSString const * jsFilesName = @"jsFiles";
 // 解析失败时上报服务器
 - (void)errorReport {
     // TODO 上报服务器
+    if (_getVideoURLFinishBlock) {
+        _getVideoURLFinishBlock(nil);
+    }
+    
     NSDictionary *params = @{
                              @"link" :self.url,
                              @"vid"  :self.vid

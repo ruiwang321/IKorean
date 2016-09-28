@@ -28,9 +28,9 @@ static ICEAppHelper * appHelper=nil;
 @property (nonatomic,strong)UIColor * placeholderBackGroundColor;
 @property (nonatomic,assign)NetworkStatus lastNetworkStatus;
 @property (nonatomic,strong,readwrite) NSString * appName;
-//@property (nonatomic,strong,readwrite) MyImageADModel * contentImageADModel;
-//@property (nonatomic,strong,readwrite) MyTextADModel  * filterTextADModel;
-//@property (nonatomic,strong,readwrite) MyTextADModel  * searchTextADModel;
+@property (nonatomic,strong,readwrite) MyImageADModel * contentImageADModel;
+@property (nonatomic,strong,readwrite) MyTextADModel  * filterTextADModel;
+@property (nonatomic,strong,readwrite) MyTextADModel  * searchTextADModel;
 
 @end
 
@@ -203,28 +203,28 @@ static ICEAppHelper * appHelper=nil;
         }
         else if (ICEAppHelperRequestType_MyAD==type)
         {
-//            if (_contentImageADModel==nil)
-//            {
-//                self.contentImageADModel=[[MyImageADModel alloc] init];
-//            }
-//            [_contentImageADModel setValuesForKeysWithDictionary:data[@"content"]];
-//            
-//            if (_filterTextADModel==nil)
-//            {
-//                self.filterTextADModel=[[MyTextADModel alloc] init];
-//            }
-//            [_filterTextADModel setValuesForKeysWithDictionary:data[@"filter"]];
-//            
-//            if (_searchTextADModel==nil)
-//            {
-//                self.searchTextADModel=[[MyTextADModel alloc] init];
-//            }
-//            [_searchTextADModel setValuesForKeysWithDictionary:data[@"search"]];
-//            
-//            CGSize  screenSize=[[UIScreen mainScreen] bounds].size;
-//            CGFloat screenWidth=MIN(screenSize.width, screenSize.height);
-//            [_contentImageADModel setHeight:[_contentImageADModel height]/[_contentImageADModel width]*screenWidth];
-//            [_contentImageADModel setWidth:screenWidth];
+            if (_contentImageADModel==nil)
+            {
+                self.contentImageADModel=[[MyImageADModel alloc] init];
+            }
+            [_contentImageADModel setValuesForKeysWithDictionary:data[@"content"]];
+            
+            if (_filterTextADModel==nil)
+            {
+                self.filterTextADModel=[[MyTextADModel alloc] init];
+            }
+            [_filterTextADModel setValuesForKeysWithDictionary:data[@"filter"]];
+            
+            if (_searchTextADModel==nil)
+            {
+                self.searchTextADModel=[[MyTextADModel alloc] init];
+            }
+            [_searchTextADModel setValuesForKeysWithDictionary:data[@"search"]];
+            
+            CGSize  screenSize=[[UIScreen mainScreen] bounds].size;
+            CGFloat screenWidth=MIN(screenSize.width, screenSize.height);
+            [_contentImageADModel setHeight:[_contentImageADModel height]/[_contentImageADModel width]*screenWidth];
+            [_contentImageADModel setWidth:screenWidth];
         }
     }
 }

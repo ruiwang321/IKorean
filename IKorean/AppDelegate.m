@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ICEAppGuideView.h"
-#import "MainTabBarController.h"
 #import "HomeViewController.h"
 #import "AdSpreadScreenManager.h"
 #import "AdSpreadScreenManagerDelegate.h"

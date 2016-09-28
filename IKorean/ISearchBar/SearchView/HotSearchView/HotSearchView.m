@@ -128,7 +128,9 @@ selectHotSearchCellBlock:(void (^)(NSInteger ,NSString * ))selectBlock
     [_searchHistoryView reloadData];
 
     [_mainTableView reloadData];
-    
+//    [_mainTableView beginUpdates];
+//    [_mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//    [_mainTableView endUpdates];
 }
 
 -(void)sendGetHotSearchDataRequest

@@ -44,7 +44,6 @@
 
 
 #define HiddenKeyPath                           @"hidden"
-
 ////////////////////////////////PanGestureModel///////////////////////////
 typedef NS_ENUM(NSInteger, PanScreenPurposeOptions) {
     PanScreenForNothing,
@@ -125,6 +124,8 @@ typedef NS_ENUM(NSInteger, PanScreenPurposeOptions) {
 
 -(BOOL)isFirstModel:(ICEPlayerEpisodeModel *)firstModel equalToSecondModel:(ICEPlayerEpisodeModel *)secondModel;
 
+-(ICEPlayerEpisodeModel *)findPlayModelWithVideoID:(NSString *)videoID FromModels:(NSArray *)episodeModelsArray;
+
 @end
 
 @implementation ICEPlayerEpisodeModelLogicHelper
@@ -185,6 +186,19 @@ typedef NS_ENUM(NSInteger, PanScreenPurposeOptions) {
     return NO;
 }
 
+-(ICEPlayerEpisodeModel *)findPlayModelWithVideoID:(NSString *)videoID FromModels:(NSArray *)episodeModelsArray
+{
+    ICEPlayerEpisodeModel * playModel=nil;
+    for (ICEPlayerEpisodeModel * model in episodeModelsArray)
+    {
+        if ([[model videoID]isEqualToString:videoID])
+        {
+            playModel=model;
+            break;
+        }
+    }
+    return playModel;
+}
 @end
 ////////////////////////////ICEPlayerView/////////////////////////////
 @interface ICEPlayerView ()
@@ -195,6 +209,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic,assign) BOOL isFirstLoadPlayer;
 @property (nonatomic,assign) BOOL isLockScreen;
 @property (nonatomic,assign) BOOL isPlayerViewAppear;
+@property (nonatomic,assign) BOOL isFullScreenNow;
 @property (nonatomic,assign) BOOL isCurrentVideoFirstLoad;
 @property (nonatomic,assign) BOOL isNeedRemindUserNoWIFI;
 @property (nonatomic,strong) NSTimer * bufferTimer;
@@ -223,7 +238,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic,strong) ICEPlayerReadToPlayView * readToPlayView;
 @property (nonatomic,strong) ICEPlayerErrorStateView * errorStateView;
 @property (nonatomic,strong) ICEPlayerSelectEpisodesView * selectEpisodesView;
-@property (nonatomic,assign) GetVideoURLHelper * getVideoURLHelper;
+@property (nonatomic,assign) JsPlayer * getVideoURLHelper;
 @property (nonatomic,strong) ICEPlayerURLErrorTimesStatisticsHelper * urlErrorTimesStatisticsHelper;
 @property (nonatomic,strong) ICEPlayerEpisodeModelLogicHelper * playerEpisodeModelLogicHelper;
 @end
@@ -245,7 +260,6 @@ UIGestureRecognizerDelegate
     if (isDestroy)
     {
         [self executeWillRemoveCurrentPlayEpisodeModelsBlock];
-//        [_getVideoURLHelper stopLoad];
         [_readToPlayView destroyLoading];
         [_topView destroyRolling];
         [self endWaitBufferWithIsDestroy:YES];
@@ -327,12 +341,14 @@ UIGestureRecognizerDelegate
         [singleTapGestureRecognizer requireGestureRecognizerToFail:doubleTapGestureRecognizer];
         [self setExclusiveTouch:YES];
         
+        _isNeedRemindUserNoWIFI=YES;
         _isFirstLoadPlayer=YES;
         _isPlayerViewAppear=YES;
         _isCurrentVideoFirstLoad=NO;
         _isLockScreen=NO;
+        _isFullScreenNow=NO;
         _waitBufferSeconds=0;
-        _isNeedRemindUserNoWIFI=YES;
+
         _playerViewVFrame=vFrame;
         _playerViewHFrame=hFrame;
         _maxPanDistanceForAdjustVolumeOrBrightness=CGRectGetHeight(vFrame)-PlayerTopViewVHeight-PlayerBottomViewVHeight;
@@ -357,7 +373,7 @@ UIGestureRecognizerDelegate
             [wself switchPlayerViewOrientation];
         };
     
-        self.getVideoURLHelper=[GetVideoURLHelper shareInstance];
+        self.getVideoURLHelper=[JsPlayer sharedInstance];
         [_getVideoURLHelper setGetVideoURLFinishBlock:^(NSString * videoURLString)
         {
             [wself.currentPlayModel setUrl:videoURLString];
@@ -471,61 +487,57 @@ UIGestureRecognizerDelegate
 }
 
 #pragma mark 屏幕旋转
-- (BOOL)isFullScreenNow
-{
-    return CGRectEqualToRect(self.bounds, _playerViewHFrame);
-}
 
-- (void)transformPlayerViewWithUIInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)transformPlayerViewWithUIInterfaceOrientation:(UIDeviceOrientation)deviceOrientation
 {
     BOOL isValidOrientation=NO;
-    BOOL isFullScreen=YES;
-    
-    if (UIInterfaceOrientationPortrait==interfaceOrientation)
+    if (UIDeviceOrientationPortrait==deviceOrientation)
     {
-        if ([self isFullScreenNow])
+        if (_isFullScreenNow)
         {
-            isFullScreen=NO;
+            isValidOrientation=YES;
+            _isFullScreenNow=NO;
             [self setFrame:_playerViewVFrame];
             [_playerLayer setFrame:self.bounds];
-            isValidOrientation=YES;
+            [_selectEpisodesView setHidden:YES];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
         }
-        [_selectEpisodesView setHidden:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     }
-    else if(UIInterfaceOrientationLandscapeLeft==interfaceOrientation||
-            UIInterfaceOrientationLandscapeRight==interfaceOrientation)
+    else if(UIDeviceOrientationLandscapeLeft==deviceOrientation||
+            UIDeviceOrientationLandscapeRight==deviceOrientation)
     {
-        if (![self isFullScreenNow])
+        if (!_isFullScreenNow)
         {
-            isFullScreen=YES;
+            isValidOrientation=YES;
+            _isFullScreenNow=YES;
             [self setFrame:_playerViewHFrame];
             [_playerLayer setFrame:self.bounds];
-            isValidOrientation=YES;
-        }
-        if (_readToPlayView.isHidden&&_errorStateView.isHidden&&_topView.isWillHide)
-        {
-            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-        }
-        else
-        {
-            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+            if ([_readToPlayView isHidden]&&[_errorStateView isHidden]&&[_topView isWillHide])
+            {
+                [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+            }
+            else
+            {
+                [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+            }
         }
     }
     if (isValidOrientation)
     {
-        [_topView setIsFullScreenDisplay:isFullScreen];
-        [_bottomView setIsFullScreenDisplay:isFullScreen];
-        [_readToPlayView setIsFullScreenDisplay:isFullScreen];
-        [_errorStateView setIsFullScreenDisplay:isFullScreen];
-        [_returnButton setHidden:isFullScreen];
+        [_topView setIsFullScreenDisplay:_isFullScreenNow];
+        [_bottomView setIsFullScreenDisplay:_isFullScreenNow];
+        [_readToPlayView setIsFullScreenDisplay:_isFullScreenNow];
+        [_errorStateView setIsFullScreenDisplay:_isFullScreenNow];
+        [_returnButton setHidden:_isFullScreenNow];
     }
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification
 {
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    [self transformPlayerViewWithUIInterfaceOrientation:interfaceOrientation];
+    if (!_isLockScreen)
+    {
+        [self transformPlayerViewWithUIInterfaceOrientation:[[UIDevice currentDevice]orientation]];
+    }
 }
 
 - (void)setIsLockScreen:(BOOL)isLockScreen
@@ -544,7 +556,7 @@ UIGestureRecognizerDelegate
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
-        int val = [self isFullScreenNow]?UIInterfaceOrientationPortrait:UIInterfaceOrientationLandscapeRight;
+        int val = _isFullScreenNow?UIInterfaceOrientationPortrait:UIInterfaceOrientationLandscapeRight;
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
     }
@@ -718,7 +730,7 @@ UIGestureRecognizerDelegate
 {
     [_topView setHidden:NO];
     [_bottomView setHidden:NO];
-    if ([self isFullScreenNow])
+    if (_isFullScreenNow)
     {
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     }
@@ -730,7 +742,7 @@ UIGestureRecognizerDelegate
 {
     [_topView setHidden:YES];
     [_bottomView setHidden:YES];
-    if ([self isFullScreenNow])
+    if (_isFullScreenNow)
     {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     }
@@ -771,6 +783,7 @@ UIGestureRecognizerDelegate
         }
         
         [_player play];
+        [_currentPlayModel setIsPlay:YES];
         [_loadingView stopLoading];
         NSTimeInterval currentSeconds=[_player currentItemCurrentSeconds];
         if (currentSeconds!=INVALIDSECONDS)
@@ -901,7 +914,6 @@ UIGestureRecognizerDelegate
 
 -(void)getVideoURLWithNewModel:(ICEPlayerEpisodeModel *)model
 {
-//    [_getVideoURLHelper stopLoad];
     [self playerEndWithReason:VideoEndBecauseOfVideoSwitch];
     [self playerPauseWithReason:VideoPauseBecauseOfUnKnown];
     [self endWaitBufferWithIsDestroy:NO];
@@ -911,7 +923,8 @@ UIGestureRecognizerDelegate
         [self executeVideoIsSelectedToPlayBlock];
         [_currentPlayModel setIsPlay:YES];
         [_readToPlayView startLoadingWithTitle:_currentPlayModel.videoName];
-        [_getVideoURLHelper getVideoURLWithVideoID:_currentPlayModel.videoID];
+        [_getVideoURLHelper setUrl:model.videoID];
+        [_getVideoURLHelper getVideoUrl];
     }
 }
 
@@ -953,6 +966,15 @@ UIGestureRecognizerDelegate
                        isNeedRemindUserNoWIFI:_isNeedRemindUserNoWIFI
                       selectEpisodesViewStyle:_selectEpisodesViewStyle];
         }
+    }
+}
+
+-(void)playVideoWithVideoID:(NSString *)videoID
+{
+    ICEPlayerEpisodeModel * model=[_playerEpisodeModelLogicHelper findPlayModelWithVideoID:videoID FromModels:_episodeModelsArray];
+    if (model&&![_playerEpisodeModelLogicHelper isFirstModel:_currentPlayModel equalToSecondModel:model])
+    {
+        [self getVideoURLWithNewModel:model];
     }
 }
 
@@ -1190,7 +1212,7 @@ UIGestureRecognizerDelegate
                 [_readToPlayView stopLoading];
             }
         }
-        else if(!_isFirstLoadPlayer&&_readToPlayView.isHidden&&_errorStateView.isHidden&&_selectEpisodesView.isHidden)
+        else if(!_isFirstLoadPlayer&&[_readToPlayView isHidden]&&[_errorStateView isHidden]&&[_selectEpisodesView isHidden])
         {
             [self showTopAndBottomView];
         }

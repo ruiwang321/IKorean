@@ -13,15 +13,16 @@
 #import "MovieDetailSwitchView.h"
 #import "MovieDetailUnitView.h"
 #import "MovieEpisodeUnitView.h"
-#import "MovieCorrelationUnitView.h"
 @interface MovieDetailViewController ()
 <
 AdInstlManagerDelegate,
 UIScrollViewDelegate
 >
+{
+    NSMutableDictionary *_episodeSourceDic;
+}
 @property (nonatomic,assign) NSInteger movieID;
 @property (nonatomic,assign) BOOL isLockScreen;
-@property (nonatomic,assign) AFHTTPSessionManager * getContentDataManager;
 @property (nonatomic,strong) AdInstlManager * adInstlManager;
 @property (nonatomic,strong) ICEPlayerView  * playerView;
 @property (nonatomic,strong) ICELoadingView * loadingView;
@@ -32,7 +33,6 @@ UIScrollViewDelegate
 @property (nonatomic,strong) ICESlideBackGestureConflictScrollView * scrollView;
 @property (nonatomic,strong) MovieDetailUnitView  * movieDetailUnitView;
 @property (nonatomic,strong) MovieEpisodeUnitView * movieEpisodeUnitView;
-@property (nonatomic,strong) MovieCorrelationUnitView * movieCorrelationUnitView;
 @property (nonatomic,copy)   NSCharacterSet * nonDecimalCharacterSet;
 @property (nonatomic,copy)   NSCharacterSet * numberCharacterSet;
 @end
@@ -55,7 +55,7 @@ UIScrollViewDelegate
         _isLockScreen=NO;
         self.adInstlManager=[AdInstlManager managerWithAdInstlKey:ADViewKey
                                                      WithDelegate:self];
-        self.getContentDataManager=[AFHTTPSessionManager shareInstance];
+
         self.nonDecimalCharacterSet =[[NSCharacterSet decimalDigitCharacterSet] invertedSet];
         self.numberCharacterSet = [NSCharacterSet  characterSetWithCharactersInString:@"0123456789"];
         //进入后台
@@ -178,12 +178,12 @@ UIScrollViewDelegate
 {
     ICEAppHelper * appHelper=[ICEAppHelper shareInstance];
     NSString * videoName=data[@"title"];
-    NSString * videoGrade=[NSString stringWithFormat:@"%@",data[@"grade"]];
-    NSString * videoShowTime=data[@"showtime"];
-    NSString * videoDirector=data[@"director"];
+    NSString * videoGrade=[NSString stringWithFormat:@"%@",data[@"score"]];
+    NSString * videoShowTime=data[@"update_date"];
+    NSString * videoDirector=data[@"cate"];
     NSString * videoActor=data[@"actor"];
     NSString * videoArea=data[@"area"];
-    NSString * videoIntro=data[@"intro"];
+    NSString * videoIntro=data[@"summary"];
     videoIntro=[videoIntro stringByReplacingOccurrencesOfString:@" " withString:@""];
     videoIntro=[videoIntro stringByReplacingOccurrencesOfString:@"　" withString:@""];
     videoIntro=[videoIntro stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
@@ -219,8 +219,14 @@ UIScrollViewDelegate
 
 - (void)addOrUpdateBottomViewWithData:(id)responseData
 {
-    if (responseData&&100==[responseData[@"status"]integerValue])
+    if (responseData && 1==[responseData[@"code"] integerValue])
     {
+        _episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
+        // 整理视频源地址源数据
+        for (NSDictionary *dic in responseData[@"episode"]) {
+            [_episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
+        }
+        
         NSDictionary * data=responseData[@"data"];
         MovieDetailUnitViewModel * movieDetailUnitViewModel=[self movieDetailUnitViewModelWithResponseData:data];
         if (_movieDetailUnitView==nil)
@@ -235,15 +241,13 @@ UIScrollViewDelegate
             self.movieEpisodeUnitView=nil;
         }
         
-        if (_movieCorrelationUnitView) {
-            [_movieCorrelationUnitView removeFromSuperview];
-            self.movieCorrelationUnitView=nil;
-        }
-        
         CGFloat   lastUnitViewMaxX=CGRectGetMaxX(_movieDetailUnitView.frame);
-        NSInteger category=[data[@"category"] integerValue];
-        NSArray  * videos=data[@"videos"];
-        NSArray  * recommends=data[@"recommend"];
+        NSInteger category=2; // 手动赋值   ************************************************************************************************
+        NSArray  * videos=_episodeSourceDic.allValues.firstObject;  // 暂时。。。  切换源换值
+        NSArray  * recommends=responseData[@"recommend"];
+        
+        
+        
         NSString * movieTitle=data[@"title"];
         
         MovieEpisodeUnitViewLookMoreViewStyle lookMoreViewStyle=LookMoreViewTableViewStyle;
@@ -297,35 +301,20 @@ UIScrollViewDelegate
                                                                    [[wself playerView]playVideoWithVideoID:videoID];
                                                                }
                                                              selectMovieItemBlock:^(MovieItemModel *movieItemModel) {
-                                                                 [wself setMovieID:[movieItemModel movieID]];
-                                                                 [wself sendGetContentDataRequest];
+//                                                                 [wself setMovieID:[movieItemModel movieID]];
+//                                                                 [wself sendGetContentDataRequest];
                                                                }];
             
             [_scrollView addSubview:_movieEpisodeUnitView];
             lastUnitViewMaxX=CGRectGetMaxX(movieEpisodeUnitViewFrame);
         }
         
-        if (isNeedAddMovieCorrelationUnitView&&[recommends count])
-        {
-            [titles addObject:@"相关"];
-            CGRect movieCorrelationUnitViewFrame=[_movieDetailUnitView frame];
-            movieCorrelationUnitViewFrame.origin.x=lastUnitViewMaxX;
-            self.movieCorrelationUnitView=[[MovieCorrelationUnitView alloc] initWithFrame:movieCorrelationUnitViewFrame
-                                                                               recommends:recommends
-                                                                              selectBlock:^(MovieItemModel *movieItemModel) {
-                                                                                  [wself setMovieID:[movieItemModel movieID]];
-                                                                                  [wself sendGetContentDataRequest];
-                                                                              }];
-            [_scrollView addSubview:_movieCorrelationUnitView];
-            lastUnitViewMaxX=CGRectGetMaxX(movieCorrelationUnitViewFrame);
-        }
-        
         for (NSDictionary * dic in videos)
         {
             ICEPlayerEpisodeModel * model=[[ICEPlayerEpisodeModel alloc] init];
-            [model setVideoID:[NSString stringWithFormat:@"%@",dic[@"id"]]];
+            [model setVideoID:@"http://tv.sohu.com/20131030/n389241408.shtml"]; //  更改源
             [model setLastPlaySeconds:0];
-            NSString * videoTitle=dic[@"title"];
+            NSString * videoTitle=@"123";
             if (LookMoreViewCollectionViewStyle==lookMoreViewStyle)
             {
                 [model setEpisodeNumber:videoTitle];
@@ -366,11 +355,12 @@ UIScrollViewDelegate
     [_errorStateAlertView setHidden:YES];
     [_bottomBackGroundView setHidden:YES];
     __weak typeof(self) wself=self;
-    [_getContentDataManager GET:urlOfMovieContent
-                     parameters:@{@"id":@(_movieID)}
+    [MYNetworking GET:urlOfTVContent
+                     parameters:@{@"vid":@(_movieID)}
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself.loadingView stopLoading];
+                            
                             [wself addOrUpdateBottomViewWithData:responseObject];
                             [wself.bottomBackGroundView setHidden:NO];
                         }

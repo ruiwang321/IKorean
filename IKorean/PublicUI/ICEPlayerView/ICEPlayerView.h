@@ -92,6 +92,8 @@ typedef void (^ICEPlayerViewReturnBlock)();
 
 -(void)playWithEpisodeModel:(ICEPlayerEpisodeModel *)model;
 
+-(void)playVideoWithVideoID:(NSString *)videoID;
+
 -(void)setIsCollectCurrentVideo:(BOOL)isCollectCurrentVideo;
 
 -(void)setIsNeedRemindUserNoWIFI:(BOOL)isNeedRemindUserNoWIFI;

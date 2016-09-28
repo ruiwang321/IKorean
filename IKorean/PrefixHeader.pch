@@ -22,6 +22,7 @@
 #import "AdViewView.h"
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
+#import "MyADView.h"
 #import "ICEAppHelper.h"
 #import "TVDataHelper.h"
 #import "ICETabBarController.h"
@@ -36,9 +37,10 @@
 #import "JPushModel.h"
 #import "BannerAdUnitView.h"
 #import "MovieItemCellLayoutHelper.h"
-#import "MainTabBarController.h"
 #import "ICEErrorStateAlertView.h"
 #import "ICESlideBackNavigationController.h"
+#import "MovieItem.h"
+#import "MovieDetailViewController.h"
 
 #define SCREEN_SCALE                         [UIScreen mainScreen].bounds.size.width/375.0f
 #define SCREEN_WIDTH                         [UIScreen mainScreen].bounds.size.width
@@ -58,7 +60,7 @@
 #define urlOfAuditStatus                     @"http://hj.api.29pai.com/app/status"
 #define urlOfGetHomePage                     @"http://hj.api.29pai.com/index/page"
 #define urlOfGetPlanTable                    @"http://hj.api.29pai.com/video/schedule"
-#define urlOfTVContent                       @""
+#define urlOfTVContent                       @"http://hj.api.29pai.com/video/detail"
 #define urlOfJsFileInfo                      @"http://hj.api.29pai.com/app/js-zip"
 #define urlOfFilter                          @"http://hj.api.29pai.com/video/filter"
 #define urlOfFilterOptions                   @"http://hj.api.29pai.com/video/filter-params"

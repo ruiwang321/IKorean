@@ -17,7 +17,7 @@
 #import "ICELabel.h"
 #import "ICEButton.h"
 #import "ICECyclicRollingTextView.h"
-#import "GetVideoURLHelper.h"
+#import "JsPlayer.h"
 
 #define urlOfGetVideoURL                     @"http://api.29pai.com/video/index?ver=2"
 #endif

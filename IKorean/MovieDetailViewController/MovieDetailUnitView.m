@@ -97,13 +97,13 @@
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoGrade]
                                                                                           attributes:_videoGradeAttributes]];
         
-        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n上映："
+        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n更新："
                                                                                           attributes:_videoInfoAttributes]];
         
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoShowTime]
                                                                                           attributes:_videoShowTime_Director_Actor_AreaAttributes]];
         
-        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n导演："
+        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n类型："
                                                                                           attributes:_videoInfoAttributes]];
         
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoDirector]
@@ -121,7 +121,7 @@
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoArea]
                                                                                           attributes:_videoShowTime_Director_Actor_AreaAttributes]];
         
-        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n影片简介：%@",[model videoIntroduction]]
+        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n剧情简介：%@",[model videoIntroduction]]
                                                                                           attributes:_videoInfoAttributes]];
 
         CGSize videoInfoTextSize=[videoInfoAttributedString boundingRectWithSize:_textBoundingRectSize options:_videoInfoOption context:nil].size;

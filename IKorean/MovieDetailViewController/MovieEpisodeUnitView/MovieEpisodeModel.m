@@ -11,13 +11,17 @@
 @implementation MovieEpisodeModel
 -(void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    if ([key isEqualToString:@"id"])
+    if ([key isEqualToString:@"link"])
     {
-        self.videoID=[NSString stringWithFormat:@"%@",value];
+        self.videoID=value;
     }
     else if([key isEqualToString:@"is_new"])
     {
         self.isNew=[value boolValue];
+    }
+    else if ([key isEqualToString:@"seg"])
+    {
+        self.title = [value stringValue];
     }
 }
 @end

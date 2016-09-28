@@ -53,9 +53,8 @@
         };
         self.movieItemAction=^(MovieItemModel * itemModel)
         {
-            TestViewController *vc = [[TestViewController alloc] init];
-            vc.vid = @(itemModel.vid);
-            [wself.navigationController pushViewController:vc animated:YES];
+            
+            [wself goMovieDetailViewWithID:itemModel.vid];
         };
     }
     return self;
@@ -145,8 +144,7 @@
         
         
         
-        MainTabBarController * mainTabBarController=(MainTabBarController *)self.tabBarController;
-        CGRect tableViewFrame=CGRectMake(0, 0, self.screenWidth, self.screenHeight-mainTabBarController.myTabBar.bounds.size.height);
+        CGRect tableViewFrame=CGRectMake(0, 0, self.screenWidth, self.screenHeight);
         self.mainTableView=[[ICEPullTableView alloc] initWithFrame:tableViewFrame
                                                 isNeedLoadMore:NO
                                                  tableViewName:@"HomePageTableView"
@@ -328,6 +326,12 @@
 }
 
 #pragma mark - 响应事件方法
+- (void)goMovieDetailViewWithID:(NSInteger)movieID
+{
+    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+    [self.navigationController pushViewController:tv animated:YES];
+}
+
 - (void)showSearchView {
     __weak typeof(self) wself = self;
     SearchView * searchView=[[SearchView alloc] initWithFrame:self.view.bounds

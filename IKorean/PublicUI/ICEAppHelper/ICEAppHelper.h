@@ -15,9 +15,9 @@
 @property (nonatomic,assign,readonly) BOOL isDisplayedPlayVideoNoWifiAlert;
 @property (nonatomic,strong,readonly) UIColor * appPublicColor;
 @property (nonatomic,strong,readonly) NSString * appName;
-//@property (nonatomic,strong,readonly) MyImageADModel * contentImageADModel;
-//@property (nonatomic,strong,readonly) MyTextADModel  * filterTextADModel;
-//@property (nonatomic,strong,readonly) MyTextADModel  * searchTextADModel;
+@property (nonatomic,strong,readonly) MyImageADModel * contentImageADModel;
+@property (nonatomic,strong,readonly) MyTextADModel  * filterTextADModel;
+@property (nonatomic,strong,readonly) MyTextADModel  * searchTextADModel;
 
 +(ICEAppHelper *)shareInstance;
 

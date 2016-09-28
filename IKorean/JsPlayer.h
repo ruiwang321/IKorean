@@ -14,8 +14,11 @@
 
 @end
 
+typedef void (^GetVideoURLFinishBlock)(NSString * videoURLString);
+
 @interface JsPlayer : NSObject //<NSURLConnectionDataDelegate>
 
+@property (nonatomic,copy) GetVideoURLFinishBlock getVideoURLFinishBlock;
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSNumber *vid;
 @property (nonatomic, weak) id<PlayVideoDelegate> delegate;
