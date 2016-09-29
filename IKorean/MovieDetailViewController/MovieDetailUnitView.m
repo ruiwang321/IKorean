@@ -115,9 +115,6 @@
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoActor]
                                                                                           attributes:_videoShowTime_Director_Actor_AreaAttributes]];
         
-        [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n制片国家／地区："
-                                                                                          attributes:_videoInfoAttributes]];
-        
         [videoInfoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[model videoArea]
                                                                                           attributes:_videoShowTime_Director_Actor_AreaAttributes]];
         

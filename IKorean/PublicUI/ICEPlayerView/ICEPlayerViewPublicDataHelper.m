@@ -34,7 +34,7 @@ static ICEPlayerViewPublicDataHelper * publicDataHelper=nil;
     if (self=[super init])
     {
         self.playerViewPublicColor=[[UIColor alloc] initWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:0.9];
-        self.playerViewControlColor=[[UIColor alloc] initWithRed:38.0f/255.0f green:179.0f/255.0f blue:250.0f/255.0f alpha:1];
+        self.playerViewControlColor=APPColor;
         self.playerViewBorderColor=[[UIColor alloc]initWithRed:70.0f/255.0f green:70.0f/255.0f blue:70.0f/255.0f alpha:1];
         self.collectionViewCellColor=[[UIColor alloc]initWithRed:10.0f/255.0f green:10.0f/255.0f blue:10.0f/255.0f alpha:0.9];
     }

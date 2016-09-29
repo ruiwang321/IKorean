@@ -39,7 +39,7 @@ static NSInteger const oneDay = 86400;
         _containerView.transform = CGAffineTransformMakeScale(0.7, 0.7);
         _weekLabel.textColor = [UIColor whiteColor];
         _dateLabel.textColor = [UIColor whiteColor];
-        if (date.timeIntervalSinceNow<oneDay && date.timeIntervalSinceNow>=0) {
+        if (date.timeIntervalSinceNow<=0 && date.timeIntervalSinceNow>-oneDay) {
             _weekLabel.text = @"今天";
         }else {
             _weekLabel.text = weekStr;
@@ -47,7 +47,7 @@ static NSInteger const oneDay = 86400;
     }else {
         _containerView.backgroundColor = [UIColor clearColor];
         _containerView.transform = CGAffineTransformMakeScale(1, 1);
-        if (date.timeIntervalSinceNow<oneDay && date.timeIntervalSinceNow>=0) {
+        if (date.timeIntervalSinceNow<=0 && date.timeIntervalSinceNow>-oneDay) {
             _weekLabel.text = @"今天";
             _weekLabel.textColor = APPColor;
             _dateLabel.textColor = APPColor;

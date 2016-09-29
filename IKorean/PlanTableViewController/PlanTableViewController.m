@@ -27,7 +27,7 @@ static NSInteger const oneDay = 86400;
     [super viewDidLoad];
     self.title = @"影视排期";
     [self setLeftButtonWithImageName:@"back@2x" action:@selector(back)];
-    selectIndex = 8;  //默认选中今天
+    selectIndex = 7;  //默认选中今天
     [self createSubViews];
 
 }
@@ -54,18 +54,28 @@ static NSInteger const oneDay = 86400;
     _mainScrollView.bounces = NO;
     
     // 设置偏移量
-    _mainScrollView.contentOffset = CGPointMake(SCREEN_WIDTH*8, 0);
-    [_dateList scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    _mainScrollView.contentOffset = CGPointMake(SCREEN_WIDTH*selectIndex, 0);
+    [_dateList scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     [self.view addSubview:_mainScrollView];
     for (NSInteger i = 0; i < 15; i++) {
         CGRect planViewFrame = CGRectMake(SCREEN_WIDTH*i, 0, SCREEN_WIDTH, _mainScrollView.bounds.size.height);
         EpisodePlanView *planView = [[EpisodePlanView alloc] initWithFrame:planViewFrame];
         planView.tag = 1000+i;
         [_mainScrollView addSubview:planView];
+        __weak typeof(self) wself = self;
+        planView.episodePlanViewBlock = ^(NSInteger vid) {
+            [wself goMovieDetailViewWithID:vid];
+        };
     }
     // 刷新今日Plan
-    EpisodePlanView *planView = [_mainScrollView viewWithTag:1000+8];
-    [planView loadDataWithDate:self.dateArr[8]];
+    EpisodePlanView *planView = [_mainScrollView viewWithTag:1000+selectIndex];
+    [planView loadDataWithDate:self.dateArr[selectIndex]];
+}
+
+- (void)goMovieDetailViewWithID:(NSInteger)movieID
+{
+    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+    [self.navigationController pushViewController:tv animated:YES];
 }
 
 - (void)back {

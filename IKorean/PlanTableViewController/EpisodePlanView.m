@@ -52,10 +52,6 @@
         [self addSubview:_listView];
     }
     
-    _loadingView = [[ICELoadingView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2-64);
-    [self addSubview:_loadingView];
-    [_loadingView startLoading];
 }
 
 - (void)loadDataWithDate:(NSDate *)date {
@@ -63,6 +59,12 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMdd";
         NSString *dateStr = [formatter stringFromDate:date];
+        
+        
+        _loadingView = [[ICELoadingView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2-64);
+        [self addSubview:_loadingView];
+        [_loadingView startLoading];
         __weak typeof(self) wself = self;
         [MYNetworking GET:urlOfGetPlanTable parameters:@{@"date":@(dateStr.integerValue)} progress:nil success:^(NSURLSessionDataTask * _Nonnull tesk, id  _Nullable responseObject) {
             is_refreshed = YES;
@@ -106,6 +108,13 @@
     EpisodePlanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"episodePlan"];
     cell.episodePlanModel = self.dataArray[indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_episodePlanViewBlock) {
+        EpisodePlanModel *model = _dataArray[indexPath.row];
+        _episodePlanViewBlock(model.vid);
+    }
 }
 
 #pragma mark getter 

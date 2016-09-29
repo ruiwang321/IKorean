@@ -20,6 +20,8 @@ UITextFieldDelegate
     SearchResultsView * m_searchResultsView;
     HotSearchView * m_hotSearchView;
 }
+
+@property (nonatomic, copy) BackAction backAction;
 @property (nonatomic,assign) BOOL isCanSearchByKeyWord;
 //输入中文时会连续掉用两次delegate。用isCanSearchByKeyWord这个标志位防止重复掉用
 @property (nonatomic,assign) CGFloat searchViewWidth;
@@ -31,6 +33,7 @@ UITextFieldDelegate
 
 -(id)initWithFrame:(CGRect)frame
   selectMovieBlock:(void (^)(NSInteger ,NSString * ))selectBlock
+        backAction:(BackAction)backAction
 {
     if (self=[super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor whiteColor]];
@@ -38,8 +41,11 @@ UITextFieldDelegate
         _searchViewHeight=CGRectGetHeight(frame);
         _searchBarHeight=64;
         _isCanSearchByKeyWord=TRUE;
+        
+        _backAction = backAction;
         //添加搜索栏
         [self addSearchBar];
+        
         //添加热门搜索
         __weak typeof(self) wself = self;
         __weak typeof(m_searchTextField) wTF = m_searchTextField;
@@ -199,7 +205,9 @@ UITextFieldDelegate
 -(void)removeSearchView
 {
     [self showKeyBoard:NO];
-    [self removeFromSuperview];
+    if (_backAction) {
+        _backAction();
+    }
 }
 
 -(void)showKeyBoard:(BOOL)isShow

@@ -11,6 +11,7 @@
 #import "MovieItem.h"
 #import "EpisodeSortOptionsView.h"
 #import "SearchView.h"
+#import "SearchViewController.h"
 
 static NSInteger const Page_size = 30;
 static CGFloat const optionDisplayHeight = 46;
@@ -49,11 +50,11 @@ UITableViewDataSource
         _imageItemModel = [[FilterUnitItemModel alloc] init];
         m_cellLayoutHelper=[MovieItemCellLayoutHelper shareInstance];
         self.movieItemModelsArray=[[NSMutableArray alloc] init];
-//        __weak typeof(self) wself=self;
-//        self.selectSomeMovieItemBlock=^(MovieItemModel * movieItemModel){
-//            NSLog(@"vid:%ld",movieItemModel.vid);
-//            [wself goTVDetailViewWithID:movieItemModel.movieID title:movieItemModel.title];
-//        };
+        __weak typeof(self) wself=self;
+        self.selectSomeMovieItemBlock=^(MovieItemModel * movieItemModel){
+            NSLog(@"vid:%ld",movieItemModel.vid);
+            [wself goMovieDetailViewWithID:movieItemModel.vid];
+        };
     }
     return self;
 }
@@ -64,20 +65,13 @@ UITableViewDataSource
 }
 
 - (void)showSearchView {
-    __weak typeof(self) wself = self;
-    SearchView * searchView=[[SearchView alloc] initWithFrame:self.view.bounds
-                                             selectMovieBlock:^(NSInteger movieID, NSString * title) {
-                                                 //                                                 [wself goTVDetailViewWithID:movieID title:title];
-                                                 [wself.tabBarController.view endEditing:YES];
-                                             }];
-    [self.navigationController.view addSubview:searchView];
-    NSLog(@"显示搜索视图");
+    [self.navigationController pushViewController:[[SearchViewController alloc] init] animated:YES];
 }
 
-- (void)goTVDetailViewWithID:(NSInteger)movieID title:(NSString *)title
+- (void)goMovieDetailViewWithID:(NSInteger)movieID
 {
-//    TVDetailViewController * tv=[[TVDetailViewController alloc]initWithID:movieID title:title];
-//    [self.navigationController pushViewController:tv animated:YES];
+    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+    [self.navigationController pushViewController:tv animated:YES];
 }
 
 

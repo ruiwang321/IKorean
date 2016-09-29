@@ -13,6 +13,8 @@
 #import "MovieDetailSwitchView.h"
 #import "MovieDetailUnitView.h"
 #import "MovieEpisodeUnitView.h"
+#import "MovieLookMoreEpisodeView.h"
+
 @interface MovieDetailViewController ()
 <
 AdInstlManagerDelegate,
@@ -20,6 +22,8 @@ UIScrollViewDelegate
 >
 {
     NSMutableDictionary *_episodeSourceDic;
+    NSString *_selectedSource;
+    BOOL isfirstload;
 }
 @property (nonatomic,assign) NSInteger movieID;
 @property (nonatomic,assign) BOOL isLockScreen;
@@ -31,6 +35,7 @@ UIScrollViewDelegate
 @property (nonatomic,strong) MovieDetailSwitchView * switchView;
 @property (nonatomic,strong) BannerAdUnitView * bannerAdUnitView;
 @property (nonatomic,strong) ICESlideBackGestureConflictScrollView * scrollView;
+@property (nonatomic,strong) MovieLookMoreEpisodeView * movieLookMoreEpisodeView;
 @property (nonatomic,strong) MovieDetailUnitView  * movieDetailUnitView;
 @property (nonatomic,strong) MovieEpisodeUnitView * movieEpisodeUnitView;
 @property (nonatomic,copy)   NSCharacterSet * nonDecimalCharacterSet;
@@ -51,6 +56,7 @@ UIScrollViewDelegate
 {
     if (self=[super init])
     {
+        
         _movieID=movieID;
         _isLockScreen=NO;
         self.adInstlManager=[AdInstlManager managerWithAdInstlKey:ADViewKey
@@ -96,6 +102,21 @@ UIScrollViewDelegate
         [_playerView setVideoIsSelectedToPlayBlock:^(ICEPlayerEpisodeModel * model){
             NSLog(@"选择某一集准备播放=%@",model.videoName);
             [wself.movieEpisodeUnitView playEpisodeWithVideoID:model.videoID];
+            [wself.movieLookMoreEpisodeView reloadLookMoreEpisodeView];
+        }];
+        
+        [_playerView setVideoFailedBlock:^(ICEPlayerEpisodeModel * model,ICEPlayerViewVideoFailedReasons failedReasons) {
+            if (failedReasons == VideoFailedBecauseOfVideoURLInValid || failedReasons == VideoFailedBecauseOfVideoLoadFailed) {
+                NSDictionary *params = @{
+                                         @"link" :model.videoID,
+                                         @"vid"  :model.spareID
+                                         };
+                [MYNetworking POST:urlOfTVUrlResolingFaileFeedback parameters:params progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                    NSLog(@"链接解析失败 反馈成功");
+                } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                    
+                }];
+            }
         }];
         
         [_playerView setVideoPauseBlock:^(ICEPlayerEpisodeModel * model,ICEPlayerViewVideoPauseReasons pauseReason){
@@ -178,7 +199,7 @@ UIScrollViewDelegate
 {
     ICEAppHelper * appHelper=[ICEAppHelper shareInstance];
     NSString * videoName=data[@"title"];
-    NSString * videoGrade=[NSString stringWithFormat:@"%@",data[@"score"]];
+    NSString * videoGrade=[NSString stringWithFormat:@"%.1f",[data[@"score"] floatValue]];
     NSString * videoShowTime=data[@"update_date"];
     NSString * videoDirector=data[@"cate"];
     NSString * videoActor=data[@"actor"];
@@ -221,11 +242,6 @@ UIScrollViewDelegate
 {
     if (responseData && 1==[responseData[@"code"] integerValue])
     {
-        _episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
-        // 整理视频源地址源数据
-        for (NSDictionary *dic in responseData[@"episode"]) {
-            [_episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
-        }
         
         NSDictionary * data=responseData[@"data"];
         MovieDetailUnitViewModel * movieDetailUnitViewModel=[self movieDetailUnitViewModelWithResponseData:data];
@@ -242,15 +258,14 @@ UIScrollViewDelegate
         }
         
         CGFloat   lastUnitViewMaxX=CGRectGetMaxX(_movieDetailUnitView.frame);
-        NSInteger category=2; // 手动赋值   ************************************************************************************************
-        NSArray  * videos=_episodeSourceDic.allValues.firstObject;  // 暂时。。。  切换源换值
+        NSInteger category=2; // 手动赋值   *****
+        NSArray  * videos=_episodeSourceDic[_selectedSource];  //   切换源换值
         NSArray  * recommends=responseData[@"recommend"];
-        
         
         
         NSString * movieTitle=data[@"title"];
         
-        MovieEpisodeUnitViewLookMoreViewStyle lookMoreViewStyle=LookMoreViewTableViewStyle;
+        MovieLookMoreEpisodeViewStyle lookMoreViewStyle=LookMoreViewTableViewStyle;
         BOOL isNeedAddMovieEpisodeUnitView=YES;
         BOOL isNeedAddMovieCorrelationUnitView=NO;
         NSMutableArray * titles=[NSMutableArray arrayWithObjects:@"详情",nil];
@@ -295,14 +310,21 @@ UIScrollViewDelegate
             movieEpisodeUnitViewFrame.origin.x=lastUnitViewMaxX;
             self.movieEpisodeUnitView=[[MovieEpisodeUnitView alloc] initWithFrame:movieEpisodeUnitViewFrame
                                                                             style:lookMoreViewStyle
-                                                                           videos:videos
+                                                                           videos:_episodeSourceDic
+                                                                   selectedSource:_selectedSource
                                                                        recommends:recommends
                                                                selectEpisodeBlock:^(NSString * videoID) {
-                                                                   [[wself playerView]playVideoWithVideoID:videoID];
+                                                                   [[wself playerView] playVideoWithVideoID:videoID];
                                                                }
                                                              selectMovieItemBlock:^(MovieItemModel *movieItemModel) {
-//                                                                 [wself setMovieID:[movieItemModel movieID]];
-//                                                                 [wself sendGetContentDataRequest];
+                                                                 [wself setMovieID:[movieItemModel vid]];
+                                                                 [wself sendGetContentDataRequest];
+                                                               } sourceSelectedBlock:^(NSString *selectedSource) {
+                                                                   isfirstload = NO;
+                                                                   _selectedSource = selectedSource;
+                                                                   [wself addOrUpdateBottomViewWithData:responseData];
+                                                               } lookMoreEpisodeBlock:^(NSArray *episodeModelArray, MovieLookMoreEpisodeViewStyle style) {
+                                                                   [wself showMovieLookMoreEpisodeViewWithEpisodeModels:episodeModelArray style:style];
                                                                }];
             
             [_scrollView addSubview:_movieEpisodeUnitView];
@@ -312,9 +334,10 @@ UIScrollViewDelegate
         for (NSDictionary * dic in videos)
         {
             ICEPlayerEpisodeModel * model=[[ICEPlayerEpisodeModel alloc] init];
-            [model setVideoID:@"http://tv.sohu.com/20131030/n389241408.shtml"]; //  更改源
+            [model setVideoID:dic[@"link"]];
             [model setLastPlaySeconds:0];
-            NSString * videoTitle=@"123";
+            [model setSpareID:@(_movieID)];
+            NSString * videoTitle = [dic[@"seg"] stringValue];
             if (LookMoreViewCollectionViewStyle==lookMoreViewStyle)
             {
                 [model setEpisodeNumber:videoTitle];
@@ -326,10 +349,16 @@ UIScrollViewDelegate
             }
             [episodeModelArray addObject:model];
         }
-        [_switchView setTitles:titles];
-        [_switchView setIndex:0 animated:NO];
-        [_scrollView setContentOffset:CGPointZero];
-        [_scrollView setContentSize:CGSizeMake(lastUnitViewMaxX, CGRectGetHeight(_scrollView.frame))];
+        
+        
+        if (isfirstload) {
+            [_switchView setTitles:titles];
+            [_switchView setIndex:0 animated:NO];
+            [_scrollView setContentOffset:CGPointZero];
+            [_scrollView setContentSize:CGSizeMake(lastUnitViewMaxX, CGRectGetHeight(_scrollView.frame))];
+        }
+        
+        
         if ([episodeModelArray count])
         {
             [_playerView loadPlayerWithEpisodeModels:episodeModelArray
@@ -361,6 +390,15 @@ UIScrollViewDelegate
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself.loadingView stopLoading];
                             
+                            isfirstload = YES;   // 初始化第一次加载判断
+                            _episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
+                            // 整理视频源地址源数据
+                            for (NSDictionary *dic in responseObject[@"episode"]) {
+                                [_episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
+                            }
+                            
+                            // 设置默认视频源
+                            _selectedSource = _episodeSourceDic.allKeys.firstObject;
                             [wself addOrUpdateBottomViewWithData:responseObject];
                             [wself.bottomBackGroundView setHidden:NO];
                         }
@@ -369,6 +407,26 @@ UIScrollViewDelegate
                             [wself.errorStateAlertView setHidden:NO];
                         }];
 }
+
+- (void)showMovieLookMoreEpisodeViewWithEpisodeModels:(NSArray *)episodeModels
+                                                style:(MovieLookMoreEpisodeViewStyle)style
+{
+    if (_movieLookMoreEpisodeView==nil)
+    {
+        __weak typeof(self) wself=self;
+        CGRect lookMoreEpisodeViewFrame=[_bottomBackGroundView frame];
+        lookMoreEpisodeViewFrame.origin.y=[self screenHeight];
+        self.movieLookMoreEpisodeView=[[MovieLookMoreEpisodeView alloc] initWithFrame:lookMoreEpisodeViewFrame
+                                                                                style:style
+                                                                        episodeModels:episodeModels
+                                                                   selectEpisodeBlock:^(NSString *videoID) {
+                                                                       [[wself playerView]playVideoWithVideoID:videoID];
+                                                                   }];
+        [self.view insertSubview:_movieLookMoreEpisodeView belowSubview:_playerView];
+    }
+    [_movieLookMoreEpisodeView showLookMoreEpisodeView];
+}
+
 
 - (void)viewDidLoad
 {

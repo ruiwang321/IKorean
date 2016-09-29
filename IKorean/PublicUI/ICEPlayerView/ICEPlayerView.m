@@ -898,7 +898,7 @@ UIGestureRecognizerDelegate
     if (_playerLayer==nil)
     {
         self.playerLayer=[[AVPlayerLayer alloc] init];
-        [_playerLayer setVideoGravity:AVLayerVideoGravityResize];
+        [_playerLayer setVideoGravity:AVLayerVideoGravityResizeAspect];
         [_playerLayer setFrame:self.bounds];
         [self.layer insertSublayer:_playerLayer atIndex:0];
     }
@@ -924,6 +924,7 @@ UIGestureRecognizerDelegate
         [_currentPlayModel setIsPlay:YES];
         [_readToPlayView startLoadingWithTitle:_currentPlayModel.videoName];
         [_getVideoURLHelper setUrl:model.videoID];
+        [_getVideoURLHelper setVid:model.spareID];
         [_getVideoURLHelper getVideoUrl];
     }
 }

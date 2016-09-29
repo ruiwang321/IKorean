@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef void(^BackAction)();
 @interface SearchView : UIView
 -(id)initWithFrame:(CGRect)frame
-  selectMovieBlock:(void (^)(NSInteger ,NSString * ))selectBlock;
+  selectMovieBlock:(void (^)(NSInteger ,NSString * ))selectBlock
+        backAction:(BackAction)backAction;
 @end

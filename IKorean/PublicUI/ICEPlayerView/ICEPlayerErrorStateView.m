@@ -11,7 +11,7 @@
 #define ErrorMessageNoNetWorkString           @"网络未连接，请检查网络设置"
 #define ErrorMessageNetWorkBusy               @"当前网络繁忙，建议您稍后再试"
 #define ErrorMessageNoWIFIString              @"当前网络状态不是WIFI,继续观看将产生流量"
-#define ErrorMessageVideoURLInValidString     @"视频播放地址似乎失效，请重试或去网上观看"
+#define ErrorMessageVideoURLInValidString     @"视频源失效，请切换视频源或去网上观看"
 #define ErrorMessageVideoLoadFailedString     @"视频加载失败，请重试"
 
 #define EnsureKeepWatching                    @"继续观看"

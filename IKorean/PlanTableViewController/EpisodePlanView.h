@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^EpisodePlanViewBlock)(NSInteger vid);
 @interface EpisodePlanView : UIView
+
+@property (nonatomic, copy) EpisodePlanViewBlock episodePlanViewBlock;
 
 - (void)loadDataWithDate:(NSDate *)date;
 

@@ -13,8 +13,7 @@
 #import "HistoryViewController.h"
 #import "EpisodeSortViewController.h"
 #import "PlanTableViewController.h"
-#import "SearchView.h"
-#import "TestViewController.h"
+#import "SearchViewController.h"
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>{
     JPushModel *m_model;
@@ -116,6 +115,7 @@
         self.slideshowScrollView=[[ICESlideshowScrollView alloc] initWithFrame:slideshowScrollViewFrame
                                                           placeholderImageName:@"publicPlaceholder@2x"
                                                                selectPageBlock:^(ICESlideshowPageModel *pageModel) {
+                                                                   // 幻灯片点击响应
 //                                                                   [MobClick event:@"1"];
 //                                                                   [wself goTVDetailViewWithID:pageModel.rel_id title:pageModel.title];
                                                                }];
@@ -333,14 +333,8 @@
 }
 
 - (void)showSearchView {
-    __weak typeof(self) wself = self;
-    SearchView * searchView=[[SearchView alloc] initWithFrame:self.view.bounds
-                                             selectMovieBlock:^(NSInteger movieID, NSString * title) {
-//                                                 [wself goTVDetailViewWithID:movieID title:title];
-                                                 [wself.tabBarController.view endEditing:YES];
-                                             }];
-    [self.navigationController.view addSubview:searchView];
-
+    
+    [self.navigationController pushViewController:[[SearchViewController alloc] init] animated:YES];
 }
 
 - (void)goHistoryView {
