@@ -22,8 +22,7 @@ UIScrollViewDelegate
 >
 {
     NSMutableDictionary *_episodeSourceDic;
-    NSString *_selectedSource;
-    BOOL isfirstload;
+    
 }
 @property (nonatomic,assign) NSInteger movieID;
 @property (nonatomic,assign) BOOL isLockScreen;
@@ -40,6 +39,8 @@ UIScrollViewDelegate
 @property (nonatomic,strong) MovieEpisodeUnitView * movieEpisodeUnitView;
 @property (nonatomic,copy)   NSCharacterSet * nonDecimalCharacterSet;
 @property (nonatomic,copy)   NSCharacterSet * numberCharacterSet;
+@property (nonatomic,copy)   NSString *selectedSource;
+@property (nonatomic,assign) BOOL isfirstload;
 @end
 
 @implementation MovieDetailViewController
@@ -320,8 +321,8 @@ UIScrollViewDelegate
                                                                  [wself setMovieID:[movieItemModel vid]];
                                                                  [wself sendGetContentDataRequest];
                                                                } sourceSelectedBlock:^(NSString *selectedSource) {
-                                                                   isfirstload = NO;
-                                                                   _selectedSource = selectedSource;
+                                                                   wself.isfirstload = NO;
+                                                                   wself.selectedSource = selectedSource;
                                                                    [wself addOrUpdateBottomViewWithData:responseData];
                                                                } lookMoreEpisodeBlock:^(NSArray *episodeModelArray, MovieLookMoreEpisodeViewStyle style) {
                                                                    [wself showMovieLookMoreEpisodeViewWithEpisodeModels:episodeModelArray style:style];
@@ -351,7 +352,7 @@ UIScrollViewDelegate
         }
         
         
-        if (isfirstload) {
+        if (_isfirstload) {
             [_switchView setTitles:titles];
             [_switchView setIndex:0 animated:NO];
             [_scrollView setContentOffset:CGPointZero];
@@ -390,7 +391,7 @@ UIScrollViewDelegate
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself.loadingView stopLoading];
                             
-                            isfirstload = YES;   // 初始化第一次加载判断
+                            wself.isfirstload = YES;   // 初始化第一次加载判断
                             _episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
                             // 整理视频源地址源数据
                             for (NSDictionary *dic in responseObject[@"episode"]) {

@@ -206,7 +206,20 @@ lookMoreEpisodeBlock:(void (^)(NSArray * episodeModelArray,MovieLookMoreEpisodeV
         _recommendCollectionView.dataSource = self;
         [scrollView addSubview:_recommendCollectionView];
         
-        scrollView.contentSize = CGSizeMake(0, CGRectGetMaxY(_recommendCollectionView.frame) + 20);
+        CGFloat lastMaxY = CGRectGetMaxY(_recommendCollectionView.frame);
+        
+        //互推广告
+        MyImageADModel * imageADModel=[[ICEAppHelper shareInstance] contentImageADModel];
+        if (imageADModel)
+        {
+            CGRect myADViewFrame=CGRectMake(0, CGRectGetMaxY(_recommendCollectionView.frame)+10, [imageADModel width], [imageADModel height]);
+            MyADView * myADView=[[MyADView alloc] initWithFrame:myADViewFrame imageADModel:imageADModel];
+            [scrollView addSubview:myADView];
+            lastMaxY = CGRectGetMaxY(myADView.frame);
+        }
+
+        
+        scrollView.contentSize = CGSizeMake(0,lastMaxY);
     }
     return self;
 }

@@ -52,7 +52,7 @@ UITableViewDataSource
         self.movieItemModelsArray=[[NSMutableArray alloc] init];
         __weak typeof(self) wself=self;
         self.selectSomeMovieItemBlock=^(MovieItemModel * movieItemModel){
-            NSLog(@"vid:%ld",movieItemModel.vid);
+            NSLog(@"vid:%d",movieItemModel.vid);
             [wself goMovieDetailViewWithID:movieItemModel.vid];
         };
     }

@@ -117,7 +117,12 @@
                                                                selectPageBlock:^(ICESlideshowPageModel *pageModel) {
                                                                    // 幻灯片点击响应
 //                                                                   [MobClick event:@"1"];
-//                                                                   [wself goTVDetailViewWithID:pageModel.rel_id title:pageModel.title];
+//
+                                                                   if ([pageModel.link isEqualToString:@""] || pageModel.link==nil) {
+                                                                       [wself goMovieDetailViewWithID:pageModel.video_id];
+                                                                   }else {
+                                                                       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:pageModel.link]];
+                                                                   }
                                                                }];
         
         // 排期表和剧集分类按钮视图
