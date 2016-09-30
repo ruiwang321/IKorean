@@ -128,7 +128,9 @@ AdSpreadScreenManagerDelegate
     ICESlideBackNavigationController * rootNC=[[ICESlideBackNavigationController alloc] initWithRootViewController:[[HomeViewController alloc] initWithJPushModel:_jPushModel]];
     [self.window setRootViewController:rootNC];
     if (![ICEAppGuideView isDisplayedAppGuideView]){
-        [self addAppGuideView];
+        if (![[[UIDevice currentDevice] model] isEqualToString:@"iPad"]) {
+            [self addAppGuideView];
+        }
     }
     else {
         [self addSpreadScreenAD];

@@ -74,8 +74,14 @@ static NSInteger const oneDay = 86400;
 
 - (void)goMovieDetailViewWithID:(NSInteger)movieID
 {
-    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
-    [self.navigationController pushViewController:tv animated:YES];
+    if ([[ICEAppHelper shareInstance] isPassAudit]) {
+        MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+        [self.navigationController pushViewController:tv animated:YES];
+    }else {
+        TVDetailViewController *tvDetailVC = [[TVDetailViewController alloc] initWithID:movieID];
+        [self.navigationController pushViewController:tvDetailVC animated:YES];
+    }
+    
 }
 
 - (void)back {

@@ -9,9 +9,9 @@
 #import "MYNetworking.h"
 #import "NSString+md5.h"
 
-static NSString *const app_id = @"2";
+static NSString *const app_id = @"3";
 static NSString *const app_version = @"1";
-static NSString *const app_key = @"e9824d31c072f2ca4da33c21b109ff6c";
+static NSString *const app_key = @"30341d2cb7f1a0d909e96fa11dade7c2";
 
 @implementation MYNetworking
 + (void)GET:(NSString *)URLString

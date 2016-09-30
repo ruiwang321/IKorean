@@ -177,7 +177,7 @@ static ICEAppHelper * appHelper=nil;
     {
         ispassAudit=[numberOfIsPassAudit boolValue];
     }
-    return YES;
+    return ispassAudit;
 }
 
 -(void)setAuditStautsWithisPassAudit:(BOOL)ispassAudit
@@ -189,15 +189,15 @@ static ICEAppHelper * appHelper=nil;
 
 -(void)analyticalDataWithResponseObject:(id)responseObject requestType:(ICEAppHelperRequestType)type
 {
-    if (responseObject&&[responseObject[@"status"] integerValue]==100)
+    if (responseObject&&[responseObject[@"code"] integerValue]==1)
     {
         NSDictionary * data=responseObject[@"data"];
         if (ICEAppHelperRequestType_AuditStatus==type)
         {
             BOOL isPassAudit=NO;
-            if (data&&[[data allKeys]containsObject:KeyForCurrentAuditingVersion])
+            if (data)
             {
-                isPassAudit=[data[KeyForCurrentAuditingVersion] boolValue];
+                isPassAudit=[data[@"is_open"] boolValue];
             }
             [self setAuditStautsWithisPassAudit:isPassAudit];
         }
@@ -245,7 +245,7 @@ static ICEAppHelper * appHelper=nil;
 -(void)asyncCheckAuditStatusWithCompletedBlock:(void (^)())completedBlock
 {
     __weak typeof(self) wself=self;
-    [m_getAuitStatusManager GET:urlOfAuditStatus
+    [MYNetworking GET:urlOfAuditStatus
                      parameters:nil
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
