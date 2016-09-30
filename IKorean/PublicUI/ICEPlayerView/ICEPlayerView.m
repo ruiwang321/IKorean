@@ -164,7 +164,7 @@ typedef NS_ENUM(NSInteger, PanScreenPurposeOptions) {
     ICEPlayerEpisodeModel * playModel=[episodeModelsArray firstObject];
     for (ICEPlayerEpisodeModel * model in episodeModelsArray)
     {
-        if (model.lastPlaySeconds)
+        if ([model lastPlaySeconds]>0)
         {
             playModel=model;
             break;

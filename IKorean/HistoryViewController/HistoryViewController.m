@@ -9,6 +9,8 @@
 #import "HistoryViewController.h"
 #import "HistoryOrFavouriteTableViewCell.h"
 
+
+static NSInteger const oneDay = 86400;
 @interface HistoryViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *mainTableView;
@@ -34,9 +36,18 @@
     
     _historyDataDic = [NSMutableDictionary dictionary];
     for (NSDictionary *arrDic in sqlArr) {
-        
         HistoryOrFavouriteDataModel *model = [[HistoryOrFavouriteDataModel alloc] init];
         [model setValuesForKeysWithDictionary:arrDic];
+        
+//        double passTime = [[NSDate date] timeIntervalSince1970]-model.timeStamp.integerValue;
+//        if (passTime/oneDay>0) {
+//            
+//        }else if (1<passTime/oneDay && passTime/oneDay<7) {
+//            
+//        }else {
+//            
+//        }
+        model.title = [NSString stringWithFormat:@"%@ 第%ld集",arrDic[@"title"],[arrDic[@"episodeNumber"] integerValue]];
         [_historyDataArray addObject:model];
     }
     

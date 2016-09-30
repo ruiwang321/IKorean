@@ -77,6 +77,14 @@
     
     _updateInfoLabel.hidden = model.updateinfo==nil||[model.updateinfo isEqualToString:@""];
     _updateInfoLabel.text = model.updateinfo;
+    
+    if (model.lastPlaySecond.integerValue<300 && 0<=model.lastPlaySecond.integerValue) {
+        _timeLabel.text = @"观看少于5分钟";
+    }else if ((model.totalSecond.doubleValue-model.lastPlaySecond.doubleValue)/model.totalSecond.doubleValue < 0.02 && 0<(model.totalSecond.doubleValue-model.lastPlaySecond.doubleValue)/model.totalSecond.doubleValue) {
+        _timeLabel.text = @"已看完";
+    }else {
+        _timeLabel.text = [NSString stringWithFormat:@"播放至%d分钟",(int)model.lastPlaySecond.doubleValue/60];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -228,7 +228,7 @@ AdSpreadScreenManagerDelegate
 }
 
 - (NSString *)adSpreadScreenLogoImgName {
-    return @"adLogo@2x.png";
+    return @"";
 }
 
 - (UIColor *)adSpreadScreenBackgroundColor {

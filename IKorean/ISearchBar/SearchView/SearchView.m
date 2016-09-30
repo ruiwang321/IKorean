@@ -115,7 +115,7 @@ UITextFieldDelegate
     m_searchTextField=[[UITextField alloc] initWithFrame:textFieldFrame];
     [m_searchTextField setDelegate:self];
     [m_searchTextField setText:@""];
-    [m_searchTextField setPlaceholder:@"请输入影片名称"];
+    [m_searchTextField setPlaceholder:@" 请输入影片名/演员/类型"];
     [m_searchTextField setFont:[UIFont fontWithName:HYQiHei_50Pound size:13]];
     [m_searchTextField setTextAlignment:NSTextAlignmentLeft];
     [m_searchTextField setTextColor:[UIColor colorWithRed:100.0f/255.0f green:100.0f/255.0f blue:100.0f/255.0f alpha:1]];

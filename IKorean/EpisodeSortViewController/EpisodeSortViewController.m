@@ -348,6 +348,8 @@ UITableViewDataSource
     [self setRightButtonWithImageName:@"searchNavBar@2x" action:@selector(showSearchView)];
     [self sendGetFilterOptionsRequest];
 //    [self sendGetFilterDataRequestWithPullTableViewType:ICEPullTableViewRefresh];
+    BannerAdUnitView *bannerAdView = [[BannerAdUnitView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-50, SCREEN_WIDTH, 50)];
+    [self.view addSubview:bannerAdView];
 }
 
 - (void)didReceiveMemoryWarning

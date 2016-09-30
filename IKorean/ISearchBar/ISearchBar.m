@@ -132,7 +132,7 @@
                                                      NSForegroundColorAttributeName:[UIColor whiteColor]
                                                      };
         
-        NSMutableAttributedString * searchButtonTitleAttriString=[[NSMutableAttributedString alloc] initWithString:@" 全网搜索"
+        NSMutableAttributedString * searchButtonTitleAttriString=[[NSMutableAttributedString alloc] initWithString:@" 请输入影片名/演员/类型"
                                                                                                         attributes:searchButtonTitleAttributes];
         NSTextAttachment * textAttachmentOfSearchImage = [[NSTextAttachment alloc] init];
         textAttachmentOfSearchImage.image = searchImage;

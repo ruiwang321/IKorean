@@ -18,7 +18,7 @@
 @property (nonatomic, copy) NSNumber *timeStamp;
 @property (nonatomic, copy) NSNumber *episodeNumber;
 @property (nonatomic, copy) NSNumber *lastPlaySecond;
-@property (nonatomic, copy) NSNumber *totleSecond;
+@property (nonatomic, copy) NSNumber *totalSecond;
 
 @end
 
