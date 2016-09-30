@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UIButton *delBtn;
 @property (nonatomic, strong) NSMutableArray *historyDataArray;
 
+@property (nonatomic, strong) NSMutableDictionary *historyDataDic;
+
 @end
 
 @implementation HistoryViewController
@@ -25,13 +27,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"历史记录";
-
+    
+    NSArray *sqlArr = [[TVDataHelper shareInstance] getAllPlayHistory];
     // 测试数据
     _historyDataArray = [NSMutableArray array];
-    for (NSInteger i = 0; i < 10; i++) {
+    
+    _historyDataDic = [NSMutableDictionary dictionary];
+    for (NSDictionary *arrDic in sqlArr) {
+        
         HistoryOrFavouriteDataModel *model = [[HistoryOrFavouriteDataModel alloc] init];
+        [model setValuesForKeysWithDictionary:arrDic];
         [_historyDataArray addObject:model];
     }
+    
+    
     
     _backOrAllSelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_backOrAllSelBtn setImage:IMAGENAME(@"back@2x", @"png") forState:UIControlStateNormal];
@@ -55,7 +64,7 @@
     [_mainTableView registerNib:[UINib nibWithNibName:@"HistoryOrFavouriteTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"cellId"];
     _mainTableView.delegate = self;
     _mainTableView.dataSource = self;
-    _mainTableView.rowHeight = 80;
+    _mainTableView.rowHeight = 120;
     _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_mainTableView];
     
@@ -78,6 +87,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HistoryOrFavouriteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    cell.model = _historyDataArray[indexPath.row];
     [cell setEdit:_editBtn.selected];
     [cell setIsSelect:[self.delHistoryArray containsObject:_historyDataArray[indexPath.row]]];
     return cell;
@@ -101,6 +111,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    HistoryOrFavouriteDataModel *model = _historyDataArray[indexPath.row];
+    [[TVDataHelper shareInstance] delatePlayHistoryWithVideoID:model.vid];
     [_historyDataArray removeObjectAtIndex:indexPath.row];
     [tableView reloadData];
 }
@@ -149,6 +161,10 @@
 
 - (void)delBtnAction {
     if (_delHistoryArray.count>0 && _delHistoryArray) {
+        
+        for (HistoryOrFavouriteDataModel *model in _delHistoryArray) {
+            [[TVDataHelper shareInstance] delatePlayHistoryWithVideoID:model.vid];
+        }
         [_historyDataArray removeObjectsInArray:_delHistoryArray];
         [_mainTableView reloadData];
         [self editAction:_editBtn];

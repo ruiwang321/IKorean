@@ -81,8 +81,8 @@
 
 -(void)receivePush:(JPushModel *)model
 {
-    //    TVDetailViewController * tv=[[TVDetailViewController alloc]initWithID:model.movieID title:model.movieTitle];
-    //    [self.navigationController pushViewController:tv animated:!model.isReceivePushInBackGround];
+    MovieDetailViewController *movieDetailVC = [[MovieDetailViewController alloc] initWithMovieID:model.movieID];
+    [self.navigationController pushViewController:movieDetailVC animated:!model.isReceivePushInBackGround];
 }
 
 -(void)haveNotification:(NSNotification *)notification

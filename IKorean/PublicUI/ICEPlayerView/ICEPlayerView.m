@@ -374,10 +374,13 @@ UIGestureRecognizerDelegate
         };
     
         self.getVideoURLHelper=[JsPlayer sharedInstance];
-        [_getVideoURLHelper setGetVideoURLFinishBlock:^(NSString * videoURLString)
+        [_getVideoURLHelper setGetVideoURLFinishBlock:^(NSString * videoURLString, NSString * link)
         {
-            [wself.currentPlayModel setUrl:videoURLString];
-            [wself loadVideoWithURLString:videoURLString];
+            if (link&&[wself.currentPlayModel.videoID isEqualToString:link])
+            {
+                [wself.currentPlayModel setUrl:videoURLString];
+                [wself loadVideoWithURLString:videoURLString];
+            }
         }];
 
         [self addLoadingView];
@@ -824,6 +827,10 @@ UIGestureRecognizerDelegate
 {
     if ([_currentPlayModel isPlay])
     {
+        if (VideoEndBecauseOfNormalPlayToEnd==endReasons)
+        {
+            [_bottomView setProgressSeconds:[_player currentItemTotalSeconds]];
+        }
         [_currentPlayModel setIsPlay:NO];
         [self executeVideoEndBlockWithEndReasons:endReasons];
     }

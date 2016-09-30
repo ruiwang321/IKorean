@@ -26,7 +26,7 @@ static NSString const * jsFilesName = @"jsFiles";
     NSLog(@"playVideo in objc");
     
     if (_getVideoURLFinishBlock) {
-        _getVideoURLFinishBlock(url);
+        _getVideoURLFinishBlock(url,_url);
     }
     if (self.delegate != nil) {
         NSLog(@"toPlay");
@@ -38,7 +38,7 @@ static NSString const * jsFilesName = @"jsFiles";
 - (void)errorReport {
     // TODO 上报服务器
     if (_getVideoURLFinishBlock) {
-        _getVideoURLFinishBlock(nil);
+        _getVideoURLFinishBlock(nil,_url);
     }
     
     NSLog(@"errorReport %@", self.url);

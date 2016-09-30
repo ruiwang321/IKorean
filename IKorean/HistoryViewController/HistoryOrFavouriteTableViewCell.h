@@ -10,6 +10,16 @@
 
 @interface HistoryOrFavouriteDataModel : NSObject
 
+@property (nonatomic, copy) NSNumber *grade;
+@property (nonatomic, copy) NSString *img;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSNumber *vid;
+@property (nonatomic, copy) NSString *updateinfo;
+@property (nonatomic, copy) NSNumber *timeStamp;
+@property (nonatomic, copy) NSNumber *episodeNumber;
+@property (nonatomic, copy) NSNumber *lastPlaySecond;
+@property (nonatomic, copy) NSNumber *totleSecond;
+
 @end
 
 @interface HistoryOrFavouriteTableViewCell : UITableViewCell

@@ -75,7 +75,7 @@
     
     // 评分label
     _scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(movieImageViewFrame)-35, 0, 35, 17)];
-    _scoreLabel.backgroundColor = [UIColor colorWithRed:233/255.0f green:55/255.0f blue:87/255.0f alpha:1];
+    _scoreLabel.backgroundColor = [UIColor colorWithRed:233/255.0f green:55/255.0f blue:87/255.0f alpha:0.9];
     _scoreLabel.textColor = [UIColor whiteColor];
     _scoreLabel.textAlignment = NSTextAlignmentCenter;
     _scoreLabel.font = [UIFont fontWithName:HYQiHei_55Pound size:10];

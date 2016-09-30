@@ -68,12 +68,12 @@
                   moduleName = "IKorean"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ruiwang/Desktop/IKorean/IKorean/ISearchBar/SearchView/HotSearchView/HotSearchView.m"
-                  timestampString = "496842980.724674"
+                  timestampString = "496915684.24461"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "159"
                   endingLineNumber = "159"
-                  offsetFromSymbolStart = "232">
+                  offsetFromSymbolStart = "212">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -83,12 +83,12 @@
                   moduleName = "IKorean"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ruiwang/Desktop/IKorean/IKorean/ISearchBar/SearchView/HotSearchView/HotSearchView.m"
-                  timestampString = "496842980.72484"
+                  timestampString = "496915684.247091"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "159"
                   endingLineNumber = "159"
-                  offsetFromSymbolStart = "93">
+                  offsetFromSymbolStart = "111">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -98,12 +98,12 @@
                   moduleName = "IKorean"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ruiwang/Desktop/IKorean/IKorean/ISearchBar/SearchView/HotSearchView/HotSearchView.m"
-                  timestampString = "496842980.724986"
+                  timestampString = "496915684.249705"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "159"
                   endingLineNumber = "159"
-                  offsetFromSymbolStart = "58">
+                  offsetFromSymbolStart = "55">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -125,38 +125,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IKorean/PublicUI/ICEPlayerView/ICEPlayerView.m"
-            timestampString = "496823770.119267"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "975"
-            endingLineNumber = "975"
-            landmarkName = "-playVideoWithVideoID:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IKorean/PublicUI/ICEPlayerView/ICEPlayerView.m"
-            timestampString = "496823770.119267"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "978"
-            endingLineNumber = "978"
-            landmarkName = "-playVideoWithVideoID:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -167,7 +135,7 @@
             startingLineNumber = "27"
             endingLineNumber = "27"
             landmarkName = "-playVideo:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -176,14 +144,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IKorean/HomeViewController/HomeViewController.m"
-            timestampString = "496841507.990453"
+            filePath = "IKorean/FavouriteViewController/FavouriteViewController.m"
+            timestampString = "496897819.887727"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "-updateChildViewWithResponseData:"
-            landmarkType = "5">
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IKorean/PublicUI/ICEPlayerView/ICEPlayerView.m"
+            timestampString = "496910204.51149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "828"
+            endingLineNumber = "828"
+            landmarkName = "-playerEndWithReason:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IKorean/PublicUI/ICEPlayerView/ICEPlayerView.m"
+            timestampString = "496910216.183343"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
+            landmarkName = "-executeVideoEndBlockWithEndReasons:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -193,13 +193,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IKorean/MovieDetailViewController/MovieDetailViewController.m"
-            timestampString = "496842798.504582"
+            timestampString = "496911865.355176"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-dealloc"
-            landmarkType = "5">
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "-addChildView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IKorean/HistoryViewController/HistoryViewController.m"
+            timestampString = "496915494.11727"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

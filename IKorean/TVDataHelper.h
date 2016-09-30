@@ -16,7 +16,7 @@
 -(void)favoriteVideoWithVideoID:(NSNumber *)videoID
                        imageUrl:(NSString *)imageUrl
                           title:(NSString *)title
-                          grade:(NSNumber *)grade;
+                     updateinfo:(NSString *)updateinfo;
 
 -(void)cancelFavoriteVideoWithVideoID:(NSNumber *)videoID;
 
@@ -29,7 +29,11 @@
 -(void)addPlayHistoryWithVideoID:(NSNumber *)videoID
                         imageUrl:(NSString *)imageUrl
                            title:(NSString *)title
-                           grade:(NSNumber *)grade;
+                      sourceName:(NSString *)sourceName
+                     totalSecond:(NSNumber *)totalSecond
+                  lastPlaySecond:(NSNumber *)lastPlaySecond
+                       timeStamp:(NSNumber *)timeStamp
+                   episodeNumber:(NSString *)episodeNumber;
 
 -(void)delatePlayHistoryWithVideoID:(NSNumber *)videoID;
 

@@ -70,6 +70,9 @@
 #define urlOfTVUrlResolingFaileFeedback      @"http://hj.api.29pai.com/report/error"
 #define urlOfFeedbackOptions                 @"http://hj.api.29pai.com/feedback/options"
 #define urlOfFeedbackSubmit                  @"http://hj.api.29pai.com/feedback/submit"
+
+#define urlOfGetMyAD                         @"http://api.29pai.com/my-ad/index"
+
 #define PlayerControlColor                   [UIColor colorWithRed:38.0f/255.0f green:179.0f/255.0f blue:250.0f/255.0f alpha:1]
 
 //根据不同版本需要配置的字段
@@ -95,7 +98,7 @@
 //渠道(不用变)
 #define IsProduction                         TRUE
 //是否为生产环境(上线时改成TRUE)
-#define UMAppKey                             @"57c7813467e58e4982000340"
+#define UMAppKey                             @"57eb6e7a67e58ee54400356d"
 //友盟key
 #define ADViewKey                            @"SDK20161328010942svw1tdb2bjr59r4"
 //adviewkey(广告key)别忘了把adview的离线文件替换了

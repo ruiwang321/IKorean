@@ -10,9 +10,22 @@
 
 
 @implementation HistoryOrFavouriteDataModel
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    if ([key isEqualToString:@"id"]) {
+        [self setValue:value forKey:@"vid"];
+    }
+}
+
 @end
 
 @interface HistoryOrFavouriteTableViewCell ()
+@property (weak, nonatomic) IBOutlet UIImageView *phoneIcon;
+@property (weak, nonatomic) IBOutlet UILabel *updateInfoLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectImageWidth;
 @property (weak, nonatomic) IBOutlet UIImageView *selectImageView;
@@ -56,6 +69,14 @@
 
 - (void)setModel:(HistoryOrFavouriteDataModel *)model {
     _model = model;
+    _titleLabel.text = model.title;
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"default_v_icon"]];
+    
+    _timeLabel.hidden = model.timeStamp == nil;
+    _phoneIcon.hidden = model.timeStamp == nil;
+    
+    _updateInfoLabel.hidden = model.updateinfo||[model.updateinfo isEqualToString:@""];
+    _updateInfoLabel.text = model.updateinfo;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

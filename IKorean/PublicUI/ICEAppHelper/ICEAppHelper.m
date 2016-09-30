@@ -203,28 +203,41 @@ static ICEAppHelper * appHelper=nil;
         }
         else if (ICEAppHelperRequestType_MyAD==type)
         {
-            if (_contentImageADModel==nil)
-            {
-                self.contentImageADModel=[[MyImageADModel alloc] init];
+            NSDictionary * contentDic=data[@"content"];
+            if (contentDic&&[[contentDic allKeys] count]) {
+                if (_contentImageADModel==nil)
+                {
+                    self.contentImageADModel=[[MyImageADModel alloc] init];
+                }
+                [_contentImageADModel setValuesForKeysWithDictionary:contentDic];
+                
+                CGSize  screenSize=[[UIScreen mainScreen] bounds].size;
+                CGFloat screenWidth=MIN(screenSize.width, screenSize.height);
+                [_contentImageADModel setHeight:[_contentImageADModel height]/[_contentImageADModel width]*screenWidth];
+                [_contentImageADModel setWidth:screenWidth];
             }
-            [_contentImageADModel setValuesForKeysWithDictionary:data[@"content"]];
             
-            if (_filterTextADModel==nil)
-            {
-                self.filterTextADModel=[[MyTextADModel alloc] init];
+            NSDictionary *filterDic = data[@"filter"];
+            if (filterDic&&[[filterDic allKeys] count]) {
+                if (_filterTextADModel==nil)
+                {
+                    self.filterTextADModel=[[MyTextADModel alloc] init];
+                }
+                [_filterTextADModel setValuesForKeysWithDictionary:filterDic];
             }
-            [_filterTextADModel setValuesForKeysWithDictionary:data[@"filter"]];
             
-            if (_searchTextADModel==nil)
-            {
-                self.searchTextADModel=[[MyTextADModel alloc] init];
+            
+            NSDictionary *searchDic = data[@"search"];
+            if (searchDic&&[[searchDic allKeys] count]) {
+                if (_searchTextADModel==nil)
+                {
+                    self.searchTextADModel=[[MyTextADModel alloc] init];
+                }
+                [_searchTextADModel setValuesForKeysWithDictionary:searchDic];
             }
-            [_searchTextADModel setValuesForKeysWithDictionary:data[@"search"]];
             
-            CGSize  screenSize=[[UIScreen mainScreen] bounds].size;
-            CGFloat screenWidth=MIN(screenSize.width, screenSize.height);
-            [_contentImageADModel setHeight:[_contentImageADModel height]/[_contentImageADModel width]*screenWidth];
-            [_contentImageADModel setWidth:screenWidth];
+            
+            
         }
     }
 }
@@ -247,8 +260,8 @@ static ICEAppHelper * appHelper=nil;
 -(void)asyncGetMyADWithCompletedBlock:(void (^)())completedBlock
 {
     __weak typeof(self) wself=self;
-    [m_getAuitStatusManager GET:@""
-                     parameters:@{@"c":[[NSBundle mainBundle]bundleIdentifier]}
+    [m_getAuitStatusManager GET:urlOfGetMyAD
+                     parameters:@{@"c":[[NSBundle mainBundle] bundleIdentifier]}
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself analyticalDataWithResponseObject:responseObject requestType:ICEAppHelperRequestType_MyAD];

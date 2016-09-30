@@ -14,7 +14,7 @@
 
 @end
 
-typedef void (^GetVideoURLFinishBlock)(NSString * videoURLString);
+typedef void (^GetVideoURLFinishBlock)(NSString * videoURLString, NSString * link);
 
 @interface JsPlayer : NSObject //<NSURLConnectionDataDelegate>
 

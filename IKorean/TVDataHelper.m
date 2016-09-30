@@ -44,8 +44,8 @@ static TVDataHelper * tvDataHelper=nil;
         m_dataBase=[[FMDatabase alloc] initWithPath:_stringOfDBPath];
         [m_dataBase open];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (episodeid INTEGER);",_stringOfVideoNewStatusTableName]];
-        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,grade REAL);",_stringOfMyFavoritesTableName]];
-        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,grade REAL);",_stringOfPlayHistoryTableName]];
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,updateinfo TEXT);",_stringOfMyFavoritesTableName]];
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT, totalSecond DOUBLE, timeStamp DOUBLE, lastPlaySecond DOUBLE, sourceName TEXT, episodeNumber TEXT);",_stringOfPlayHistoryTableName]];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (keyword TEXT);",_stringOfSearchHistoryTableName]];
     }
     return self;
@@ -71,11 +71,11 @@ static TVDataHelper * tvDataHelper=nil;
 -(void)favoriteVideoWithVideoID:(NSNumber *)videoID
                        imageUrl:(NSString *)imageUrl
                           title:(NSString *)title
-                          grade:(NSNumber *)grade
+                          updateinfo:(NSString *)updateinfo
 {
     if ([m_dataBase open])
     {
-        [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,grade) SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfMyFavoritesTableName,_stringOfMyFavoritesTableName],videoID,imageUrl,title,grade,videoID];
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,updateinfo) SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfMyFavoritesTableName,_stringOfMyFavoritesTableName],videoID,imageUrl,title,updateinfo,videoID];
     }
 }
 
@@ -95,7 +95,7 @@ static TVDataHelper * tvDataHelper=nil;
     while ([rs next])
     {
         NSDictionary * dicOfVideoData=@{
-                                        @"grade":[rs stringForColumn:@"grade"],
+                                        @"updateinfo":[rs stringForColumn:@"updateinfo"],
                                         @"id":[rs stringForColumn:@"videoid"],
                                         @"img":[rs stringForColumn:@"image"],
                                         @"title":[rs stringForColumn:@"title"]
@@ -133,11 +133,29 @@ static TVDataHelper * tvDataHelper=nil;
 -(void)addPlayHistoryWithVideoID:(NSNumber *)videoID
                         imageUrl:(NSString *)imageUrl
                            title:(NSString *)title
-                           grade:(NSNumber *)grade
+                      sourceName:(NSString *)sourceName
+                     totalSecond:(NSNumber *)totalSecond
+                 lastPlaySecond:(NSNumber *)lastPlaySecond
+                       timeStamp:(NSNumber *)timeStamp
+                   episodeNumber:(NSString *)episodeNumber
 {
     if ([m_dataBase open])
     {
-        [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,grade) SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfPlayHistoryTableName,_stringOfPlayHistoryTableName],videoID,imageUrl,title,grade,videoID];
+        
+        FMResultSet * rs=[m_dataBase executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE videoid=?",_stringOfPlayHistoryTableName],videoID];
+        if ([rs next])
+        {
+            [rs close];
+            [m_dataBase executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET totalSecond=?,timeStamp=?,lastPlaySecond=?,sourceName=?,episodeNumber=? WHERE videoid = ?",_stringOfPlayHistoryTableName],totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,videoID];
+        }
+        else
+        {
+            [rs close];
+            [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber) SELECT ?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfPlayHistoryTableName,_stringOfPlayHistoryTableName],videoID,imageUrl,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,videoID];
+        }
+        
+        
+        
     }
 }
 
@@ -156,10 +174,14 @@ static TVDataHelper * tvDataHelper=nil;
     while ([rs next])
     {
         NSDictionary * dicOfVideoData=@{
-                                        @"grade":[rs stringForColumn:@"grade"],
+                                        @"timeStamp":[rs stringForColumn:@"timeStamp"],
                                         @"id":[rs stringForColumn:@"videoid"],
                                         @"img":[rs stringForColumn:@"image"],
-                                        @"title":[rs stringForColumn:@"title"]
+                                        @"title":[rs stringForColumn:@"title"],
+                                        @"lastPlaySecond":[rs stringForColumn:@"lastPlaySecond"],
+                                        @"totalSecond":[rs stringForColumn:@"totalSecond"],
+                                        @"sourceName":[rs stringForColumn:@"sourceName"],
+                                        @"episodeNumber":[rs stringForColumn:@"episodeNumber"]
                                         };
         [array addObject:dicOfVideoData];
     }

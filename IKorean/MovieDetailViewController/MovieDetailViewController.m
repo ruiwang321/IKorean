@@ -20,10 +20,7 @@
 AdInstlManagerDelegate,
 UIScrollViewDelegate
 >
-{
-    NSMutableDictionary *_episodeSourceDic;
-    
-}
+
 @property (nonatomic,assign) NSInteger movieID;
 @property (nonatomic,assign) BOOL isLockScreen;
 @property (nonatomic,strong) AdInstlManager * adInstlManager;
@@ -41,6 +38,11 @@ UIScrollViewDelegate
 @property (nonatomic,copy)   NSCharacterSet * numberCharacterSet;
 @property (nonatomic,copy)   NSString *selectedSource;
 @property (nonatomic,assign) BOOL isfirstload;
+@property (nonatomic,strong) NSMutableDictionary *episodeSourceDic;
+
+@property (nonatomic,copy) NSString *img;
+@property (nonatomic,copy) NSString *updateinfo;
+@property (nonatomic,copy) NSString *videoTitle;
 @end
 
 @implementation MovieDetailViewController
@@ -96,7 +98,9 @@ UIScrollViewDelegate
         __weak typeof(self) wself=self;
         self.playerView=[[ICEPlayerView alloc] initWithPlayerViewVFrame:playerViewVFrame HFrame:playerViewHFrame];
         
+        
         [_playerView setWillRemoveCurrentPlayEpisodeModelsBlock:^(NSArray * currentPlayEpisodeModels){
+            
             NSLog(@"卸载数据可以将播放记录保存到数据库=%@",currentPlayEpisodeModels);
         }];
         
@@ -130,10 +134,26 @@ UIScrollViewDelegate
         
         [_playerView setVideoEndBlock:^(ICEPlayerEpisodeModel * model,ICEPlayerViewVideoEndReasons endReason){
             
+            // 保存播放记录到数据库
+            [[TVDataHelper shareInstance] addPlayHistoryWithVideoID:model.spareID imageUrl:wself.img title:wself.videoTitle sourceName:wself.selectedSource totalSecond:@(model.totalSeconds) lastPlaySecond:@(model.lastPlaySeconds) timeStamp:@(model.timeStamp) episodeNumber:model.episodeNumber];
         }];
     
+        // 设置收藏按钮显示状态
+        [_playerView setIsCollectCurrentVideo:[[TVDataHelper shareInstance] isFavoritesVideoWithVideoID:@(_movieID)]];
+
         [_playerView setCollectVideoBlock:^(ICEPlayerEpisodeModel * model){
+            
             //判断是否收藏过，播放器中的收藏按钮的显示逻辑是外部类判断的，是否收藏由外部类设置。
+
+            if ([[TVDataHelper shareInstance] isFavoritesVideoWithVideoID:model.spareID]) {
+                [[TVDataHelper shareInstance] cancelFavoriteVideoWithVideoID:model.spareID];
+                [wself.playerView setIsCollectCurrentVideo:NO];
+            }else {
+                [[TVDataHelper shareInstance] favoriteVideoWithVideoID:model.spareID imageUrl:wself.img title:wself.videoTitle updateinfo:wself.updateinfo];
+                [wself.playerView setIsCollectCurrentVideo:YES];
+            };
+            
+            
         }];
         
         [_playerView setLockScreenBlock:^(BOOL isLockScreen){
@@ -390,12 +410,16 @@ UIScrollViewDelegate
                        progress:nil
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [wself.loadingView stopLoading];
+                        
+                            wself.img = responseObject[@"data"][@"img"];
+                            wself.updateinfo = [responseObject[@"data"][@"is_complete"] boolValue]?@"已完结":[NSString stringWithFormat:@"更新至%ld集",[responseObject[@"data"][@"episode_update"] integerValue]];
+                            wself.videoTitle = responseObject[@"data"][@"title"];
                             
                             wself.isfirstload = YES;   // 初始化第一次加载判断
-                            _episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
+                            wself.episodeSourceDic = [NSMutableDictionary dictionaryWithCapacity:0];
                             // 整理视频源地址源数据
                             for (NSDictionary *dic in responseObject[@"episode"]) {
-                                [_episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
+                                [wself.episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
                             }
                             
                             // 设置默认视频源

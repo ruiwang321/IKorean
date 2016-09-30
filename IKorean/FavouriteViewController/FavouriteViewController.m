@@ -16,7 +16,7 @@
 @property (nonatomic, strong) UIButton *editBtn;
 @property (nonatomic, strong) UIButton *backOrAllSelBtn;
 @property (nonatomic, strong) UIButton *delBtn;
-@property (nonatomic, strong) NSMutableArray *historyDataArray;
+@property (nonatomic, strong) NSMutableArray *favouriteDataArray;
 
 @end
 
@@ -25,13 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的收藏";
-    
-    // 测试数据
-    _historyDataArray = [NSMutableArray array];
-    for (NSInteger i = 0; i < 10; i++) {
+    _favouriteDataArray = [NSMutableArray array];
+    // 获取sql数据
+    NSArray *sqlArr = [[TVDataHelper shareInstance] getMyFavorites];
+    for (NSDictionary *arrDic in sqlArr) {
         HistoryOrFavouriteDataModel *model = [[HistoryOrFavouriteDataModel alloc] init];
-        [_historyDataArray addObject:model];
+        [model setValuesForKeysWithDictionary:arrDic];
+        [_favouriteDataArray addObject:model];
     }
+
+    
     
     _backOrAllSelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_backOrAllSelBtn setImage:IMAGENAME(@"back@2x", @"png") forState:UIControlStateNormal];
@@ -55,7 +58,7 @@
     [_mainTableView registerNib:[UINib nibWithNibName:@"HistoryOrFavouriteTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"cellId"];
     _mainTableView.delegate = self;
     _mainTableView.dataSource = self;
-    _mainTableView.rowHeight = 80;
+    _mainTableView.rowHeight = 120;
     _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //    _mainTableView.editing = YES;
     [self.view addSubview:_mainTableView];
@@ -69,30 +72,38 @@
 
 #pragma mark - tableViewDelegate Datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    _editBtn.hidden = !self.favouriteDataArray.count;  // 根据数据有无判断编辑按钮显隐
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _historyDataArray.count;
+    return _favouriteDataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HistoryOrFavouriteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    
+    cell.model = _favouriteDataArray[indexPath.row];
     [cell setEdit:_editBtn.selected];
-    [cell setIsSelect:[self.delHistoryArray containsObject:_historyDataArray[indexPath.row]]];
+    [cell setIsSelect:[self.delHistoryArray containsObject:_favouriteDataArray[indexPath.row]]];
+    
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_editBtn.selected) {
-        if ([self.delHistoryArray containsObject:_historyDataArray[indexPath.row]]) {
-            [self.delHistoryArray removeObject:_historyDataArray[indexPath.row]];
+        if ([self.delHistoryArray containsObject:_favouriteDataArray[indexPath.row]]) {
+            [self.delHistoryArray removeObject:_favouriteDataArray[indexPath.row]];
         }else {
-            [self.delHistoryArray addObject:_historyDataArray[indexPath.row]];
+            [self.delHistoryArray addObject:_favouriteDataArray[indexPath.row]];
         }
         [self updateDelBtnTitleAndTBView];
     }else {
         
+        // 跳转视频播放VC
+        HistoryOrFavouriteDataModel *model = self.favouriteDataArray[indexPath.row];
+        [self goMovieDetailViewWithID:model.vid.integerValue];
     }
 }
 
@@ -102,9 +113,34 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    HistoryOrFavouriteDataModel *model = self.favouriteDataArray[indexPath.row];
+    [[TVDataHelper shareInstance] cancelFavoriteVideoWithVideoID:model.vid];
+    [self.favouriteDataArray removeObject:model];
+    [tableView reloadData];
 }
 
 #pragma mark 响应事件
+- (void)goMovieDetailViewWithID:(NSInteger)movieID
+{
+    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+    [self.navigationController pushViewController:tv animated:YES];
+}
+
+
+- (void)delBtnAction {
+    if (self.delHistoryArray.count == 0) {
+        
+    }else {
+        for (HistoryOrFavouriteDataModel *model in self.delHistoryArray) {
+            [[TVDataHelper shareInstance] cancelFavoriteVideoWithVideoID:model.vid];
+        }
+        [self.favouriteDataArray removeObjectsInArray:self.delHistoryArray];
+        
+        [self editAction:_editBtn];
+        [_mainTableView reloadData];
+    }
+}
+
 - (void)editAction:(UIButton *)btn {
     if (btn.selected) {
         // 取消编辑
@@ -134,9 +170,9 @@
     if (_editBtn.isSelected) {
         // 全选事件
         
-        if (self.delHistoryArray.count < _historyDataArray.count) {
+        if (self.delHistoryArray.count < _favouriteDataArray.count) {
             [self.delHistoryArray removeAllObjects];
-            [self.delHistoryArray addObjectsFromArray:_historyDataArray];
+            [self.delHistoryArray addObjectsFromArray:_favouriteDataArray];
         }else {
             [self.delHistoryArray removeAllObjects];
         }
@@ -145,10 +181,6 @@
         // 返回事件
         [self.navigationController popViewControllerAnimated:YES];
     }
-}
-
-- (void)delBtnAction {
-    
 }
 
 - (void)updateDelBtnTitleAndTBView {
