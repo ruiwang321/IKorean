@@ -29,7 +29,7 @@
         {
             self.episodeNumberLabel=[[ICELabel alloc] initWithFrame:self.bounds];
             [_episodeNumberLabel setTextAlignment:NSTextAlignmentCenter];
-            [_episodeNumberLabel setFont:[UIFont fontWithName:HYQiHei_55Pound size:15]];
+            [_episodeNumberLabel setFont:[UIFont systemFontOfSize:(NSInteger)(CGRectGetHeight(self.frame)/4)]];
             [self addSubview:_episodeNumberLabel];
         }
         [_episodeNumberLabel setText:model.episodeNumber];

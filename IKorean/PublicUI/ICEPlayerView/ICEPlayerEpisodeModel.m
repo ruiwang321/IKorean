@@ -18,14 +18,21 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     ICEPlayerEpisodeModel * model=[[self class] allocWithZone:zone];
-    model.videoID=_videoID;
-    model.spareID=_spareID;
-    model.videoName=_videoName;
-    model.episodeNumber=_episodeNumber;
-    model.lastPlaySeconds=_lastPlaySeconds;
-    model.url=_url;
-    model.isPlay=_isPlay;
+    [model setVideoID:_videoID];
+    [model setSpareID:_spareID];
+    [model setVideoName:_videoName];
+    [model setEpisodeNumber:_episodeNumber];
+    [model setUrl:_url];
+    [model setIsPlay:_isPlay];
+    [model setLastPlaySeconds:_lastPlaySeconds];
+    [model setTotalSeconds:_totalSeconds];
+    [model setTimeStamp:_timeStamp];
     return model;
 }
 
+-(NSString *)description
+{
+    return [NSString stringWithFormat:@"videoID=%@,spareID=%@,videoName=%@,episodeNumber=%@,url=%@,isPlay=%@,lastPlaySeconds=%@,totalSeconds=%@,timeStamp=%@",
+            _videoID,_spareID,_videoName,_episodeNumber,_url,@(_isPlay),@(_lastPlaySeconds),@(_totalSeconds),@(_timeStamp)];
+}
 @end

@@ -78,6 +78,16 @@ NSString * const PlayerRateKeyPath=@"rate";
     return loadSeconds;
 }
 
+-(void)currentItemCancelSeek
+{
+    if ([self currentItemIsValid])
+    {
+        AVPlayerItem * currentPlayerItem=self.currentItem;
+        [currentPlayerItem.asset cancelLoading];
+        [currentPlayerItem cancelPendingSeeks];
+    }
+}
+
 -(void)playerItem:(AVPlayerItem *)item addObserver:(NSObject *)observer
 {
     if (item)

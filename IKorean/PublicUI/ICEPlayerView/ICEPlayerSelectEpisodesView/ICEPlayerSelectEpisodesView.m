@@ -39,8 +39,16 @@
         [_episodesTableView setSelectEpisodeBlock:_selectBlock];
         [self addSubview:_episodesTableView];
     }
-    [_episodesTableView setHidden:NO];
     [_episodesTableView updateWithModels:models];
+}
+
+-(void)removeEpisodesTableView
+{
+    if (_episodesTableView)
+    {
+        [_episodesTableView removeFromSuperview];
+        self.episodesTableView=nil;
+    }
 }
 
 -(void)addOrUpdateEpisodesCollectionViewWithModels:(NSArray *)models
@@ -51,8 +59,16 @@
         [_episodesCollectionView setSelectEpisodeBlock:_selectBlock];
         [self addSubview:_episodesCollectionView];
     }
-    [_episodesCollectionView setHidden:NO];
     [_episodesCollectionView updateWithModels:models];
+}
+
+-(void)removeEpisodesCollectionView
+{
+    if (_episodesCollectionView)
+    {
+        [_episodesCollectionView removeFromSuperview];
+        self.episodesCollectionView=nil;
+    }
 }
 
 -(void)updateSelectEpisodesViewWithModels:(NSArray *)models style:(ICEPlayerSelectEpisodesViewStyle)style
@@ -60,12 +76,12 @@
     _currentStyle=style;
     if (ICEPlayerSelectEpisodesViewTableViewStyle==_currentStyle)
     {
-        [_episodesCollectionView setHidden:YES];
+        [self removeEpisodesCollectionView];
         [self addOrUpdateEpisodesTableViewWithModels:models];
     }
     else
     {
-        [_episodesTableView setHidden:YES];
+        [self removeEpisodesTableView];
         [self addOrUpdateEpisodesCollectionViewWithModels:models];
     }
 }

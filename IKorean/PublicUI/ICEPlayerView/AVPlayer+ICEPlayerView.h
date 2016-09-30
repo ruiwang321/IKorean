@@ -22,6 +22,8 @@ extern  NSTimeInterval const INVALIDSECONDS;
 
 -(NSTimeInterval)currentItemLoadSeconds;
 
+-(void)currentItemCancelSeek;
+
 -(BOOL)currentItemIsValid;
 
 -(void)setCurrentItemWithPlayerItem:(AVPlayerItem *)item observer:(NSObject *)observer;

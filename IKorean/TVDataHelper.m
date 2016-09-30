@@ -45,7 +45,7 @@ static TVDataHelper * tvDataHelper=nil;
         [m_dataBase open];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (episodeid INTEGER);",_stringOfVideoNewStatusTableName]];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT,updateinfo TEXT);",_stringOfMyFavoritesTableName]];
-        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT, totalSecond DOUBLE, timeStamp DOUBLE, lastPlaySecond DOUBLE, sourceName TEXT, episodeNumber TEXT);",_stringOfPlayHistoryTableName]];
+        [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (videoid INTEGER,image TEXT, title TEXT, totalSecond DOUBLE, timeStamp DOUBLE, lastPlaySecond DOUBLE, sourceName TEXT, episodeNumber TEXT, link TEXT);",_stringOfPlayHistoryTableName]];
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (keyword TEXT);",_stringOfSearchHistoryTableName]];
     }
     return self;
@@ -138,6 +138,7 @@ static TVDataHelper * tvDataHelper=nil;
                  lastPlaySecond:(NSNumber *)lastPlaySecond
                        timeStamp:(NSNumber *)timeStamp
                    episodeNumber:(NSString *)episodeNumber
+                            link:(NSString *)link
 {
     if ([m_dataBase open])
     {
@@ -146,12 +147,12 @@ static TVDataHelper * tvDataHelper=nil;
         if ([rs next])
         {
             [rs close];
-            [m_dataBase executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET totalSecond=?,timeStamp=?,lastPlaySecond=?,sourceName=?,episodeNumber=? WHERE videoid = ?",_stringOfPlayHistoryTableName],totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,videoID];
+            [m_dataBase executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET totalSecond=?,timeStamp=?,lastPlaySecond=?,sourceName=?,episodeNumber=?,link=? WHERE videoid = ?",_stringOfPlayHistoryTableName],totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,link,videoID];
         }
         else
         {
             [rs close];
-            [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber) SELECT ?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfPlayHistoryTableName,_stringOfPlayHistoryTableName],videoID,imageUrl,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,videoID];
+            [m_dataBase executeUpdate:[NSString stringWithFormat:@"INSERT INTO %@ (videoid,image,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,link) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT * FROM %@ WHERE videoid = ?)",_stringOfPlayHistoryTableName,_stringOfPlayHistoryTableName],videoID,imageUrl,title,totalSecond,timeStamp,lastPlaySecond,sourceName,episodeNumber,link,videoID];
         }
         
         
@@ -165,6 +166,28 @@ static TVDataHelper * tvDataHelper=nil;
     {
         [m_dataBase executeUpdate:[NSString stringWithFormat:@"DELETE FROM %@ WHERE videoid=?",_stringOfPlayHistoryTableName],videoID];
     }
+}
+-(NSDictionary *)selectPlayHistoryWithVideoID:(NSNumber *)videoID {
+
+    FMResultSet * rs=[m_dataBase executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE videoid=?",_stringOfPlayHistoryTableName],videoID];
+    NSDictionary * dicOfVideoData = nil;
+    while ([rs next])
+    {
+        dicOfVideoData=@{
+                                        @"timeStamp":[rs stringForColumn:@"timeStamp"],
+                                        @"id":[rs stringForColumn:@"videoid"],
+                                        @"img":[rs stringForColumn:@"image"],
+                                        @"title":[rs stringForColumn:@"title"],
+                                        @"lastPlaySecond":[rs stringForColumn:@"lastPlaySecond"],
+                                        @"totalSecond":[rs stringForColumn:@"totalSecond"],
+                                        @"sourceName":[rs stringForColumn:@"sourceName"],
+                                        @"episodeNumber":[rs stringForColumn:@"episodeNumber"],
+                                        @"link":[rs stringForColumn:@"link"]
+                                        };
+    }
+    [rs close];
+    
+    return dicOfVideoData;
 }
 
 -(NSArray *)getAllPlayHistory
@@ -181,7 +204,8 @@ static TVDataHelper * tvDataHelper=nil;
                                         @"lastPlaySecond":[rs stringForColumn:@"lastPlaySecond"],
                                         @"totalSecond":[rs stringForColumn:@"totalSecond"],
                                         @"sourceName":[rs stringForColumn:@"sourceName"],
-                                        @"episodeNumber":[rs stringForColumn:@"episodeNumber"]
+                                        @"episodeNumber":[rs stringForColumn:@"episodeNumber"],
+                                        @"link":[rs stringForColumn:@"episodeNumber"]
                                         };
         [array addObject:dicOfVideoData];
     }

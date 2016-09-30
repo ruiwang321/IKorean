@@ -49,4 +49,5 @@ typedef void (^ICEPlayerBottomViewControlEventBlock)(ICEPlayerBottomViewControlE
 
 -(BOOL)isAdjustProgress;
 
+-(void)setHidden:(BOOL)hidden animated:(BOOL)animated;
 @end

@@ -37,4 +37,6 @@ typedef void (^ICEPlayerTopViewControlEventBlock)(ICEPlayerTopViewControlEvents 
 
 -(void)destroyRolling;
 
+-(void)setHidden:(BOOL)hidden animated:(BOOL)animated;
+
 @end

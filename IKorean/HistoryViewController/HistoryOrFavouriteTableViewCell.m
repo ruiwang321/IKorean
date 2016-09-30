@@ -75,7 +75,7 @@
     _timeLabel.hidden = model.timeStamp == nil;
     _phoneIcon.hidden = model.timeStamp == nil;
     
-    _updateInfoLabel.hidden = model.updateinfo||[model.updateinfo isEqualToString:@""];
+    _updateInfoLabel.hidden = model.updateinfo==nil||[model.updateinfo isEqualToString:@""];
     _updateInfoLabel.text = model.updateinfo;
 }
 

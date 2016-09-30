@@ -31,7 +31,8 @@ typedef NS_ENUM(NSInteger,ICEPlayerViewVideoPauseReasons) {
 
 typedef NS_ENUM(NSInteger,ICEPlayerViewVideoEndReasons) {
     VideoEndBecauseOfNormalPlayToEnd,
-    VideoEndBecauseOfVideoSwitch
+    VideoEndBecauseOfVideoSwitch,
+    VideoEndBecauseOfPlayerViewIsDestroyed
 };
 
 typedef NS_ENUM(NSInteger,ICEPlayerViewVideoFailedReasons) {

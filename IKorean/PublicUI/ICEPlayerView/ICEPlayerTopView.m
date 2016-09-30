@@ -188,19 +188,26 @@
     }
 }
 
--(void)setHidden:(BOOL)hidden
+-(void)setHidden:(BOOL)hidden animated:(BOOL)animated
 {
     _isWillHide=hidden;
     if (hidden)
     {
         [_hTitleView stopRollingWithIsDestroy:NO];
-        [self setAlpha:1];
-        [UIView animateWithDuration:0.2 animations:^{
-            [self setAlpha:0];
-        }completion:^(BOOL finished){
-            [super setHidden:YES];
-            [self setAlpha:0];
-        }];
+        if (animated)
+        {
+            [self setAlpha:1];
+            [UIView animateWithDuration:0.2 animations:^{
+                [self setAlpha:0];
+            }completion:^(BOOL finished){
+                [self setHidden:YES];
+                [self setAlpha:0];
+            }];
+        }
+        else
+        {
+            [self setHidden:YES];
+        }
     }
     else
     {
@@ -208,12 +215,19 @@
         {
             [_hTitleView startRolling];
         }
-        [super setHidden:NO];
-        [UIView animateWithDuration:0.2 animations:^{
-            [self setAlpha:1];
-        }completion:^(BOOL finished){
-            [self setAlpha:1];
-        }];
+        if (animated)
+        {
+            [self setHidden:NO];
+            [UIView animateWithDuration:0.2 animations:^{
+                [self setAlpha:1];
+            }completion:^(BOOL finished){
+                [self setAlpha:1];
+            }];
+        }
+        else
+        {
+            [self setHidden:NO];
+        }
     }
 }
 
@@ -226,7 +240,7 @@
 {
     [_vTitlabel setText:title];
     [_hTitleView setText:title];
-    if (![self isHorizontalStyle]||_isWillHide||_topViewHBackGround.isHidden) {
+    if (![self isHorizontalStyle]||_isWillHide||[_topViewHBackGround isHidden]) {
         [_hTitleView stopRollingWithIsDestroy:NO];
     }
 }

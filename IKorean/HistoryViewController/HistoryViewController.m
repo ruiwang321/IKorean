@@ -102,7 +102,9 @@
         }
         [self updateDelBtnTitleAndTBView];
     }else {
-        
+        HistoryOrFavouriteDataModel *model = _historyDataArray[indexPath.row];
+    
+        [self goMovieDetailViewWithID:model.vid.integerValue];
     }
 }
 
@@ -118,6 +120,12 @@
 }
 
 #pragma mark 响应事件
+- (void)goMovieDetailViewWithID:(NSInteger)movieID
+{
+    MovieDetailViewController * tv=[[MovieDetailViewController alloc]initWithMovieID:movieID];
+    [self.navigationController pushViewController:tv animated:YES];
+}
+
 - (void)editAction:(UIButton *)btn {
     if (btn.selected) {
         // 取消编辑

@@ -11,6 +11,28 @@
 #define totalDurationInitialValue     @" / 00:00:00"
 #define lastValueInitialValue         (-1)
 
+@interface ICEPlayerProgressSlider : UISlider
+@end
+
+@implementation ICEPlayerProgressSlider
+
+- (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value
+{
+    if (CGRectGetMinX(self.frame)>0)
+    {
+        rect.size.width+=4;
+        rect.origin.x-=1;
+    }
+    return [super thumbRectForBounds:bounds trackRect:rect value:value];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return NO;
+}
+
+@end
+
 @interface ICEProgressSliderEventModel:NSObject
 @property (nonatomic,assign,readwrite) float value;
 @property (nonatomic,assign,readwrite) ICEPlayerBottomViewSliderEvents event;
@@ -39,7 +61,7 @@
 
 @property (nonatomic,strong) ICEButton * nextEpisodeButton;
 
-@property (nonatomic,strong) UISlider  * progressSlider;
+@property (nonatomic,strong) ICEPlayerProgressSlider * progressSlider;
 @property (nonatomic,assign) CGRect progressSliderVFrame;
 @property (nonatomic,assign) CGRect progressSliderHFrame;
 
@@ -62,6 +84,9 @@
 {
     if (self=[super initWithFrame:vFrame])
     {
+        [self setUserInteractionEnabled:YES];
+        [self setExclusiveTouch:NO];
+        
         _bottomVFrame=vFrame;
         _bottomHFrame=hFrame;
         
@@ -142,7 +167,7 @@
         _progressSliderHFrame.origin.x=-2;
         _progressSliderHFrame.origin.y=0;
         _progressSliderHFrame.size.width=bottomViewHWidth+4;
-        self.progressSlider = [[UISlider alloc]initWithFrame:_progressSliderVFrame];
+        self.progressSlider = [[ICEPlayerProgressSlider alloc]initWithFrame:_progressSliderVFrame];
         [_progressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
         [_progressSlider setMinimumTrackImage:minimumTrackImage forState:UIControlStateNormal];
         [_progressSlider setMaximumTrackImage:maximumTrackImage forState:UIControlStateNormal];
@@ -226,6 +251,11 @@
     return self;
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return NO;
+}
+
 -(void)setIsFullScreenDisplay:(BOOL)isFullScreen
 {
     CGRect playButtonFrame=_playButton.frame;
@@ -277,8 +307,10 @@
 
 -(void)updateBufferWithLoadSeconds:(NSTimeInterval)loadSeconds
 {
-    loadSeconds=MIN(loadSeconds, _totalSeconds);
-    [_bufferView setProgress:loadSeconds/_totalSeconds];
+    if (_totalSeconds)
+    {
+        [_bufferView setProgress:loadSeconds/_totalSeconds];
+    }
 }
 
 -(void)setProgressSeconds:(float)progressSeconds
@@ -370,26 +402,33 @@
     [self executeControlEventBlockWithControlEvent:ICEPlayerBottomViewControlLookNextEpisode];
 }
 
--(void)setHidden:(BOOL)hidden
+-(void)setHidden:(BOOL)hidden animated:(BOOL)animated
 {
-    if (hidden)
+    if (animated)
     {
-        [self setAlpha:1];
-        [UIView animateWithDuration:0.2 animations:^{
-            [self setAlpha:0];
-        }completion:^(BOOL finished){
-            [super setHidden:YES];
-            [self setAlpha:0];
-        }];
+        if (hidden)
+        {
+            [self setAlpha:1];
+            [UIView animateWithDuration:0.2 animations:^{
+                [self setAlpha:0];
+            }completion:^(BOOL finished){
+                [self setHidden:YES];
+                [self setAlpha:0];
+            }];
+        }
+        else
+        {
+            [self setHidden:NO];
+            [UIView animateWithDuration:0.2 animations:^{
+                [self setAlpha:1];
+            }completion:^(BOOL finished){
+                [self setAlpha:1];
+            }];
+        }
     }
     else
     {
-        [super setHidden:NO];
-        [UIView animateWithDuration:0.2 animations:^{
-            [self setAlpha:1];
-        }completion:^(BOOL finished){
-            [self setAlpha:1];
-        }];
+        [self setHidden:hidden];
     }
 }
 @end

@@ -17,7 +17,6 @@
 #import "ICEPlayerErrorStateView.h"
 #import "ICEPlayerSelectEpisodesView.h"
 #import "ICELoadingView.h"
-//#import "ICEPlayerURLErrorTimesStatisticsHelper.h"
 
 //顶部工具栏竖直和水平时的高度
 #define PlayerTopViewVHeight                    38
@@ -260,6 +259,7 @@ UIGestureRecognizerDelegate
     if (isDestroy)
     {
         [self executeWillRemoveCurrentPlayEpisodeModelsBlock];
+        [self playerEndWithReason:VideoEndBecauseOfPlayerViewIsDestroyed];
         [_readToPlayView destroyLoading];
         [_topView destroyRolling];
         [self endWaitBufferWithIsDestroy:YES];
@@ -294,12 +294,12 @@ UIGestureRecognizerDelegate
         [self setUserInteractionEnabled:YES];
         [self.layer setMasksToBounds:YES];
         
-        //设备旋转通知
         NSNotificationCenter * notificationCenter = [NSNotificationCenter defaultCenter];
         
+        //设备旋转通知
         [notificationCenter addObserver:self
-                               selector:@selector(deviceOrientationDidChange:)
-                                   name:UIDeviceOrientationDidChangeNotification
+                               selector:@selector(deviceOrientationDidChange)
+                                   name:UIApplicationDidChangeStatusBarOrientationNotification
                                  object:nil];
         //视频播放结束
         [notificationCenter addObserver:self
@@ -382,7 +382,7 @@ UIGestureRecognizerDelegate
                 [wself loadVideoWithURLString:videoURLString];
             }
         }];
-
+         
         [self addLoadingView];
         [self addTopView];
         [self addVolumeView];
@@ -491,7 +491,7 @@ UIGestureRecognizerDelegate
 
 #pragma mark 屏幕旋转
 
-- (void)transformPlayerViewWithUIInterfaceOrientation:(UIDeviceOrientation)deviceOrientation
+- (void)transformPlayerViewWithDeviceOrientation:(UIDeviceOrientation)deviceOrientation
 {
     BOOL isValidOrientation=NO;
     if (UIDeviceOrientationPortrait==deviceOrientation)
@@ -535,12 +535,9 @@ UIGestureRecognizerDelegate
     }
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification
+- (void)deviceOrientationDidChange
 {
-    if (!_isLockScreen)
-    {
-        [self transformPlayerViewWithUIInterfaceOrientation:[[UIDevice currentDevice]orientation]];
-    }
+    [self transformPlayerViewWithDeviceOrientation:[[UIDevice currentDevice]orientation]];
 }
 
 - (void)setIsLockScreen:(BOOL)isLockScreen
@@ -559,7 +556,7 @@ UIGestureRecognizerDelegate
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
-        int val = _isFullScreenNow?UIInterfaceOrientationPortrait:UIInterfaceOrientationLandscapeRight;
+        int val = _isFullScreenNow?UIDeviceOrientationPortrait:UIDeviceOrientationLandscapeRight;
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
     }
@@ -636,7 +633,7 @@ UIGestureRecognizerDelegate
         }
     }];
     [self addSubview:_topView];
-    [_topView setHidden:YES];
+    [_topView setHidden:YES animated:NO];
 }
 
 -(void)addBottomView
@@ -672,7 +669,7 @@ UIGestureRecognizerDelegate
          }
     }];
     [self addSubview:_bottomView];
-    [_bottomView setHidden:YES];
+    [_bottomView setHidden:YES animated:NO];
 }
 
 -(void)addSelectEpisodesView
@@ -731,8 +728,8 @@ UIGestureRecognizerDelegate
 
 -(void)showTopAndBottomView
 {
-    [_topView setHidden:NO];
-    [_bottomView setHidden:NO];
+    [_topView setHidden:NO animated:YES];
+    [_bottomView setHidden:NO animated:YES];
     if (_isFullScreenNow)
     {
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
@@ -743,8 +740,8 @@ UIGestureRecognizerDelegate
 
 -(void)hideTopAndBottomView
 {
-    [_topView setHidden:YES];
-    [_bottomView setHidden:YES];
+    [_topView setHidden:YES animated:YES];
+    [_bottomView setHidden:YES animated:YES];
     if (_isFullScreenNow)
     {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -754,7 +751,8 @@ UIGestureRecognizerDelegate
 -(BOOL)isAdjustProgressNow
 {
     BOOL isAdjust=YES;
-    if (PanScreenForNothing==_panGestureModel.panOffsetValue&&(!_bottomView.isAdjustProgress))
+    if (PanScreenForNothing==[_panGestureModel panScreenPurpose]&&
+        (![_bottomView isAdjustProgress]))
     {
         isAdjust=NO;
     }
@@ -789,9 +787,9 @@ UIGestureRecognizerDelegate
         [_currentPlayModel setIsPlay:YES];
         [_loadingView stopLoading];
         NSTimeInterval currentSeconds=[_player currentItemCurrentSeconds];
-        if (currentSeconds!=INVALIDSECONDS)
+        if (currentSeconds!=INVALIDSECONDS&&![self isAdjustProgressNow])
         {
-            [_bottomView setProgressSeconds:currentSeconds];
+            [_bottomView setProgressSeconds:currentSeconds]; 
         }
     }
     else
@@ -800,7 +798,7 @@ UIGestureRecognizerDelegate
     }
 }
 
--(void)playerPauseWithReason:(ICEPlayerViewVideoPauseReasons) pauseReason
+-(void)playerPauseWithReason:(ICEPlayerViewVideoPauseReasons)pauseReason
 {
     if (VideoPauseBecauseOfAdjustProgressLeadToBufferEmpty==pauseReason)
     {
@@ -921,6 +919,7 @@ UIGestureRecognizerDelegate
 
 -(void)getVideoURLWithNewModel:(ICEPlayerEpisodeModel *)model
 {
+
     [self playerEndWithReason:VideoEndBecauseOfVideoSwitch];
     [self playerPauseWithReason:VideoPauseBecauseOfUnKnown];
     [self endWaitBufferWithIsDestroy:NO];
@@ -1095,6 +1094,7 @@ UIGestureRecognizerDelegate
     }
     else if(_waitBufferSeconds+=WaitBufferRepateTimeInterval,_waitBufferSeconds>MaxWaitBufferSeconds)
     {
+        [_player currentItemCancelSeek];
         [self endWaitBufferWithIsDestroy:NO];
         [self playerFailedWithErrorStateType:ICEPlayerNetWorkBusy];
     }
@@ -1259,7 +1259,9 @@ UIGestureRecognizerDelegate
     else if([keyPath isEqualToString:CurrentItemLoadedTimeRangesKeyPath])
     {
         NSTimeInterval loadSeconds=[_player currentItemLoadSeconds];
-        if (loadSeconds!=INVALIDSECONDS)
+        NSTimeInterval totalSeconds=[_player currentItemTotalSeconds];
+        if (INVALIDSECONDS!=loadSeconds&&
+            INVALIDSECONDS!=totalSeconds)
         {
             [_bottomView updateBufferWithLoadSeconds:loadSeconds];
         }

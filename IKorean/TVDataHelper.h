@@ -33,10 +33,11 @@
                      totalSecond:(NSNumber *)totalSecond
                   lastPlaySecond:(NSNumber *)lastPlaySecond
                        timeStamp:(NSNumber *)timeStamp
-                   episodeNumber:(NSString *)episodeNumber;
+                   episodeNumber:(NSString *)episodeNumber
+                            link:(NSString *)link;
 
 -(void)delatePlayHistoryWithVideoID:(NSNumber *)videoID;
-
+-(NSDictionary *)selectPlayHistoryWithVideoID:(NSNumber *)videoID;
 -(NSArray *)getAllPlayHistory;
 
 

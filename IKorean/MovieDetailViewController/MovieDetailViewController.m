@@ -43,6 +43,8 @@ UIScrollViewDelegate
 @property (nonatomic,copy) NSString *img;
 @property (nonatomic,copy) NSString *updateinfo;
 @property (nonatomic,copy) NSString *videoTitle;
+
+@property (nonatomic,strong) NSDictionary *playHistoryDic;
 @end
 
 @implementation MovieDetailViewController
@@ -59,6 +61,8 @@ UIScrollViewDelegate
 {
     if (self=[super init])
     {
+        
+        _playHistoryDic = [[TVDataHelper shareInstance] selectPlayHistoryWithVideoID:@(movieID)];
         
         _movieID=movieID;
         _isLockScreen=NO;
@@ -135,7 +139,7 @@ UIScrollViewDelegate
         [_playerView setVideoEndBlock:^(ICEPlayerEpisodeModel * model,ICEPlayerViewVideoEndReasons endReason){
             
             // 保存播放记录到数据库
-            [[TVDataHelper shareInstance] addPlayHistoryWithVideoID:model.spareID imageUrl:wself.img title:wself.videoTitle sourceName:wself.selectedSource totalSecond:@(model.totalSeconds) lastPlaySecond:@(model.lastPlaySeconds) timeStamp:@(model.timeStamp) episodeNumber:model.episodeNumber];
+            [[TVDataHelper shareInstance] addPlayHistoryWithVideoID:model.spareID imageUrl:wself.img title:wself.videoTitle sourceName:wself.selectedSource totalSecond:@(model.totalSeconds) lastPlaySecond:@(model.lastPlaySeconds) timeStamp:@(model.timeStamp) episodeNumber:model.episodeNumber link:model.videoID];
         }];
     
         // 设置收藏按钮显示状态
@@ -356,7 +360,13 @@ UIScrollViewDelegate
         {
             ICEPlayerEpisodeModel * model=[[ICEPlayerEpisodeModel alloc] init];
             [model setVideoID:dic[@"link"]];
-            [model setLastPlaySeconds:0];
+            // 设置历史播放时长
+            if ([_playHistoryDic[@"link"] isEqualToString:dic[@"link"]]) {
+                [model setLastPlaySeconds:[_playHistoryDic[@"lastPlaySecond"] doubleValue]];
+            }else {
+                 [model setLastPlaySeconds:0];
+            }
+           
             [model setSpareID:@(_movieID)];
             NSString * videoTitle = [dic[@"seg"] stringValue];
             if (LookMoreViewCollectionViewStyle==lookMoreViewStyle)
@@ -422,8 +432,12 @@ UIScrollViewDelegate
                                 [wself.episodeSourceDic setValue:dic[@"data"] forKey:dic[@"name"]];
                             }
                             
-                            // 设置默认视频源
-                            _selectedSource = _episodeSourceDic.allKeys.firstObject;
+                            // 设置默认视频源 如果有历史记录 按历史记录源播放
+                            if (_playHistoryDic) {
+                                _selectedSource = _playHistoryDic[@"sourceName"];
+                            }else {
+                                _selectedSource = _episodeSourceDic.allKeys.firstObject;
+                            }
                             [wself addOrUpdateBottomViewWithData:responseObject];
                             [wself.bottomBackGroundView setHidden:NO];
                         }
@@ -456,6 +470,7 @@ UIScrollViewDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [_adInstlManager loadAdInstlView:self];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self.myNavigationBar setHidden:YES];
     [self addChildView];
